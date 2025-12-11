@@ -6,9 +6,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/index.ts',
-      name: 'my-lib',
+      name: 'netex-deckplan-editor-vue',
       formats: ['es'], // adding 'umd' requires globals set to every external module
-      fileName: (format) => `my-lib.${format}.js`,
+      fileName: (format) => `netex-deckplan-editor-vue.${format}.js`,
     },
     rollupOptions: {
       // external modules won't be bundled into your library

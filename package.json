@@ -11,13 +11,17 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest",
-    "build-only": "vite build  && vite build --config vite.config.webcomponent.ts",
+    "build-only": "vite build",
+    "build-wc": "vite build --config vite.config.webcomponent.ts",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix --cache",
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
-    "vue": "^3.5.25"
+    "konva": "^10.0.12",
+    "vue": "^3.5.25",
+    "vue-konva": "^3.2.6",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.3",

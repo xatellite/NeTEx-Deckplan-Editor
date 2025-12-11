@@ -10,9 +10,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/webcomponent.ts',
-      name: 'NeTExDeckplanEditor',
-      fileName: 'netex-deckplan-editor',
-      formats: ['es', 'umd']
+      name: 'netex-deckplan-editor',
+      formats: ['es', 'umd'],
+      fileName: (format) => `netex-deckplan-editor.${format}.js`,
     }
   }
 })
