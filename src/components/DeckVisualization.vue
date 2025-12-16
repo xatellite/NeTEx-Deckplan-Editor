@@ -19,14 +19,41 @@
             @mousemove="handleMouseMove"
             @mouseup="handleMouseUp"
         />
-        <v-rect 
+        <v-group 
           v-for="(seat, index) in seats" 
           :key="`seats-${index}`"  
-          :config="{...seat.getShape(scale), ...getStyle(seat), draggable: true}"
+          :config="{
+            x: seat.getShape(scale).x,
+            y: seat.getShape(scale).y,
+            draggable: true
+          }"
           @dragend="(e) => handleDragEnd(e, seat)"
           @dragmove="(e) => handleDragMove(e, seat)"
           @click="(e) => handleClick(e, seat)"
-        />
+        >
+          <v-rect
+            :config="{
+              width: seat.getShape(scale).width,
+              height: seat.getShape(scale).height,
+              ...getStyle(seat),
+              fill: seat.getShape(scale).fill,
+              stroke: seat.getShape(scale).stroke,
+              strokeWidth: seat.getShape(scale).strokeWidth,
+              cornerRadius: seat.getShape(scale).cornerRadius
+            }"
+          />
+          <v-text
+            :config="{
+              width: seat.getShape(scale).width,
+              height: seat.getShape(scale).height,
+              text: seat.Label,
+              align: 'center',
+              verticalAlign: 'middle',
+              fontSize: Math.min(Math.min(seat.getShape(scale).width, seat.getShape(scale).height) / 2, 16),
+              listening: false
+            }"
+          />
+        </v-group>
         <v-rect
           v-if="selectionRect"
           :config="{...selectionRect, listening: false}"
