@@ -56,15 +56,15 @@ export function serializeElements(elements: Serializable[]) {
 }
 
 
-export function serializeElementsAndRefs(elementsAndRefs: Serializable[]) {
+export function serializeElementsAndRefs(elementsAndRefs:  Serializable[]) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const outObj: any = {}
-
-  return elementsAndRefs.map((e) => {
+  elementsAndRefs.forEach((e) => {
     const className = e.constructor.name
     if (!Object.keys(outObj).includes(className)) {
       outObj[className] = []
     }
     outObj[className].push(e.toXML())
   })
+  return outObj
 }

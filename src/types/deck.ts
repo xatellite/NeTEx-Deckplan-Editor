@@ -1,5 +1,5 @@
 import { DeckLevelRef as GeneralDeckLevelRef } from './deckLevel'
-import { extractElementList, Name as GeneralName, serializeElements } from './general'
+import { extractElementList, Name as GeneralName, serializeElements, serializeElementsAndRefs } from './general'
 import { OtherDeckSpace } from './otherDeckSpace'
 import { PassengerSpace } from './passengerSpace'
 import { Polygon } from './polygon'
@@ -19,7 +19,7 @@ export class Deck {
   constructor({
     attr_id,
     attr_version,
-    deckspaces,
+    deckSpaces,
     spotRows = undefined,
     spotColumns = undefined,
     DeckLevelRef = undefined,
@@ -29,7 +29,7 @@ export class Deck {
     attr_id: string
     attr_version: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    deckspaces: { OtherDeckSpace: any[]; PassengerSpace: any[] }
+    deckSpaces: { OtherDeckSpace: any | any[]; PassengerSpace: any | any[] }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     spotRows: { SpotRow: any[] } | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,12 +43,14 @@ export class Deck {
     this.Name = Name ? new GeneralName(Name) : undefined
     this.polygon = polygon ? new Polygon(polygon) : undefined
     this.DeckLevelRef = DeckLevelRef ? new GeneralDeckLevelRef(DeckLevelRef) : undefined
-    this.deckspaces = deckspaces ? Object.entries(deckspaces).flatMap(([k, d]) => {
+    console.log("deckspace", deckSpaces)
+    this.deckspaces = deckSpaces ? Object.entries(deckSpaces).flatMap(([k, d]) => {
+      console.log("key", k, d)
       if (k === 'OtherDeckSpace') {
-        d.map((oD) => new OtherDeckSpace(oD))
+        return extractElementList(d, OtherDeckSpace) as OtherDeckSpace[]
       }
       if (k === 'PassengerSpace') {
-        d.map((ps) => new PassengerSpace(ps))
+        return extractElementList(d, PassengerSpace) as PassengerSpace[]
       }
       return []
     }) : []
@@ -57,11 +59,13 @@ export class Deck {
   }
 
   toXML() {
+    console.log("deckspaces", this.deckspaces, serializeElementsAndRefs(this.deckspaces))
     return {
       attr_id: this.attr_id,
       attr_version: this.attr_version,
       spotRows: {SpotRow: serializeElements(this.spotRows)},
       spotColumns: {SpotColumn: serializeElements(this.spotColumns)},
+      deckSpaces: serializeElementsAndRefs(this.deckspaces),
       DeckLevelRef: this.DeckLevelRef?.toXML(),
       polygon: this.polygon?.toXML(),
       Name: this.Name?.toXML(),
@@ -74,10 +78,10 @@ export class Deck {
     }
 
     return {
-      x: 10,
-      y: 10,
-      width: 500,
-      height: 100,
+      x: 0,
+      y: 0,
+      width: 1000,
+      height: 300,
       fill: 'white',
       stroke: 'gray',
       strokeWidth: 2,

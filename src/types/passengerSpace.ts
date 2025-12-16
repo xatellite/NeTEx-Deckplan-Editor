@@ -34,7 +34,7 @@ export class PassengerSpace {
   deckEntranceUsage: DeckEntranceUsage[] | undefined
   deckEntranceCouples: DeckEntranceCouple[] | undefined
   deckSpaceCapacities: DeckSpaceCapacity[] | undefined
-  actualVehicleEquipments: ActualVehicleEquipment[]
+  actualVehicleEquipments: ActualVehicleEquipment[] | undefined
   ServiceFacilitySetRef: GeneralServiceFacilitySetRef | undefined
   // spotAffinities: SpotAffinity[] | undefined
   Centroid: GeneralCentroid | undefined
@@ -84,20 +84,20 @@ export class PassengerSpace {
       | 'other'
       | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    passengerSpots: {PassengerSpot: any[], PassengerSpotRef: any[]}
+    passengerSpots: {PassengerSpot: any[], PassengerSpotRef: any[]} | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    luggageSpots: {LuggageSpot: any[], LuggageSpotRef: any[]}
+    luggageSpots: {LuggageSpot: any[], LuggageSpotRef: any[]} | undefined
     // passengerVehicleSpots: (PassengerVehicleSpot | PassengerVehicleSpotRef)[]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    deckEntrances: {PassengerEntrance: any[]}
+    deckEntrances: {PassengerEntrance: any[]} | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    deckEntranceUsage: {DeckEntranceUsage: any[]}
+    deckEntranceUsage: {DeckEntranceUsage: any[]} | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    deckEntranceCouples: {DeckEntranceCouple: any[]}
+    deckEntranceCouples: {DeckEntranceCouple: any[]} | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    deckSpaceCapacities: {DeckSpaceCapacity: any[]}
+    deckSpaceCapacities: {DeckSpaceCapacity: any[]} | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    actualVehicleEquipments: {ActualVehicleEquipment: any[]}
+    actualVehicleEquipments: {ActualVehicleEquipment: any[]} | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ServiceFacilitySetRef: any | undefined
     // spotAffinities: SpotAffinity[]
@@ -116,24 +116,24 @@ export class PassengerSpace {
     this.SmokingAllowed = SmokingAllowed
     this.StandingAllowed = StandingAllowed
     this.PassengerSpaceType = PassengerSpaceType
-    this.passengerSpots = Object.entries(passengerSpots).flatMap(([k, d]) => {
+    this.passengerSpots = passengerSpots ? Object.entries(passengerSpots).flatMap(([k, d]) => {
         if (k === 'PassengerSpot') {
-          d.map((ps) => new PassengerSpot(ps))
+          return extractElementList(d, PassengerSpot) as PassengerSpot[]
         }
         if (k === 'PassengerSpotRef') {
-          d.map((ps) => new PassengerSpotRef(ps))
+          return extractElementList(d, PassengerSpotRef) as PassengerSpotRef[]
         }
         return []
-      })
-    this.luggageSpots = Object.entries(luggageSpots).flatMap(([k, d]) => {
+      }) : []
+    this.luggageSpots = luggageSpots ? Object.entries(luggageSpots).flatMap(([k, d]) => {
         if (k === 'LuggageSpot') {
-          d.map((ls) => new LuggageSpot(ls))
+          return extractElementList(d, LuggageSpot) as LuggageSpot[]
         }
         if (k === 'LuggageSpotRef') {
-          d.map((ls) => new LuggageSpotRef(ls))
+          return extractElementList(d, LuggageSpotRef) as LuggageSpotRef[]
         }
         return []
-      })
+      }) : []
     this.deckEntrances = extractElementList(deckEntrances?.PassengerEntrance, PassengerEntrance)
     this.deckEntranceUsage = extractElementList(deckEntranceUsage?.DeckEntranceUsage, DeckEntranceUsage)
     this.deckEntranceCouples = extractElementList(deckEntranceCouples?.DeckEntranceCouple, DeckEntranceCouple)
@@ -141,7 +141,7 @@ export class PassengerSpace {
     this.actualVehicleEquipments = extractElementList(actualVehicleEquipments?.ActualVehicleEquipment, ActualVehicleEquipment)
     this.ServiceFacilitySetRef = ServiceFacilitySetRef ? new GeneralServiceFacilitySetRef(ServiceFacilitySetRef) : undefined
     // this.spotAffinities,
-    this.Centroid = Centroid ? new GeneralCentroid(Centroid) : undefined
+    this.Centroid = Centroid ? GeneralCentroid.fromXML(Centroid) : undefined
     this.Polygon = Polygon ? new GeneralPolygon(Polygon) : undefined
     this.PublicUse = PublicUse
     this.TotalCapacity = TotalCapacity

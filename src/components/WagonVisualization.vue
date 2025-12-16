@@ -26,7 +26,7 @@ import DeckVisualization from './DeckVisualization.vue';
 
 const stageSize = {
   width: window.innerWidth,
-  height: 300
+  height: 500
 };
 
 defineProps({

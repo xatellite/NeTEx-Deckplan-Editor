@@ -1,11 +1,29 @@
 export class Centroid {
-  value: object
+  x: number
+  y: number
 
-  constructor(value: object) {
-    this.value = value
+
+  constructor(x: number, y: number) {
+      this.x = x
+      this.y = y
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static fromXML(value: any) {
+    const pos = value?.Location?.['gml:pos']
+    if (pos) {
+      const [x, y] = pos.split(' ').map(Number)
+      return new Centroid(x,y)
+    } else {
+      return new Centroid(0,0)
+    }
   }
 
   toXML() {
-    return this.value
+    return {
+      Location: {
+        'gml:pos': `${this.x} ${this.y}`,
+      },
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { ActualVehicleEquipment } from './actualVehicleEquipment'
-import { Name as GeneralName } from './general'
+import { extractElementList, Name as GeneralName } from './general'
 
 export class OtherDeckSpace {
   attr_id: string
@@ -27,9 +27,7 @@ export class OtherDeckSpace {
     this.attr_id = attr_id
     this.attr_version = attr_version
     this.Name = Name ? new GeneralName(Name) : undefined
-    this.actualVehicleEquipments = actualVehicleEquipments.ActualVehicleEquipment.map(
-      (aVE) => new ActualVehicleEquipment(aVE),
-    )
+    this.actualVehicleEquipments = actualVehicleEquipments ? extractElementList(actualVehicleEquipments.ActualVehicleEquipment, ActualVehicleEquipment) : []
     this.PublicUse = PublicUse
     this.TotalCapacity = TotalCapacity
   }

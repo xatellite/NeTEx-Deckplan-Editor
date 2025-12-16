@@ -31,7 +31,6 @@ function load() {
     reader.addEventListener('load', (event) => {
       const parser = new XMLParser({
         ignoreAttributes: false,
-        alwaysCreateTextNode: true,
         attributeNamePrefix: "attr_",
       });
       const delivery = parser.parse(event.target?.result);
