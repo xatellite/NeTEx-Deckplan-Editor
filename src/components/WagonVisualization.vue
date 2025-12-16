@@ -1,15 +1,24 @@
 <template>
-    <div>
-        <v-stage
-          ref="stage"
-          :config="stageSize"
-        >
-          <v-layer ref="layer">
-            <DeckVisualization v-for="(deck, index) in deckPlan?.decks" :key="`deck-${index}`" :deck="deck" />
-          </v-layer>
-        </v-stage>
-        {{ deckPlan?.decks.length }}
-        <button>Test</button>
+    <div style="display: flex; flex-direction: column; height: 100%;">
+      <div style="padding: 10px;">
+        <label for="scale-slider">Scale: {{ scale }}</label>
+        <input id="scale-slider" type="range" min="10" max="50" v-model.number="scale" />
+      </div>
+      <div style="display: flex; flex-direction: row; overflow-x: auto; gap: 20px; padding: 20px;">
+          <div v-for="(deckPlan, index) in deckPlans" :key="`deckplan-${index}`">
+            <h3>{{ deckPlan.attr_id }}</h3>
+            <div v-for="(deck, dIndex) in deckPlan.decks" :key="`deck-${dIndex}`">
+              <h4>{{ deck.Name?.value }}</h4>
+              <v-stage
+                :config="getStageSize(deck, scale)"
+              >
+                <v-layer>
+                  <DeckVisualization :deck="deck" :scale="scale" />
+                </v-layer>
+              </v-stage>
+            </div>
+          </div>
+      </div>
     </div>
 </template>
 
@@ -17,6 +26,7 @@
 import type { DeckPlan } from '@/types/deckPlan';
 import type { PropType } from 'vue';
 import DeckVisualization from './DeckVisualization.vue';
+import { ref } from 'vue';
 
 // Waiting for https://github.com/konvajs/vue-konva/pull/266
 // import {
@@ -24,15 +34,27 @@ import DeckVisualization from './DeckVisualization.vue';
 //   Layer,
 // } from 'vue-konva';
 
-const stageSize = {
-  width: window.innerWidth,
-  height: 500
-};
+const scale = ref(20)
 
 defineProps({
-  deckPlan: {
-    type: Object as PropType<DeckPlan>,
+  deckPlans: {
+    type: Array as PropType<DeckPlan[]>,
+    required: true,
   }
 })
+
+const getStageSize = (deck: Deck, scale: number) => {
+  let maxWidth = 0
+  let maxHeight = 0
+
+  const { width, height } = deck.getBoundingBox()
+  maxWidth = Math.max(maxWidth, width)
+  maxHeight = Math.max(maxHeight, height)
+
+  return {
+    width: (maxWidth * scale) + 10,
+    height: (maxHeight * scale) + 10
+  }
+}
 
 </script>

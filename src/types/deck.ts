@@ -15,6 +15,8 @@ export class Deck {
   DeckLevelRef: GeneralDeckLevelRef | undefined
   spotRows: SpotRow[]
   spotColumns: SpotColumn[]
+  Width: number
+  Length: number
 
   constructor({
     attr_id,
@@ -25,6 +27,8 @@ export class Deck {
     DeckLevelRef = undefined,
     Name = undefined,
     polygon = undefined,
+    Width = 2.825,
+    Length = 26.4,
   }: {
     attr_id: string
     attr_version: string
@@ -37,12 +41,16 @@ export class Deck {
     DeckLevelRef: GeneralDeckLevelRef | undefined
     Name: string | undefined
     polygon: object | undefined
+    Width: number
+    Length: number
   }) {
     this.attr_id = attr_id
     this.attr_version = attr_version
     this.Name = Name ? new GeneralName(Name) : undefined
     this.polygon = polygon ? new Polygon(polygon) : undefined
     this.DeckLevelRef = DeckLevelRef ? new GeneralDeckLevelRef(DeckLevelRef) : undefined
+    this.Width = Width
+    this.Length = Length
     console.log("deckspace", deckSpaces)
     this.deckspaces = deckSpaces ? Object.entries(deckSpaces).flatMap(([k, d]) => {
       console.log("key", k, d)
@@ -69,19 +77,26 @@ export class Deck {
       DeckLevelRef: this.DeckLevelRef?.toXML(),
       polygon: this.polygon?.toXML(),
       Name: this.Name?.toXML(),
+      Width: this.Width,
+      Length: this.Length,
     }
   }
 
-  getShape() {
-    if (this.polygon) {
-      console.log('do something')
-    }
+  getBoundingBox() {
+    const width = this.Length
+    const height = this.Width
+
+    return { width, height }
+  }
+
+  getShape(scale: number) {
+    const { width, height } = this.getBoundingBox()
 
     return {
-      x: 0,
-      y: 0,
-      width: 1000,
-      height: 300,
+      x: 5,
+      y: 5,
+      width: width * scale,
+      height: height * scale,
       fill: 'white',
       stroke: 'gray',
       strokeWidth: 2,

@@ -1,6 +1,6 @@
 <template>
     <template>
-        <v-rect :config="{...deck.getShape(), y: 110}" />
+        <v-rect :config="{...deck.getShape(scale), y: 5}" />
         <v-rect 
           v-for="(seat, index) in seats" 
           :key="`seats-${index}`"  
@@ -22,10 +22,12 @@ const props = defineProps({
   deck: {
     type: Object as PropType<Deck>,
     required: true,
+  },
+  scale: {
+    type: Number,
+    required: true,
   }
 })
-
-const scale = 20
 
 const seats = computed(() => {
   console.log(props.deck.deckspaces)
@@ -46,13 +48,14 @@ const handleDragEnd = (e: any, seat: PassengerSpot) => {
   console.log("dragend", x, y)
   
   if (seat.Centroid) {
-    seat.Centroid.x = (x / scale) + (seat.Width / 2)
-    seat.Centroid.y = (y / scale) + (seat.Length / 2)
+    seat.Centroid.x = ((x - 5) / props.scale) + (seat.Width / 2)  // 5 = Frame offset
+    seat.Centroid.y = ((y - 5) / props.scale) + (seat.Length / 2)
   } else {
     seat.Centroid = new Centroid(
-      (x / scale) + (seat.Width / 2),
-      (y / scale) + (seat.Length / 2)
+      ((x- 5) / props.scale) + (seat.Width / 2) ,
+      ((y- 5) / props.scale) + (seat.Length / 2)
     )
   }
+  console.log(seat.Centroid)
 }
 </script>

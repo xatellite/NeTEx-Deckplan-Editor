@@ -76,8 +76,8 @@ export class PassengerSpot {
       const width = this.Width * scale
       const height = this.Length * scale
       return {
-        x: (this.Centroid?.x ?? 1) * scale - width / 2,
-        y: (this.Centroid?.y ?? 1) * scale - height / 2,
+        x: ((this.Centroid?.x ?? 1) * scale - width / 2 ) + 5,
+        y: ((this.Centroid?.y ?? 1) * scale - height / 2 ) + 5,
         width,
         height,
         fill: 'lightgray',

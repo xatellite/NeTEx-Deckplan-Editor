@@ -13,12 +13,12 @@ export class Text {
 export class Name {
   value: string
 
-  constructor(value: string) {
-    this.value = value
+  constructor(value: {"text_value": string}) {
+    this.value = value?.["text_value"]
   }
 
   toXML() {
-    return this.value
+    return {"text_value": this.value }
   }
 }
 

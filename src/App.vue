@@ -5,7 +5,7 @@
       <button @click="load">Load</button>
       <button @click="save">Save</button> 
     </div>
-    <WagonVisualization v-if="deckPlan" :deckPlan="deckPlan" />
+    <WagonVisualization v-if="deckPlans.length > 0" :deckPlans="deckPlans" />
   </main>
 </template>
 
@@ -14,11 +14,11 @@ import { ref, type Ref } from 'vue'
 import {XMLBuilder, XMLParser} from 'fast-xml-parser';
 import { DeckPlan } from './types/deckPlan';
 import WagonVisualization from './components/WagonVisualization.vue';
-import { extractElementList } from './types/general';
+import { extractElementList, serializeElements } from './types/general';
 
 const file: Ref<File | null> = ref(null)
 
-const deckPlan: Ref<DeckPlan | null> = ref(null)
+const deckPlans: Ref<DeckPlan[]> = ref([])
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const netex: Ref<null | any> = ref(null)
 
@@ -31,11 +31,13 @@ function load() {
     reader.addEventListener('load', (event) => {
       const parser = new XMLParser({
         ignoreAttributes: false,
+        alwaysCreateTextNode: true,
+        textNodeName: 'text_value',
         attributeNamePrefix: "attr_",
       });
       const delivery = parser.parse(event.target?.result);
       netex.value = delivery
-      deckPlan.value = extractElementList(delivery.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan, DeckPlan)[0] ?? null
+      deckPlans.value = extractElementList(delivery.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan, DeckPlan)
     });
     reader.readAsText(file.value);
     
@@ -45,9 +47,10 @@ function load() {
 
 function save() {
   if (file.value) {
-    netex.value.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan = deckPlan.value?.toXML()
+    netex.value.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan = serializeElements(deckPlans.value)
       const builder = new XMLBuilder({
         ignoreAttributes: false,
+        textNodeName: 'text_value',
         attributeNamePrefix: "attr_",
       });
 
