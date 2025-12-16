@@ -1,7 +1,7 @@
-import type { ActualVehicleEquipment } from "./actualVehicleEquipment"
-import { serializeElements } from "./general"
-import type { SpotColumnRef } from "./spotColumn"
-import type { SpotRowRef } from "./spotRow"
+import { ActualVehicleEquipment } from "./actualVehicleEquipment"
+import { extractElementList, serializeElements } from "./general"
+import { SpotColumnRef as GeneralSpotColumnRef } from "./spotColumn"
+import { SpotRowRef as GeneralSpotRowRef } from "./spotRow"
 
 export class LuggageSpot {
   attr_id: string
@@ -9,8 +9,8 @@ export class LuggageSpot {
   Label: string | undefined
   Orientation: 'backwards' | 'forwards'| 'leftwards' | 'rightwards'  | undefined
   actualVehicleEquipments: ActualVehicleEquipment[]
-  SpotColumnRef: SpotColumnRef
-  SpotRowRef: SpotRowRef
+  SpotColumnRef: GeneralSpotColumnRef | undefined
+  SpotRowRef: GeneralSpotRowRef|undefined
 
   constructor({ attr_id, attr_version, Label, Orientation, actualVehicleEquipments, SpotColumnRef, SpotRowRef }: {
    attr_id: string,
@@ -28,9 +28,9 @@ export class LuggageSpot {
     this.attr_version = attr_version
     this.Label = Label
     this.Orientation = Orientation
-    this.actualVehicleEquipments = actualVehicleEquipments
-    this.SpotColumnRef = SpotColumnRef
-    this.SpotRowRef = SpotRowRef
+    this.actualVehicleEquipments = actualVehicleEquipments ? extractElementList(actualVehicleEquipments, ActualVehicleEquipment) : []
+    this.SpotColumnRef = SpotColumnRef ? new GeneralSpotColumnRef(SpotColumnRef) : undefined
+    this.SpotRowRef = SpotRowRef ? new GeneralSpotRowRef(SpotRowRef) : undefined
   }
 
   toXML() {

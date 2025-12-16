@@ -39,7 +39,7 @@ export class Deck {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     spotColumns: { SpotColumn: any[] } | undefined
     DeckLevelRef: GeneralDeckLevelRef | undefined
-    Name: string | undefined
+    Name: {text_value: string} | undefined
     polygon: object | undefined
     Width: number
     Length: number

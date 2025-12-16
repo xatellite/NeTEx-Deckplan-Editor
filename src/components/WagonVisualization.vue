@@ -13,7 +13,12 @@
                 :config="getStageSize(deck, scale)"
               >
                 <v-layer>
-                  <DeckVisualization :deck="deck" :scale="scale" />
+                  <DeckVisualization 
+                    :deck="deck" 
+                    :scale="scale" 
+                    :selectedElement="selectedElement"
+                    @select="(element) => $emit('select', element)"
+                  />
                 </v-layer>
               </v-stage>
             </div>
@@ -27,6 +32,7 @@ import type { DeckPlan } from '@/types/deckPlan';
 import type { PropType } from 'vue';
 import DeckVisualization from './DeckVisualization.vue';
 import { ref } from 'vue';
+import type { Deck } from '@/types/deck';
 
 // Waiting for https://github.com/konvajs/vue-konva/pull/266
 // import {
@@ -40,6 +46,11 @@ defineProps({
   deckPlans: {
     type: Array as PropType<DeckPlan[]>,
     required: true,
+  },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  selectedElement: {
+    type: Object as PropType<any>,
+    default: null,
   }
 })
 

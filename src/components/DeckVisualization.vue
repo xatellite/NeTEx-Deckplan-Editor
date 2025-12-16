@@ -1,11 +1,15 @@
 <template>
     <template>
-        <v-rect :config="{...deck.getShape(scale), y: 5}" />
+        <v-rect 
+          :config="{...deck.getShape(scale), y: 5, ...getStyle(deck)}" 
+          @click="$emit('select', deck)"
+        />
         <v-rect 
           v-for="(seat, index) in seats" 
           :key="`seats-${index}`"  
-          :config="seat.getShape(scale)"
+          :config="{...seat.getShape(scale), ...getStyle(seat)}"
           @dragend="(e) => handleDragEnd(e, seat)"
+          @click="$emit('select', seat)"
         />
     </template>
 </template>
@@ -26,8 +30,27 @@ const props = defineProps({
   scale: {
     type: Number,
     required: true,
+  },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  selectedElement: {
+    type: Object as PropType<any>,
+    default: null,
   }
 })
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getStyle = (element: any) => {
+  if (props.selectedElement === element) {
+    return {
+      stroke: 'green',
+      strokeWidth: 3,
+      shadowColor: 'green',
+      shadowBlur: 10,
+      shadowOpacity: 0.5,
+    }
+  }
+  return {}
+}
 
 const seats = computed(() => {
   console.log(props.deck.deckspaces)

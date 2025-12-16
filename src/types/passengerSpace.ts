@@ -105,10 +105,10 @@ export class PassengerSpace {
     Centroid: any | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Polygon: any | undefined
-    PublicUse: boolean | undefined
-    TotalCapacity: number | undefined
-    FareClass: string | undefined
-    AirConditioned: boolean | undefined
+    PublicUse: {"text_value": boolean} | undefined
+    TotalCapacity: {"text_value": number} | undefined
+    FareClass: {"text_value": string} | undefined
+    AirConditioned: {"text_value": boolean} | undefined
   }) {
     this.attr_id = attr_id
     this.attr_version = attr_version
@@ -143,10 +143,10 @@ export class PassengerSpace {
     // this.spotAffinities,
     this.Centroid = Centroid ? GeneralCentroid.fromXML(Centroid) : undefined
     this.Polygon = Polygon ? new GeneralPolygon(Polygon) : undefined
-    this.PublicUse = PublicUse
-    this.TotalCapacity = TotalCapacity
-    this.FareClass = FareClass
-    this.AirConditioned = AirConditioned
+    this.PublicUse = PublicUse?.text_value
+    this.TotalCapacity = TotalCapacity?.text_value
+    this.FareClass = FareClass?.text_value
+    this.AirConditioned = AirConditioned?.text_value
   }
 
   toXML() {

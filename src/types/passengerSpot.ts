@@ -12,9 +12,9 @@ export class PassengerSpot {
   actualVehicleEquipments: ActualVehicleEquipment[] | undefined
   SpotColumnRef: GeneralSpotColumnRef | undefined
   SpotRowRef: GeneralSpotRowRef | undefined
-  ByWindow: boolean
-  ByAisle: boolean
-  HasPower: boolean
+  ByWindow: boolean | undefined
+  ByAisle: boolean | undefined
+  HasPower: boolean | undefined
   Centroid: GeneralCentroid | undefined
   Width: number
   Length: number
@@ -22,17 +22,17 @@ export class PassengerSpot {
   constructor({ attr_id, attr_version, Label, Orientation, actualVehicleEquipments, SpotColumnRef, SpotRowRef, ByWindow, ByAisle, HasPower, Centroid, Width, Length }: {
     attr_id: string,
     attr_version: string,
-    Label: string | undefined,
-    Orientation: 'backwards' | 'forwards'| 'leftwards' | 'rightwards'  | undefined,
+    Label: {"text_value": string} | undefined,
+    Orientation: {"text_value": 'backwards' | 'forwards'| 'leftwards' | 'rightwards'} | undefined,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     actualVehicleEquipments: any[],
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     SpotColumnRef: any,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     SpotRowRef: any,
-    ByWindow: boolean,
-    ByAisle: boolean,
-    HasPower: boolean,
+    ByWindow: {text_value: boolean} | undefined,
+    ByAisle: {text_value: boolean} | undefined,
+    HasPower: {text_value: boolean} | undefined,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Centroid: any | undefined
     Width: number | undefined
@@ -40,14 +40,14 @@ export class PassengerSpot {
   }) {
     this.attr_id = attr_id
     this.attr_version = attr_version
-    this.Label = Label
-    this.Orientation = Orientation
+    this.Label = Label ? Label["text_value"] : undefined
+    this.Orientation = Orientation ? Orientation["text_value"] : undefined
     this.actualVehicleEquipments = actualVehicleEquipments ? extractElementList(actualVehicleEquipments, ActualVehicleEquipment) : undefined
     this.SpotColumnRef = SpotColumnRef ? new GeneralSpotColumnRef(SpotColumnRef) : undefined
     this.SpotRowRef = SpotRowRef ? new GeneralSpotRowRef(SpotRowRef) : undefined
-    this.ByWindow = ByWindow
-    this.ByAisle = ByAisle
-    this.HasPower = HasPower
+    this.ByWindow = ByWindow?.text_value
+    this.ByAisle = ByAisle?.text_value
+    this.HasPower = HasPower?.text_value
     this.Centroid = Centroid ? GeneralCentroid.fromXML(Centroid) : undefined
     this.Width = Width || 0.5
     this.Length = Length || 0.5
@@ -57,14 +57,14 @@ export class PassengerSpot {
     return {
         attr_id: this.attr_id,
         attr_version: this.attr_version,
-        Label: this.Label,
-        Orientation: this.Orientation,
+        Label: this.Label ? {"text_value": this.Label} : undefined,
+        Orientation: this.Orientation ? {"text_value": this.Orientation} : undefined,
         actualVehicleEquipments: this.actualVehicleEquipments ? serializeElementsAndRefs(this.actualVehicleEquipments) : undefined,
         SpotColumnRef: this.SpotColumnRef?.toXML(),
         SpotRowRef: this.SpotRowRef?.toXML(),
-        ByWindow: this.ByWindow,
-        ByAisle: this.ByAisle,
-        HasPower: this.HasPower,
+        ByWindow: this.ByWindow ? {"text_value": this.ByWindow} : undefined,
+        ByAisle: this.ByAisle ? {"text_value": this.ByAisle} : undefined,
+        HasPower: this.HasPower ? {"text_value": this.HasPower} : undefined,
         Centroid: this.Centroid?.toXML(),
         Width: this.Width,
         Length: this.Length,

@@ -1,29 +1,40 @@
 <template>
-  <main>
-    <div>
-      <input ref="inputRef" type="file" multiple @change="onChange"  accept="text/xml"/>
+  <div style="display: flex; flex-direction: column; height: 100vh;">
+    <div style="padding: 10px; border-bottom: 1px solid #ccc;">
       <button @click="load">Load</button>
-      <button @click="save">Save</button> 
+      <button @click="save">Save</button>
+      <input ref="inputRef" type="file" multiple @change="onChange" accept="text/xml"/>
     </div>
-    <WagonVisualization v-if="deckPlans.length > 0" :deckPlans="deckPlans" />
-  </main>
+    <div style="flex: 1; overflow: hidden;">
+      <WagonVisualization 
+        v-if="deckPlans.length > 0" 
+        :deckPlans="deckPlans" 
+        :selectedElement="selectedElement"
+        @select="(element) => selectedElement = element"
+      />
+    </div>
+    <ObjectProperties :element="selectedElement" style="height: 300px; overflow-y: auto;" />
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref } from 'vue'
-import {XMLBuilder, XMLParser} from 'fast-xml-parser';
-import { DeckPlan } from './types/deckPlan';
+import { ref, type Ref } from 'vue';
+import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 import WagonVisualization from './components/WagonVisualization.vue';
+import ObjectProperties from './components/ObjectProperties.vue';
+import { DeckPlan } from './types/deckPlan';
 import { extractElementList, serializeElements } from './types/general';
 
 const file: Ref<File | null> = ref(null)
-
-const deckPlans: Ref<DeckPlan[]> = ref([])
+const deckPlans = ref<DeckPlan[]>([])
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const netex: Ref<null | any> = ref(null)
+const selectedElement = ref<any>(null)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const netex = ref<any>(null)
 
-const onChange = (e: InputEvent) => {
-  file.value = (e.target as HTMLInputElement).files != null ? (e.target as HTMLInputElement).files[0] ?? null : null
+const onChange = (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  file.value = target.files ? target.files[0] : null;
 }
 function load() {
   if (file.value) {
