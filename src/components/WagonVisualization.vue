@@ -16,8 +16,9 @@
                   <DeckVisualization 
                     :deck="deck" 
                     :scale="scale" 
-                    :selectedElement="selectedElement"
-                    @select="(element) => $emit('select', element)"
+                    :selectedElements="selectedElements"
+                    @select="(payload) => $emit('select', payload)"
+                    @area-select="(elements) => $emit('area-select', elements)"
                   />
                 </v-layer>
               </v-stage>
@@ -48,9 +49,9 @@ defineProps({
     required: true,
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  selectedElement: {
-    type: Object as PropType<any>,
-    default: null,
+  selectedElements: {
+    type: Array as PropType<any[]>,
+    default: () => [],
   }
 })
 

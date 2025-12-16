@@ -9,11 +9,12 @@
       <WagonVisualization 
         v-if="deckPlans.length > 0" 
         :deckPlans="deckPlans" 
-        :selectedElement="selectedElement"
-        @select="(element) => selectedElement = element"
+        :selectedElements="selectedElements"
+        @select="handleSelect"
+        @area-select="handleAreaSelect"
       />
     </div>
-    <ObjectProperties :element="selectedElement" style="height: 300px; overflow-y: auto;" />
+    <ObjectProperties :element="selectedElements.length === 1 ? selectedElements[0] : null" style="height: 300px; overflow-y: auto;" />
   </div>
 </template>
 
@@ -28,9 +29,32 @@ import { extractElementList, serializeElements } from './types/general';
 const file: Ref<File | null> = ref(null)
 const deckPlans = ref<DeckPlan[]>([])
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const selectedElement = ref<any>(null)
+const selectedElements = ref<any[]>([])
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const netex = ref<any>(null)
+
+const handleSelect = ({ element, ctrlKey }: { element: any, ctrlKey: boolean }) => {
+  if (ctrlKey) {
+    const index = selectedElements.value.indexOf(element)
+    if (index > -1) {
+      selectedElements.value.splice(index, 1)
+    } else {
+      if (selectedElements.value.length > 0) {
+        const first = selectedElements.value[0]
+        if (first.constructor !== element.constructor) {
+          return
+        }
+      }
+      selectedElements.value.push(element)
+    }
+  } else {
+    selectedElements.value = [element]
+  }
+}
+
+const handleAreaSelect = (elements: any[]) => {
+  selectedElements.value = elements
+}
 
 const onChange = (e: Event) => {
   const target = e.target as HTMLInputElement;
