@@ -1,6 +1,6 @@
 <template>
-    <div style="display: flex; flex-direction: column; height: 100%;">
-      <div style="padding: 10px;">
+    <div class="flex flex-col h-full">
+      <div class="flex p-4 w-full items-center justify-center gap-10">
         <label for="scale-slider">Scale: {{ scale }}</label>
         <input id="scale-slider" type="range" min="10" max="50" v-model.number="scale" />
       </div>
@@ -48,7 +48,7 @@ defineProps({
     type: Array as PropType<DeckPlan[]>,
     required: true,
   },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   selectedElements: {
     type: Array as PropType<any[]>,
     default: () => [],

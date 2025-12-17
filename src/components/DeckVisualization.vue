@@ -1,7 +1,6 @@
 <template>
     <template>
         <!-- Invisible rect for area selection on stage background -->
-        
         <v-rect 
           :config="{...deck.getShape(scale), y: 5, ...getStyle(deck)}" 
           @click="(e) => handleClick(e, deck)"
@@ -35,11 +34,11 @@
             :config="{
               width: seat.getShape(scale).width,
               height: seat.getShape(scale).height,
-              ...getStyle(seat),
               fill: seat.getShape(scale).fill,
               stroke: seat.getShape(scale).stroke,
               strokeWidth: seat.getShape(scale).strokeWidth,
-              cornerRadius: seat.getShape(scale).cornerRadius
+              cornerRadius: seat.getShape(scale).cornerRadius,
+              ...getStyle(seat),
             }"
           />
           <v-text
@@ -51,6 +50,29 @@
               verticalAlign: 'middle',
               fontSize: Math.min(Math.min(seat.getShape(scale).width, seat.getShape(scale).height) / 2, 16),
               listening: false
+            }"
+          />
+        </v-group>
+        <v-group
+          v-for="(entrance, index) in entrances"
+          :key="`entrance-${index}`"
+          :config="{
+            x: entrance.getShape(scale, deck.Length, deck.Width).x,
+            y: entrance.getShape(scale, deck.Length, deck.Width).y,
+            draggable: true
+          }"
+          @dragmove="(e) => handleEntranceDragMove(e, entrance)"
+          @dragend="(e) => handleEntranceDragEnd(e, entrance)"
+          @click="(e) => handleClick(e, entrance)"
+        >
+          <v-rect
+            :config="{
+              width: entrance.getShape(scale, deck.Length, deck.Width).width,
+              height: entrance.getShape(scale, deck.Length, deck.Width).height,
+              fill: entrance.getShape(scale, deck.Length, deck.Width).fill,
+              stroke: entrance.getShape(scale, deck.Length, deck.Width).stroke,
+              strokeWidth: entrance.getShape(scale, deck.Length, deck.Width).strokeWidth,
+              ...getStyle(entrance),
             }"
           />
         </v-group>
@@ -69,6 +91,7 @@
 <script setup lang="ts">
 import type { Deck } from '../types/deck';
 import { PassengerSpot } from '../types/passengerSpot';
+import { PassengerEntrance } from '../types/passengerEntrance';
 import type { PropType } from 'vue';
 import { computed, ref } from 'vue';
 import { PassengerSpace } from '../types/passengerSpace';
@@ -83,7 +106,7 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   selectedElements: {
     type: Array as PropType<any[]>,
     default: () => [],
@@ -106,15 +129,21 @@ const seats = computed(() => {
   }) || []
 })
 
+const entrances = computed(() => {
+  return props.deck.deckspaces?.flatMap(ds => {
+    if (ds instanceof PassengerSpace) {
+      return ds.deckEntrances || []
+    }
+    return []
+  }) || []
+})
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getStyle = (element: any) => {
   if (props.selectedElements.includes(element)) {
     return {
-      stroke: 'green',
+      stroke: '#68a691',
       strokeWidth: 3,
-      shadowColor: 'green',
-      shadowBlur: 10,
-      shadowOpacity: 0.5,
     }
   }
   return {}
@@ -122,11 +151,10 @@ const getStyle = (element: any) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleClick = (e: any, element: any) => {
-    // Prevent click if we were dragging or selecting area
     if (isSelecting.value) return
 
     emit('select', { element, ctrlKey: e.evt.ctrlKey || e.evt.metaKey })
-    e.cancelBubble = true; // Stop propagation
+    e.cancelBubble = true;
 }
 
 const handleMouseDown = (e: any) => {
@@ -134,15 +162,7 @@ const handleMouseDown = (e: any) => {
         isSelecting.value = true
         const stage = e.target.getStage()
         const pointer = stage.getPointerPosition()
-        // Adjust for stage transform if needed, but here we assume simple stage
-        // We need local coordinates relative to the deck group/layer if possible, 
-        // but pointer is global. 
-        // For simplicity, let's assume pointer is correct for now or adjust later.
-        // Actually, we are inside a v-stage -> v-layer -> DeckVisualization
-        // The pointer position is relative to the stage.
-        // We might need to transform it if the layer/group is transformed.
-        
-        // Let's use relative pointer if possible
+
         const transform = e.target.getAbsoluteTransform().copy();
         transform.invert();
         const pos = transform.point(pointer);
@@ -154,7 +174,7 @@ const handleMouseDown = (e: any) => {
             width: 0,
             height: 0,
             fill: 'rgba(0, 255, 0, 0.3)',
-            stroke: 'green',
+            stroke: '#68a691',
             strokeWidth: 1,
         }
     }
@@ -177,11 +197,9 @@ const handleMouseUp = (e: any) => {
     if (!isSelecting.value) return
     isSelecting.value = false
     
-    // Calculate selected elements
     const box = selectionRect.value
     if (!box) return
 
-    // Normalize box
     const x = box.width > 0 ? box.x : box.x + box.width
     const y = box.height > 0 ? box.y : box.y + box.height
     const width = Math.abs(box.width)
@@ -189,7 +207,6 @@ const handleMouseUp = (e: any) => {
 
     const selected = seats.value.filter(seat => {
         const shape = seat.getShape(props.scale)
-        // Check intersection
         return (
             shape.x < x + width &&
             shape.x + shape.width > x &&
@@ -208,7 +225,6 @@ const handleMouseUp = (e: any) => {
 const handleDragMove = (e: any, seat: PassengerSpot) => {
     guideLines.value = []
     
-    // Snapping logic
     const stage = e.target.getStage()
     const layer = e.target.getLayer()
     
@@ -261,7 +277,6 @@ const handleDragEnd = (e: any, seat: PassengerSpot) => {
   guideLines.value = []
   const x = e.target.x()
   const y = e.target.y()
-  console.log("dragend", x, y)
   
   // Calculate delta
   let deltaX = 0
@@ -279,7 +294,6 @@ const handleDragEnd = (e: any, seat: PassengerSpot) => {
 
   // Update other selected seats
   if (props.selectedElements.includes(seat)) {
-    console.log("DEBUG")
       props.selectedElements.forEach(other => {
           if (other !== seat && other instanceof PassengerSpot) {
              const otherShape = other.getShape(props.scale)
@@ -299,5 +313,102 @@ const updateSeatPosition = (seat: PassengerSpot, x: number, y: number) => {
       ((y - 5) / props.scale) + (seat.Length / 2)
     )
   }
+}
+
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const handleEntranceDragMove = (e: any, entrance: PassengerEntrance) => {
+    // const stage = e.target.getStage()
+    // const layer = e.target.getLayer()
+    
+    const x = e.target.x()
+    const y = e.target.y()
+    
+    const deckWidthPx = props.deck.Width * props.scale
+    const deckLengthPx = props.deck.Length * props.scale
+    
+    // Use getShape to get current dimensions (based on current VehicleSide)
+    const shape = entrance.getShape(props.scale, props.deck.Length, props.deck.Width)
+    const entranceWidth = shape.width
+    const entranceHeight = shape.height
+    
+    const deckLeft = 5
+    const deckTop = 5
+    const deckRight = deckLeft + deckLengthPx
+    const deckBottom = deckTop + deckWidthPx
+    
+    const centerX = x + entranceWidth / 2
+    const centerY = y + entranceHeight / 2
+    
+    const distLeft = Math.abs(centerX - deckLeft)
+    const distRight = Math.abs(centerX - deckRight)
+    const distTop = Math.abs(centerY - deckTop)
+    const distBottom = Math.abs(centerY - deckBottom)
+    
+    const minDist = Math.min(distLeft, distRight, distTop, distBottom)
+    
+    let newX = x
+    let newY = y
+    
+    if (minDist === distTop) {
+        // Snap to Top (Left Side)
+        newY = deckTop
+        newX = Math.max(deckLeft, Math.min(x, deckRight - entranceWidth))
+    } else if (minDist === distBottom) {
+        // Snap to Bottom (Right Side)
+        newY = deckBottom - entranceHeight
+        newX = Math.max(deckLeft, Math.min(x, deckRight - entranceWidth))
+    } else if (minDist === distLeft) {
+        // Snap to Left (Front)
+        newX = deckLeft
+        // Snap Y to center
+        newY = (deckWidthPx / 2) + 5 - (entranceHeight / 2)
+    } else if (minDist === distRight) {
+        // Snap to Right (Back)
+        newX = deckRight - entranceWidth
+        // Snap Y to center
+        newY = (deckWidthPx / 2) + 5 - (entranceHeight / 2)
+    }
+    
+    e.target.x(newX)
+    e.target.y(newY)
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const handleEntranceDragEnd = (e: any, entrance: PassengerEntrance) => {
+    const x = e.target.x()
+    const y = e.target.y()
+    
+    const deckWidthPx = props.deck.Width * props.scale
+    const deckLengthPx = props.deck.Length * props.scale
+    
+    const shape = entrance.getShape(props.scale, props.deck.Length, props.deck.Width)
+    const entranceWidth = shape.width
+    const entranceHeight = shape.height
+    
+    const deckLeft = 5
+    const deckTop = 5
+    const deckRight = deckLeft + deckLengthPx
+    const deckBottom = deckTop + deckWidthPx
+    
+    // Determine side based on final position
+    // We can use the same logic as dragMove or just check coordinates
+    // Allow for small epsilon due to floating point
+    const epsilon = 1
+    
+    if (Math.abs(y - deckTop) < epsilon) {
+        entrance.VehicleSide = 'leftSide'
+        // Update SequenceFromFront
+        entrance.SequenceFromFront = (x - deckLeft + (entranceWidth / 2)) / props.scale
+    } else if (Math.abs(y - (deckBottom - entranceHeight)) < epsilon) {
+        entrance.VehicleSide = 'rightSide'
+        entrance.SequenceFromFront = (x - deckLeft + (entranceWidth / 2)) / props.scale
+    } else if (Math.abs(x - deckLeft) < epsilon) {
+        entrance.VehicleSide = 'front'
+        entrance.SequenceFromFront = 0 
+    } else if (Math.abs(x - (deckRight - entranceWidth)) < epsilon) {
+        entrance.VehicleSide = 'back'
+        entrance.SequenceFromFront = props.deck.Length 
+    }
 }
 </script>

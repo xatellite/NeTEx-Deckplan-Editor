@@ -1,0 +1,56 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ott-accent: #68a691;
+  --color-ott-accent-light: #ecfff9;
+  --color-ott-text-primary: #2f2f2f;
+  --color-ott-text-secondary: #a1a1a1;
+  --color-ott-text-white: #ffffff;
+  --color-ott-bg-primary: #ffffff;
+  --color-ott-bg-secondary: #f3f3f3;
+  --color-ott-bg-darkened: #f4f6f6;
+  --color-ott-bg-dark: #d3d3d3;
+  --color-ott-error: #cd3c3c;
+  --background-image-logo: url('https://s3.k8s.xatellite.space/ott-themes/ott_white.svg');
+  --spacing-logo-height: 64px;
+  --spacing-logo-width: 64px;
+  --shadow-even: 0px 0px 4px 0px #00000040;
+}
+
+html,
+body,
+#app,
+#__nuxt {
+  @apply h-full w-full bg-ott-bg-secondary text-ott-text-primary;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+button {
+  @apply cursor-pointer;
+}
+
+h2 {
+  @apply text-lg font-medium my-4;
+}
+
+main {
+  @apply block h-full w-full max-h-screen overflow-auto;
+}
+
+.ott-button {
+  @apply text-ott-text-primary font-medium px-4 py-1 h-fit flex items-center justify-center gap-5 rounded-lg border-ott-text-primary border-2 cursor-pointer;
+}
+
+.ott-button:disabled {
+  @apply border-ott-bg-dark text-ott-bg-dark cursor-default;
+}
+
+.ott-button-action {
+  @apply w-full bg-ott-accent border-ott-accent text-ott-text-white font-medium px-4 py-1 h-fit flex items-center gap-5 rounded-lg cursor-pointer disabled:bg-ott-text-secondary disabled:cursor-default;
+}
+
+input {
+  @apply border border-ott-bg-dark rounded py-1 px-3;
+}

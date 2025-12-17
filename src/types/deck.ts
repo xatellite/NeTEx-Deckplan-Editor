@@ -1,5 +1,10 @@
 import { DeckLevelRef as GeneralDeckLevelRef } from './deckLevel'
-import { extractElementList, Name as GeneralName, serializeElements, serializeElementsAndRefs } from './general'
+import {
+  extractElementList,
+  Name as GeneralName,
+  serializeElements,
+  serializeElementsAndRefs,
+} from './general'
 import { OtherDeckSpace } from './otherDeckSpace'
 import { PassengerSpace } from './passengerSpace'
 import { Polygon } from './polygon'
@@ -9,7 +14,7 @@ import { SpotRow } from './spotRow'
 export class Deck {
   attr_id: string
   attr_version: string
-  Name: GeneralName | undefined
+  Name: string
   polygon: Polygon | undefined
   deckspaces: (OtherDeckSpace | PassengerSpace)[]
   DeckLevelRef: GeneralDeckLevelRef | undefined
@@ -27,8 +32,8 @@ export class Deck {
     DeckLevelRef = undefined,
     Name = undefined,
     polygon = undefined,
-    Width = 2.825,
-    Length = 26.4,
+    Width = undefined,
+    Length = undefined,
   }: {
     attr_id: string
     attr_version: string
@@ -39,40 +44,39 @@ export class Deck {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     spotColumns: { SpotColumn: any[] } | undefined
     DeckLevelRef: GeneralDeckLevelRef | undefined
-    Name: {text_value: string} | undefined
+    Name: { text_value: string } | undefined
     polygon: object | undefined
-    Width: number
-    Length: number
+    Width: { text_value: number } | undefined
+    Length: { text_value: number } | undefined
   }) {
     this.attr_id = attr_id
     this.attr_version = attr_version
-    this.Name = Name ? new GeneralName(Name) : undefined
+    this.Name = Name?.text_value || ''
     this.polygon = polygon ? new Polygon(polygon) : undefined
     this.DeckLevelRef = DeckLevelRef ? new GeneralDeckLevelRef(DeckLevelRef) : undefined
-    this.Width = Width
-    this.Length = Length
-    console.log("deckspace", deckSpaces)
-    this.deckspaces = deckSpaces ? Object.entries(deckSpaces).flatMap(([k, d]) => {
-      console.log("key", k, d)
-      if (k === 'OtherDeckSpace') {
-        return extractElementList(d, OtherDeckSpace) as OtherDeckSpace[]
-      }
-      if (k === 'PassengerSpace') {
-        return extractElementList(d, PassengerSpace) as PassengerSpace[]
-      }
-      return []
-    }) : []
+    this.Width = Width?.text_value || 2.825
+    this.Length = Length?.text_value || 26.4
+    this.deckspaces = deckSpaces
+      ? Object.entries(deckSpaces).flatMap(([k, d]) => {
+          if (k === 'OtherDeckSpace') {
+            return extractElementList(d, OtherDeckSpace) as OtherDeckSpace[]
+          }
+          if (k === 'PassengerSpace') {
+            return extractElementList(d, PassengerSpace) as PassengerSpace[]
+          }
+          return []
+        })
+      : []
     this.spotRows = extractElementList(spotRows?.SpotRow, SpotRow)
     this.spotColumns = extractElementList(spotColumns?.SpotColumn, SpotColumn)
   }
 
   toXML() {
-    console.log("deckspaces", this.deckspaces, serializeElementsAndRefs(this.deckspaces))
     return {
       attr_id: this.attr_id,
       attr_version: this.attr_version,
-      spotRows: {SpotRow: serializeElements(this.spotRows)},
-      spotColumns: {SpotColumn: serializeElements(this.spotColumns)},
+      spotRows: { SpotRow: serializeElements(this.spotRows) },
+      spotColumns: { SpotColumn: serializeElements(this.spotColumns) },
       deckSpaces: serializeElementsAndRefs(this.deckspaces),
       DeckLevelRef: this.DeckLevelRef?.toXML(),
       polygon: this.polygon?.toXML(),

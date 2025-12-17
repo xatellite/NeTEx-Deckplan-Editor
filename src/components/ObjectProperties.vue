@@ -1,9 +1,9 @@
 <template>
-  <div class="object-properties">
-    <h3>Properties</h3>
+  <div class="bg-ott-bg-primary border-t border-t-ott-bg-dark p-4">
+    <h3 class="">Properties</h3>
     <div v-if="element">
-      <div v-for="(value, key) in element" :key="key" class="property-row">
-        <label :for="key">{{ key }}</label>
+      <div v-for="(value, key) in element" :key="key" class="flex items-center mb-10">
+        <label :for="key" class="min-w-[150px] font-bold ">{{ key }}</label>
         <input
           v-if="typeof value === 'string' || typeof value === 'number'"
           :id="key"
@@ -23,6 +23,9 @@
                 type="text"
             />
         </span>
+        <span v-else-if="value && Array.isArray(value)">
+            {{ value.length }} elements
+        </span>
         <span v-else>{{ value }}</span>
       </div>
     </div>
@@ -36,7 +39,7 @@
 import { defineProps } from 'vue';
 
 defineProps({
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   element: {
     type: Object,
     default: null,

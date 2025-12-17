@@ -1,9 +1,9 @@
 <template>
-  <div style="display: flex; flex-direction: column; height: 100vh;">
-    <div style="padding: 10px; border-bottom: 1px solid #ccc;">
-      <button @click="load">Load</button>
-      <button @click="save">Save</button>
-      <input ref="inputRef" type="file" multiple @change="onChange" accept="text/xml"/>
+  <div class="flex flex-col h-full">
+    <div class="p-4 border-b border-b-ott-secondary flex gap-2 items-center bg-ott-bg-primary">
+      <input ref="inputRef" class="ott-button" type="file" multiple @change="onChange" accept="text/xml"/>
+      <button @click="load" class="ott-button">Load</button>
+      <button @click="save" class="ott-button">Save</button>
     </div>
     <div style="flex: 1; overflow: hidden;">
       <WagonVisualization 
@@ -25,6 +25,7 @@ import WagonVisualization from './components/WagonVisualization.vue';
 import ObjectProperties from './components/ObjectProperties.vue';
 import { DeckPlan } from './types/deckPlan';
 import { extractElementList, serializeElements } from './types/general';
+import "@/assets/lib.css";
 
 const file: Ref<File | null> = ref(null)
 const deckPlans = ref<DeckPlan[]>([])
@@ -72,10 +73,11 @@ function load() {
       });
       const delivery = parser.parse(event.target?.result);
       netex.value = delivery
+      console.log(delivery)
       deckPlans.value = extractElementList(delivery.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan, DeckPlan)
+      console.log(deckPlans.value)
     });
     reader.readAsText(file.value);
-    
   }
 }
 
