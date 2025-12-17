@@ -8,7 +8,7 @@
           <div v-for="(deckPlan, index) in deckPlans" :key="`deckplan-${index}`">
             <h3>{{ deckPlan.attr_id }}</h3>
             <div v-for="(deck, dIndex) in deckPlan.decks" :key="`deck-${dIndex}`">
-              <h4>{{ deck.Name?.value }}</h4>
+              <h4 @click="$emit('select', { element: deck, ctrlKey: false })" :class="`${selectedElements.includes(deck) ? 'text-ott-accent' : ''} cursor-pointer`">{{ deck.Name }}</h4>
               <v-stage
                 :config="getStageSize(deck, scale)"
               >

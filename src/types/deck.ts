@@ -80,9 +80,9 @@ export class Deck {
       deckSpaces: serializeElementsAndRefs(this.deckspaces),
       DeckLevelRef: this.DeckLevelRef?.toXML(),
       polygon: this.polygon?.toXML(),
-      Name: this.Name?.toXML(),
-      Width: this.Width,
-      Length: this.Length,
+      Name: {text_value: this.Name},
+      Width: {text_value: this.Width},
+      Length: {text_value: this.Length},
     }
   }
 

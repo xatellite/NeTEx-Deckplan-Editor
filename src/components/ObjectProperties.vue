@@ -1,6 +1,15 @@
 <template>
-  <div class="bg-ott-bg-primary border-t border-t-ott-bg-dark p-4">
-    <h3 class="">Properties</h3>
+  <div class="bg-ott-bg-primary p-4">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="font-bold">Properties</h3>
+      <button 
+        v-if="element" 
+        class="ott-button border-ott-error! text-ott-error!"
+        @click="$emit('delete', element)"
+      >
+        Delete
+      </button>
+    </div>
     <div v-if="element">
       <div v-for="(value, key) in element" :key="key" class="flex items-center mb-10">
         <label :for="key" class="min-w-[150px] font-bold ">{{ key }}</label>
@@ -36,7 +45,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+
+
+defineEmits(['delete'])
 
 defineProps({
    
