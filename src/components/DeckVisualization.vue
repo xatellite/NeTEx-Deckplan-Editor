@@ -179,6 +179,8 @@ const handleMouseDown = (e: any) => {
             stroke: '#68a691',
             strokeWidth: 1,
         }
+    } else {
+      emit('area-select', [])
     }
 }
 
