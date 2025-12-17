@@ -26,6 +26,7 @@
             y: seat.getShape(scale).y,
             draggable: true
           }"
+          @dragstart="(e) => handleDragStart(e, seat)"
           @dragend="(e) => handleDragEnd(e, seat)"
           @dragmove="(e) => handleDragMove(e, seat)"
           @click="(e) => handleClick(e, seat)"
@@ -119,6 +120,7 @@ const selectionRect = ref<any>(null)
 const isSelecting = ref(false)
 const startPos = ref({ x: 0, y: 0 })
 const guideLines = ref<any[]>([])
+const dragStartPositions = ref<Map<PassengerSpot, {x: number, y: number}>>(new Map())
 
 const seats = computed(() => {
   return props.deck.deckspaces?.flatMap(ds => {
@@ -222,14 +224,26 @@ const handleMouseUp = (e: any) => {
     selectionRect.value = null
 }
 
+const handleDragStart = (e: any, seat: PassengerSpot) => {
+    dragStartPositions.value.clear()
+    if (props.selectedElements.includes(seat)) {
+        props.selectedElements.forEach(el => {
+            if (el instanceof PassengerSpot) {
+                const shape = el.getShape(props.scale)
+                dragStartPositions.value.set(el, { x: shape.x, y: shape.y })
+            }
+        })
+    }
+}
+
 const handleDragMove = (e: any, seat: PassengerSpot) => {
     guideLines.value = []
     
     const stage = e.target.getStage()
     const layer = e.target.getLayer()
     
-    // Get all other seats
-    const otherSeats = seats.value.filter(s => s !== seat)
+    // Get all other seats that are NOT selected (snap to static objects only)
+    const otherSeats = seats.value.filter(s => s !== seat && !props.selectedElements.includes(s))
     
     // Current position
     const x = e.target.x()
@@ -270,6 +284,22 @@ const handleDragMove = (e: any, seat: PassengerSpot) => {
     
     e.target.x(newX)
     e.target.y(newY)
+
+    // Move other selected seats
+    const startPos = dragStartPositions.value.get(seat)
+    if (startPos && props.selectedElements.includes(seat)) {
+        const dx = newX - startPos.x
+        const dy = newY - startPos.y
+
+        props.selectedElements.forEach(other => {
+            if (other !== seat && other instanceof PassengerSpot) {
+                const otherStart = dragStartPositions.value.get(other)
+                if (otherStart) {
+                    updateSeatPosition(other, otherStart.x + dx, otherStart.y + dy)
+                }
+            }
+        })
+    }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -278,29 +308,10 @@ const handleDragEnd = (e: any, seat: PassengerSpot) => {
   const x = e.target.x()
   const y = e.target.y()
   
-  // Calculate delta
-  let deltaX = 0
-  let deltaY = 0
-
-  if (seat.Centroid) {
-      const oldX = ((seat.Centroid.x * props.scale) - (seat.Width * props.scale / 2)) + 5
-      const oldY = ((seat.Centroid.y * props.scale) - (seat.Length * props.scale / 2)) + 5
-      deltaX = x - oldX
-      deltaY = y - oldY
-  }
-
   // Update dragged seat
   updateSeatPosition(seat, x, y)
-
-  // Update other selected seats
-  if (props.selectedElements.includes(seat)) {
-      props.selectedElements.forEach(other => {
-          if (other !== seat && other instanceof PassengerSpot) {
-             const otherShape = other.getShape(props.scale)
-             updateSeatPosition(other, otherShape.x + deltaX, otherShape.y + deltaY)
-          }
-      })
-  }
+  
+  dragStartPositions.value.clear()
 }
 
 const updateSeatPosition = (seat: PassengerSpot, x: number, y: number) => {
