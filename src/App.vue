@@ -4,14 +4,23 @@
       <input ref="inputRef" class="ott-button" type="file" multiple @change="onChange" accept="text/xml"/>
       <button @click="load" class="ott-button">Load</button>
       <button @click="save" class="ott-button">Save</button>
+      <button @click="toggleXml" class="ott-button" :class="{'bg-ott-accent text-white': showXml}">XML</button>
     </div>
-    <div style="flex: 1; overflow: hidden;">
-      <WagonVisualization 
-        v-if="deckPlans.length > 0" 
-        :deckPlans="deckPlans" 
-        :selectedElements="selectedElements"
-        @select="handleSelect"
-        @area-select="handleAreaSelect"
+    <div class="flex-1 flex overflow-hidden">
+      <div class="flex-1 overflow-hidden">
+        <WagonVisualization 
+          v-if="deckPlans.length > 0" 
+          :deckPlans="deckPlans" 
+          :selectedElements="selectedElements"
+          @select="handleSelect"
+          @area-select="handleAreaSelect"
+        />
+      </div>
+      <XmlViewer 
+        v-if="showXml" 
+        :xml="currentXml" 
+        :selectedId="selectedElements[0]?.attr_id"
+        class="w-1/3 border-l border-ott-bg-dark"
       />
     </div>
     <div class="flex flex-row h-[300px] border-t border-ott-bg-dark">
@@ -30,11 +39,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref } from 'vue';
+import { ref, type Ref, watch } from 'vue';
 import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 import WagonVisualization from './components/WagonVisualization.vue';
 import ObjectProperties from './components/ObjectProperties.vue';
 import ElementCatalog from './components/ElementCatalog.vue';
+import XmlViewer from './components/XmlViewer.vue';
 import { DeckPlan } from './types/deckPlan';
 import { extractElementList, serializeElements } from './types/general';
 import { PassengerSpot } from './types/passengerSpot';
@@ -47,8 +57,35 @@ const file: Ref<File | null> = ref(null)
 const deckPlans = ref<DeckPlan[]>([])
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const selectedElements = ref<any[]>([])
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const netex = ref<any>(null)
+const showXml = ref(false)
+const currentXml = ref('')
+
+const updateXml = () => {
+  if (!showXml.value || !netex.value) return
+  
+  netex.value.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan = serializeElements(deckPlans.value)
+  const builder = new XMLBuilder({
+    ignoreAttributes: false,
+    textNodeName: 'text_value',
+    attributeNamePrefix: "attr_",
+    format: true
+  });
+  currentXml.value = builder.build(netex.value);
+}
+
+const toggleXml = () => {
+  showXml.value = !showXml.value
+  if (showXml.value) {
+    updateXml()
+  }
+}
+
+watch(deckPlans, () => {
+    updateXml()
+}, { deep: true })
 
 const handleSelect = ({ element, ctrlKey }: { element: any, ctrlKey: boolean }) => {
   if (ctrlKey) {
