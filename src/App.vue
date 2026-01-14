@@ -23,14 +23,14 @@
         class="w-1/3 border-l border-ott-bg-dark"
       />
     </div>
-    <div class="flex flex-row h-[300px] border-t border-ott-bg-dark">
+    <div class="flex flex-row h-75 border-t border-ott-bg-dark">
       <ObjectProperties 
         :element="selectedElements.length === 1 ? selectedElements[0] : null" 
         class="flex-1 overflow-y-auto" 
         @delete="handleDelete"
       />
       <ElementCatalog 
-        class="w-[200px] border-l border-ott-bg-dark"
+        class="w-50 border-l border-ott-bg-dark"
         @add-seat="handleAddSeat"
         @add-door="handleAddDoor"
       />
@@ -167,7 +167,7 @@ const handleAddSeat = () => {
   if (!deck) return
 
   // Find or create a PassengerSpace to add the seat to
-  let passengerSpace = deck.deckspaces?.find(ds => ds instanceof PassengerSpace) as PassengerSpace
+  const passengerSpace = deck.deckspaces?.find(ds => ds instanceof PassengerSpace) as PassengerSpace
   if (!passengerSpace) {
       // If no passenger space exists, we might need to create one, but for now let's assume one exists or just log error
       console.warn("No PassengerSpace found to add seat to")
@@ -200,7 +200,7 @@ const handleAddDoor = () => {
   const deck = getTargetDeck()
   if (!deck) return
 
-  let passengerSpace = deck.deckspaces?.find(ds => ds instanceof PassengerSpace) as PassengerSpace
+  const passengerSpace = deck.deckspaces?.find(ds => ds instanceof PassengerSpace) as PassengerSpace
   if (!passengerSpace) {
       console.warn("No PassengerSpace found to add door to")
       return
