@@ -1,0 +1,17 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DeckplanEditor.vue > renders correctly 1`] = `
+"<div class="flex flex-col h-full">
+  <div class="p-4 border-b border-b-ott-bg-dark flex gap-2 items-center bg-ott-bg-primary"><input class="ott-button" type="file" multiple="" accept="text/xml"><button class="ott-button">Load</button><button class="ott-button">Save</button><button class="ott-button">XML</button></div>
+  <div class="flex-1 flex overflow-hidden">
+    <div class="flex-1 overflow-hidden">
+      <!--v-if-->
+    </div>
+    <!--v-if-->
+  </div>
+  <div class="flex flex-row h-75 border-t border-ott-bg-dark">
+    <object-properties-stub class="flex-1 overflow-y-auto"></object-properties-stub>
+    <element-catalog-stub class="w-50 border-l border-ott-bg-dark"></element-catalog-stub>
+  </div>
+</div>"
+`;

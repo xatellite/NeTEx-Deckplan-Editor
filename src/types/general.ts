@@ -60,10 +60,12 @@ export function serializeElementsAndRefs(elementsAndRefs:  Serializable[]) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const outObj: any = {}
   elementsAndRefs.forEach((e) => {
-    const className = e.constructor.name
-    if (!Object.keys(outObj).includes(className)) {
+    const className = e.constructor.xmlTagName ?? e.constructor.name
+
+    if (!outObj[className]) {
       outObj[className] = []
     }
+
     outObj[className].push(e.toXML())
   })
   return outObj

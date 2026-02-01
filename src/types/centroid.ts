@@ -9,10 +9,12 @@ export class Centroid {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromXML(value: any) {
-    const pos = value?.Location?.['gml:pos']?.['text_value']
-    if (pos) {
+    const pos = value?.Location?.pos
+    if (typeof pos === 'string') {
       const [x, y] = pos.split(' ').map(Number)
-      return new Centroid(x, y)
+      if (typeof x === 'number' && typeof y === 'number') {
+        return new Centroid(x, y)
+      }
     } else {
       return new Centroid(0, 0)
     }
@@ -21,7 +23,7 @@ export class Centroid {
   toXML() {
     return {
       Location: {
-        'gml:pos': `${this.x} ${this.y}`,
+        pos: `${this.x} ${this.y}`,
       },
     }
   }

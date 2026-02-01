@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`WagonVisualization.vue > renders correctly 1`] = `
+"<div class="flex flex-col h-full">
+  <div class="flex p-4 w-full items-center justify-center gap-10"><label for="scale-slider">Scale: 20</label><input id="scale-slider" type="range" min="10" max="50"></div>
+  <div style="display: flex; flex-direction: row; overflow-x: auto; gap: 20px; padding: 20px;">
+    <div>
+      <h3>deckplan-1</h3>
+    </div>
+  </div>
+</div>"
+`;

@@ -17,7 +17,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: 'src/webcomponent.ts',
+      entry: 'src/webcomponent/webcomponent.ts',
       name: 'netex-deckplan-editor',
       formats: ['es', 'umd'],
       fileName: (format) => `netex-deckplan-editor.${format}.js`,

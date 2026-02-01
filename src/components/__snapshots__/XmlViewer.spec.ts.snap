@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`XmlViewer.vue > renders correctly 1`] = `
+"<div class="h-full overflow-y-auto bg-gray-100 p-4 font-mono text-sm">
+  <div id="line-0" class=""><pre>&lt;Test&gt;&lt;/Test&gt;</pre>
+  </div>
+</div>"
+`;
