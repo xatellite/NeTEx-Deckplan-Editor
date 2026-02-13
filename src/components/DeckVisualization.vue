@@ -1,5 +1,4 @@
 <template>
-    <template>
         <!-- Invisible rect for area selection on stage background -->
         <v-rect 
           :config="{...deck.getShape(scale), y: 5, ...getStyle(deck)}" 
@@ -86,7 +85,6 @@
           :key="`guide-${index}`"
           :config="line"
         />
-    </template>
 </template>
 
 <script setup lang="ts">
