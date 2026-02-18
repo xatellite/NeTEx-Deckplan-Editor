@@ -5,7 +5,7 @@
         <input id="scale-slider" type="range" min="10" max="50" v-model.number="scale" />
       </div>
       <div style="display: flex; flex-direction: row; overflow-x: auto; gap: 20px; padding: 20px;">
-          <div v-for="(deckPlan, index) in deckPlans" :key="`deckplan-${index}`">
+          <div v-for="(deckPlan, index) in deckPlanArray" :key="`deckplan-${index}`">
             <h3>{{ deckPlan.attr_id }}</h3>
             <div v-for="(deck, dIndex) in deckPlan.decks" :key="`deck-${dIndex}`">
               <h4 @click="$emit('select', { element: deck, ctrlKey: false })" :class="`${selectedElements.includes(deck) ? 'text-ott-accent' : ''} cursor-pointer`">{{ deck.Name }}</h4>
@@ -29,11 +29,13 @@
 </template>
 
 <script lang="ts" setup>
-import type { DeckPlan } from '@/types/deckPlan';
+import { DeckPlan } from '@/types/deckPlan';
 import type { PropType } from 'vue';
 import DeckVisualization from './DeckVisualization.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import type { Deck } from '@/types/deck';
+import { XMLParser } from 'fast-xml-parser';
+import { extractElementList } from '@/types/general';
 
 // Waiting for https://github.com/konvajs/vue-konva/pull/266
 // import {
@@ -43,10 +45,10 @@ import type { Deck } from '@/types/deck';
 
 const scale = ref(20)
 
-defineProps({
+const props = defineProps({
   deckPlans: {
     type: Array as PropType<DeckPlan[]>,
-    required: true,
+    required: false,
   },
    
   selectedElements: {
@@ -68,5 +70,34 @@ const getStageSize = (deck: Deck, scale: number) => {
     height: (maxHeight * scale) + 10
   }
 }
+
+const deckPlanArray = ref<DeckPlan[]>([])
+
+watch(
+  () => props.deckPlans,
+  (newValue) => {
+    if (newValue && newValue.length) {
+      deckPlanArray.value = newValue
+    }
+  },
+  { immediate: true }
+)
+
+function loadXml(xml: string) {
+  const parser = new XMLParser({
+    ignoreAttributes: false,
+    attributeNamePrefix: 'attr_',
+    removeNSPrefix: true,
+  })
+
+  const delivery = parser.parse(xml)
+
+  deckPlanArray.value = extractElementList(
+    delivery.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan,
+    DeckPlan
+  )
+}
+
+defineExpose({ loadXml })
 
 </script>

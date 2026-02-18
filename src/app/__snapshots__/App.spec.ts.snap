@@ -1,0 +1,28 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DeckplanEditor.vue > renders correctly 1`] = `
+"<div class="flex flex-col h-full">
+  <div class="p-4 border-b border-b-ott-bg-dark flex gap-2 items-center bg-ott-bg-primary"><input class="ott-button" type="file" multiple="" accept="text/xml"><button class="ott-button">Load</button><button class="ott-button">Save</button><button class="ott-button">XML</button></div>
+  <div class="flex-1 flex overflow-hidden">
+    <div class="flex-1 overflow-hidden">
+      <!--v-if-->
+    </div>
+    <!--v-if-->
+  </div>
+  <div class="flex flex-row h-75 border-t border-ott-bg-dark">
+    <div data-v-3441c81e="" class="bg-ott-bg-primary p-4 flex-1 overflow-y-auto">
+      <div data-v-3441c81e="" class="flex justify-between items-center mb-4">
+        <h3 data-v-3441c81e="" class="font-bold">Properties</h3>
+        <!--v-if-->
+      </div>
+      <div data-v-3441c81e="">
+        <p data-v-3441c81e="">Select an element to view properties.</p>
+      </div>
+    </div>
+    <div class="flex flex-col gap-2 p-4 bg-white flex-1 w-50 border-l border-ott-bg-dark">
+      <h3 class="font-bold mb-2">Catalog</h3>
+      <div class="flex flex-col gap-2"><button class="ott-button w-fit text-left"> + Add Seat </button><button class="ott-button w-fit text-left"> + Add Door </button></div>
+    </div>
+  </div>
+</div>"
+`;

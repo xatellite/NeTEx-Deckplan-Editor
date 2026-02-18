@@ -5,6 +5,8 @@ import { Centroid as GeneralCentroid } from './centroid'
 import { SpotRowRef as GeneralSpotRowRef } from './spotRow'
 
 export class PassengerSpot {
+  static xmlTagName = 'PassengerSpot' 
+  
   attr_id: string
   attr_version: string
   Label: string | undefined

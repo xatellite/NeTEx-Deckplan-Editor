@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ObjectProperties.vue > renders correctly 1`] = `
+"<div data-v-3441c81e="" class="bg-ott-bg-primary p-4">
+  <div data-v-3441c81e="" class="flex justify-between items-center mb-4">
+    <h3 data-v-3441c81e="" class="font-bold">Properties</h3>
+    <!--v-if-->
+  </div>
+  <div data-v-3441c81e="">
+    <p data-v-3441c81e="">Select an element to view properties.</p>
+  </div>
+</div>"
+`;

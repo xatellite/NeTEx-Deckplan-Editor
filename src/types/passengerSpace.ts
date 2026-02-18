@@ -11,6 +11,8 @@ import { Centroid as GeneralCentroid } from './centroid'
 import { ServiceFacilitySetRef as GeneralServiceFacilitySetRef } from './serviceFacilitySet'
 
 export class PassengerSpace {
+  static xmlTagName = 'PassengerSpace'
+  
   attr_id: string
   attr_version: string
   Name: GeneralName | undefined

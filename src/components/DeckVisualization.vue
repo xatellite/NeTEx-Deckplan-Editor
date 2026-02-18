@@ -1,9 +1,8 @@
 <template>
-    <template>
         <!-- Invisible rect for area selection on stage background -->
         <v-rect 
           :config="{...deck.getShape(scale), y: 5, ...getStyle(deck)}" 
-          @click="(e) => handleClick(e, deck)"
+          @click="(e: MouseEvent) => handleClick(e, deck)"
         />
         <v-rect
             :config="{
@@ -26,10 +25,10 @@
             y: seat.getShape(scale).y,
             draggable: true
           }"
-          @dragstart="(e) => handleDragStart(e, seat)"
-          @dragend="(e) => handleDragEnd(e, seat)"
-          @dragmove="(e) => handleDragMove(e, seat)"
-          @click="(e) => handleClick(e, seat)"
+          @dragstart="(e: MouseEvent) => handleDragStart(e, seat)"
+          @dragend="(e: MouseEvent) => handleDragEnd(e, seat)"
+          @dragmove="(e: MouseEvent) => handleDragMove(e, seat)"
+          @click="(e: MouseEvent) => handleClick(e, seat)"
         >
           <v-rect
             :config="{
@@ -62,9 +61,9 @@
             y: entrance.getShape(scale, deck.Length, deck.Width).y,
             draggable: true
           }"
-          @dragmove="(e) => handleEntranceDragMove(e, entrance)"
-          @dragend="(e) => handleEntranceDragEnd(e, entrance)"
-          @click="(e) => handleClick(e, entrance)"
+          @dragmove="(e: MouseEvent) => handleEntranceDragMove(e, entrance)"
+          @dragend="(e: MouseEvent) => handleEntranceDragEnd(e, entrance)"
+          @click="(e: MouseEvent) => handleClick(e, entrance)"
         >
           <v-rect
             :config="{
@@ -86,7 +85,6 @@
           :key="`guide-${index}`"
           :config="line"
         />
-    </template>
 </template>
 
 <script setup lang="ts">
@@ -385,6 +383,13 @@ const handleEntranceDragMove = (e: any, entrance: PassengerEntrance) => {
     
     e.target.x(newX)
     e.target.y(newY)
+
+    if (!entrance.Centroid) {
+      entrance.Centroid = new Centroid(0, 0)
+    }
+
+    entrance.Centroid.x = newX / props.scale
+    entrance.Centroid.y = newY / props.scale
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

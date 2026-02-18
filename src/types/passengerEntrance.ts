@@ -3,6 +3,8 @@ import { Centroid as GeneralCentroid } from './centroid'
 import { extractElementList, Name as GeneralName, serializeElements } from './general'
 
 export class PassengerEntrance {
+  static xmlTagName = 'PassengerEntrance'
+  
   attr_id: string
   attr_version: string
   Name: GeneralName | undefined
@@ -117,6 +119,19 @@ export class PassengerEntrance {
     if (this.VehicleSide === 'front' || this.VehicleSide === 'back') {
       width = thickness
       height = openingWidth
+    }
+
+    if (this.Centroid) {
+      return {
+        x: this.Centroid.x * scale,
+        y: this.Centroid.y * scale,
+        width,
+        height,
+        fill: 'orange',
+        stroke: 'darkorange',
+        strokeWidth: 2,
+        draggable: true,
+      }
     }
 
     // Default position if not set

@@ -39,21 +39,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref, watch } from 'vue';
+import { ref, type Ref, watch, onMounted } from 'vue';
 import { XMLParser, XMLBuilder } from 'fast-xml-parser';
-import WagonVisualization from './components/WagonVisualization.vue';
-import ObjectProperties from './components/ObjectProperties.vue';
-import ElementCatalog from './components/ElementCatalog.vue';
-import XmlViewer from './components/XmlViewer.vue';
-import { DeckPlan } from './types/deckPlan';
-import { extractElementList, serializeElements } from './types/general';
-import { PassengerSpot } from './types/passengerSpot';
-import { PassengerEntrance } from './types/passengerEntrance';
-import { Centroid } from './types/centroid';
-import { PassengerSpace } from './types/passengerSpace';
+import WagonVisualization from '@/components/WagonVisualization.vue';
+import ObjectProperties from '@/components/ObjectProperties.vue';
+import ElementCatalog from '@/components/ElementCatalog.vue';
+import XmlViewer from '@/components/XmlViewer.vue';
+import { DeckPlan } from '@/types/deckPlan';
+import { extractElementList, serializeElements } from '@/types/general';
+import { PassengerSpot } from '@/types/passengerSpot';
+import { PassengerEntrance } from '@/types/passengerEntrance';
+import { PassengerSpace } from '@/types/passengerSpace';
 import "@/assets/lib.css";
 
-const file: Ref<File | null> = ref(null)
+const file: Ref<File | null | undefined> = ref(null)
 const deckPlans = ref<DeckPlan[]>([])
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const selectedElements = ref<any[]>([])
@@ -117,46 +116,57 @@ const onChange = (e: Event) => {
 
 function load() {
   if (file.value) {
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.addEventListener('load', (event) => {
+      const result = event.target?.result
+      if (typeof result !== 'string') return
+
       const parser = new XMLParser({
         ignoreAttributes: false,
-        alwaysCreateTextNode: true,
-        textNodeName: 'text_value',
-        attributeNamePrefix: "attr_",
-      });
-      const delivery = parser.parse(event.target?.result);
+        attributeNamePrefix: 'attr_',
+        alwaysCreateTextNode: false,
+        removeNSPrefix: true,
+      })
+
+      const delivery = parser.parse(result)
       netex.value = delivery
-      console.log(delivery)
-      deckPlans.value = extractElementList(delivery.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan, DeckPlan)
-      console.log(deckPlans.value)
-    });
-    reader.readAsText(file.value);
+
+      deckPlans.value = extractElementList(
+        delivery.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan,
+        DeckPlan
+      )
+
+      deckPlans.value = [...deckPlans.value]
+    })
+
+    reader.readAsText(file.value)
   }
 }
 
 function save() {
   if (file.value) {
-    netex.value.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan = serializeElements(deckPlans.value)
-      const builder = new XMLBuilder({
-        ignoreAttributes: false,
-        textNodeName: 'text_value',
-        attributeNamePrefix: "attr_",
-      });
+    netex.value.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan =
+      serializeElements(deckPlans.value)
 
-    const text = builder.build(netex.value);
-    const blob = new Blob([text], { type: 'text/xml' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'Demo.xml';
-    link.click();
+    const builder = new XMLBuilder({
+      ignoreAttributes: false,
+      textNodeName: 'text_value',
+      attributeNamePrefix: 'attr_',
+    })
+
+    const text = builder.build(netex.value)
+    const blob = new Blob([text], { type: 'text/xml' })
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = 'Demo.xml'
+    link.click()
   }
 }
 
 const getTargetDeck = () => {
   // If a deck is selected (or an element inside a deck), use that.
   // For now, just default to the first deck of the first deck plan.
-  if (deckPlans.value.length > 0 && deckPlans.value[0]?.decks?.length > 0) {
+  if (deckPlans.value.length > 0 && deckPlans.value[0]?.decks.length && deckPlans.value[0]?.decks?.length > 0) {
     return deckPlans.value[0].decks![0]
   }
   return null
@@ -255,4 +265,113 @@ const handleDelete = (element: any) => {
     })
     selectedElements.value = []
 }
+
+function exportXml() {
+  if (!netex.value) return null
+
+  netex.value.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan = serializeElements(deckPlans.value)
+
+  const builder = new XMLBuilder({
+    ignoreAttributes: false,
+    textNodeName: 'text_value',
+    attributeNamePrefix: 'attr_',
+    format: true,
+  })
+
+  return builder.build(netex.value)
+}
+
+function createEmptyPassengerSpace(): PassengerSpace {
+  return new PassengerSpace({
+    attr_id: `ps-${Date.now()}`,
+    attr_version: '1',
+
+    Name: undefined,
+    SmokingAllowed: undefined,
+    StandingAllowed: undefined,
+    PassengerSpaceType: 'seatingArea',
+
+    passengerSpots: {
+      PassengerSpot: [],
+      PassengerSpotRef: [],
+    },
+
+    luggageSpots: {
+      LuggageSpot: [],
+      LuggageSpotRef: [],
+    },
+
+    deckEntrances: {
+      PassengerEntrance: [],
+    },
+
+    deckEntranceUsage: {
+      DeckEntranceUsage: [],
+    },
+
+    deckEntranceCouples: {
+      DeckEntranceCouple: [],
+    },
+
+    deckSpaceCapacities: {
+      DeckSpaceCapacity: [],
+    },
+
+    actualVehicleEquipments: {
+      ActualVehicleEquipment: [],
+    },
+
+    ServiceFacilitySetRef: undefined,
+    Centroid: undefined,
+    Polygon: undefined,
+
+    PublicUse: undefined,
+    TotalCapacity: undefined,
+    FareClass: undefined,
+    AirConditioned: undefined,
+  })
+}
+
+function loadXml(xml: string) {
+  const parser = new XMLParser({
+    ignoreAttributes: false,
+    attributeNamePrefix: 'attr_',
+    removeNSPrefix: true,
+    alwaysCreateTextNode: false,
+  })
+
+  const delivery = parser.parse(xml)
+  netex.value = delivery
+
+  const plans = extractElementList(delivery.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan, DeckPlan)
+
+  plans.forEach(deckplan => {
+    deckplan.decks.forEach(deck => {
+      if (!deck.deckspaces || deck.deckspaces.length === 0) {
+        deck.deckspaces = [createEmptyPassengerSpace()]
+        return
+      }
+
+      const fixedSpaces: PassengerSpace[] = []
+
+      deck.deckspaces.forEach((deckspace: any) => {
+        if (deckspace instanceof PassengerSpace) {
+          fixedSpaces.push(deckspace)
+        } else if (deckspace?.passengerSpots || deckspace?.PassengerSpaceType) {
+          fixedSpaces.push(new PassengerSpace(deckspace))
+        }
+      })
+
+      deck.deckspaces = fixedSpaces
+    })
+  })
+
+  deckPlans.value = plans
+}
+
+defineExpose({
+  exportXml,
+  loadXml
+})
+
 </script>

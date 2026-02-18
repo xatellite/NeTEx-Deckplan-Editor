@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "main": "./dist/netex-deckplan-editor-vue.es.js",
+  "module": "./dist/netex-deckplan-editor-vue.es.js",
   "engines": {
     "node": "^20.19.0 || >=22.12.0"
   },
@@ -20,14 +22,16 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
     "fast-xml-parser": "^5.3.3",
-    "konva": "^10.0.12",
-    "vue": "^3.5.25",
-    "vue-konva": "^3.2.6",
     "xml-js": "^1.6.11",
-    "xmldom": "^0.6.0"
+    "xmldom": "^0.6.0",
+    "vue-konva": "^3.2.6",
+    "konva": "^10.0.12"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.25"
   },
   "devDependencies": {
-    "@tsconfig/node24": "^24.0.3",
+    "@tsconfig/node24": "^24.0.4",
     "@types/jsdom": "^27.0.0",
     "@types/node": "^24.10.1",
     "@vitejs/plugin-vue": "^6.0.2",
@@ -47,6 +51,7 @@
     "vite": "^7.2.4",
     "vite-plugin-vue-devtools": "^8.0.5",
     "vitest": "^4.0.14",
+    "vue": "^3.5.25",
     "vue-tsc": "^3.1.5"
   }
 }
