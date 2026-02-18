@@ -118,7 +118,7 @@ export class PassengerSpace {
     this.SmokingAllowed = SmokingAllowed
     this.StandingAllowed = StandingAllowed
     this.PassengerSpaceType = PassengerSpaceType
-    this.passengerSpots = passengerSpots ? Object.entries(passengerSpots).flatMap(([k, d]) => {
+    this.passengerSpots = passengerSpots ? Object.entries(passengerSpots).flatMap<PassengerSpot | PassengerSpotRef>(([k, d]) => {
         if (k === 'PassengerSpot') {
           return extractElementList(d, PassengerSpot) as PassengerSpot[]
         }
@@ -127,7 +127,7 @@ export class PassengerSpace {
         }
         return []
       }) : []
-    this.luggageSpots = luggageSpots ? Object.entries(luggageSpots).flatMap(([k, d]) => {
+    this.luggageSpots = luggageSpots ? Object.entries(luggageSpots).flatMap<LuggageSpot | LuggageSpotRef>(([k, d]) => {
         if (k === 'LuggageSpot') {
           return extractElementList(d, LuggageSpot) as LuggageSpot[]
         }

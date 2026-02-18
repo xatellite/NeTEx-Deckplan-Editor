@@ -57,7 +57,7 @@ export class Deck {
     this.Width = Width?.text_value || 2.825
     this.Length = Length?.text_value || 26.4
     this.deckspaces = deckSpaces
-      ? Object.entries(deckSpaces).flatMap(([k, d]) => {
+      ? Object.entries(deckSpaces).flatMap<OtherDeckSpace | PassengerSpace>(([k, d]) => {
           if (k === 'OtherDeckSpace') {
             return extractElementList(d, OtherDeckSpace) as OtherDeckSpace[]
           }
