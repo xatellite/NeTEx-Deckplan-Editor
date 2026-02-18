@@ -1,21 +1,34 @@
 {
-  "name": "netex-deckplan-editor",
-  "version": "0.0.0",
-  "private": true,
+  "name": "@opentrainticketing/netex-deckplan-editor",
+  "version": "1.0.0",
+  "private": false,
   "type": "module",
   "main": "./dist/netex-deckplan-editor-vue.es.js",
   "module": "./dist/netex-deckplan-editor-vue.es.js",
+  "files": ["dist"],
   "engines": {
     "node": "^20.19.0 || >=22.12.0"
   },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/netex-deckplan-editor-vue.es.js"
+    },
+    "./webcomponent": {
+      "import": "./dist/netex-deckplan-editor.es.js",
+      "require": "./dist/netex-deckplan-editor.umd.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build": "run-s build-only build-wc build:types",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
     "build-wc": "vite build --config vite.config.webcomponent.ts",
-    "type-check": "vue-tsc --build",
+    "build:types": "vue-tsc -p tsconfig.build.json",
+    "type-check": "vue-tsc --noEmit",
     "lint": "eslint . --fix --cache",
     "format": "prettier --write --experimental-cli src/"
   },

@@ -55,12 +55,16 @@ export function serializeElements(elements: Serializable[]) {
   return elements.map((e) => e.toXML())
 }
 
+interface xmlConstructor {
+  xmlTagName?: string
+}
 
 export function serializeElementsAndRefs(elementsAndRefs:  Serializable[]) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const outObj: any = {}
   elementsAndRefs.forEach((e) => {
-    const className = e.constructor.xmlTagName ?? e.constructor.name
+    const construct = e.constructor as xmlConstructor
+    const className = construct.xmlTagName ?? e.constructor.name
 
     if (!outObj[className]) {
       outObj[className] = []
