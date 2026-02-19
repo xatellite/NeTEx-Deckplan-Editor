@@ -8,28 +8,28 @@
     </div>
     <div class="flex-1 flex overflow-hidden">
       <div class="flex-1 overflow-hidden">
-        <WagonVisualization 
-          v-if="deckPlans.length > 0" 
-          :deckPlans="deckPlans" 
+        <WagonVisualization
+          v-if="deckPlans.length > 0"
+          :deckPlans="deckPlans"
           :selectedElements="selectedElements"
           @select="handleSelect"
           @area-select="handleAreaSelect"
         />
       </div>
-      <XmlViewer 
-        v-if="showXml" 
-        :xml="currentXml" 
+      <XmlViewer
+        v-if="showXml"
+        :xml="currentXml"
         :selectedId="selectedElements[0]?.attr_id"
         class="w-1/3 border-l border-ott-bg-dark"
       />
     </div>
     <div class="flex flex-row h-75 border-t border-ott-bg-dark">
-      <ObjectProperties 
-        :element="selectedElements.length === 1 ? selectedElements[0] : null" 
-        class="flex-1 overflow-y-auto" 
+      <ObjectProperties
+        :element="selectedElements.length === 1 ? selectedElements[0] : null"
+        class="flex-1 overflow-y-auto"
         @delete="handleDelete"
       />
-      <ElementCatalog 
+      <ElementCatalog
         class="w-50 border-l border-ott-bg-dark"
         @add-seat="handleAddSeat"
         @add-door="handleAddDoor"
@@ -39,18 +39,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref, watch, onMounted } from 'vue';
+import { ref, type Ref, watch } from 'vue';
 import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 import WagonVisualization from '@/components/WagonVisualization.vue';
 import ObjectProperties from '@/components/ObjectProperties.vue';
 import ElementCatalog from '@/components/ElementCatalog.vue';
 import XmlViewer from '@/components/XmlViewer.vue';
-import { DeckPlan } from '@/types/deckPlan';
-import { extractElementList, serializeElements } from '@/types/general';
-import { PassengerSpot } from '@/types/passengerSpot';
-import { PassengerEntrance } from '@/types/passengerEntrance';
-import { PassengerSpace } from '@/types/passengerSpace';
-import "@/assets/lib.css";
+import { DeckPlan } from '@/types/netex/deckPlan';
+import { extractElementList, serializeElements } from '@/types/netex/general';
+import { PassengerSpot } from '@/types/netex/passengerSpot';
+import { PassengerEntrance } from '@/types/netex/passengerEntrance';
+import { PassengerSpace } from '@/types/netex/passengerSpace';
+import { parseNeTEx } from '@/helpers/parser';
 
 const file: Ref<File | null | undefined> = ref(null)
 const deckPlans = ref<DeckPlan[]>([])
@@ -64,7 +64,7 @@ const currentXml = ref('')
 
 const updateXml = () => {
   if (!showXml.value || !netex.value) return
-  
+
   netex.value.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan = serializeElements(deckPlans.value)
   const builder = new XMLBuilder({
     ignoreAttributes: false,
@@ -121,21 +121,7 @@ function load() {
       const result = event.target?.result
       if (typeof result !== 'string') return
 
-      const parser = new XMLParser({
-        ignoreAttributes: false,
-        attributeNamePrefix: 'attr_',
-        alwaysCreateTextNode: false,
-        removeNSPrefix: true,
-      })
-
-      const delivery = parser.parse(result)
-      netex.value = delivery
-
-      deckPlans.value = extractElementList(
-        delivery.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan,
-        DeckPlan
-      )
-
+      deckPlans.value = parseNeTEx(result)
       deckPlans.value = [...deckPlans.value]
     })
 
@@ -199,7 +185,7 @@ const handleAddSeat = () => {
       Width: { text_value: 0.5 },
       Length: { text_value: 0.5 }
   })
-  
+
   if (!passengerSpace.passengerSpots) {
       passengerSpace.passengerSpots = []
   }

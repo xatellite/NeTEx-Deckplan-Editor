@@ -1,12 +1,13 @@
 import { ActualVehicleEquipment } from './actualVehicleEquipment'
-import { extractElementList, serializeElements, serializeElementsAndRefs } from './general'
+import { extractElementList, serializeElementsAndRefs } from './general'
 import { SpotColumnRef as GeneralSpotColumnRef } from './spotColumn'
 import { Centroid as GeneralCentroid } from './centroid'
 import { SpotRowRef as GeneralSpotRowRef } from './spotRow'
+import { PassengerSpotAvailability } from '../view/seats'
 
 export class PassengerSpot {
-  static xmlTagName = 'PassengerSpot' 
-  
+  static xmlTagName = 'PassengerSpot'
+
   attr_id: string
   attr_version: string
   Label: string | undefined
@@ -20,6 +21,7 @@ export class PassengerSpot {
   Centroid: GeneralCentroid | undefined
   Width: number
   Length: number
+  availability: undefined | PassengerSpotAvailability
 
   constructor({
     attr_id,
@@ -38,37 +40,37 @@ export class PassengerSpot {
   }: {
     attr_id: string
     attr_version: string
-    Label: { text_value: string } | undefined
-    Orientation: { text_value: 'backwards' | 'forwards' | 'leftwards' | 'rightwards' } | undefined
+    Label: string
+    Orientation: 'backwards' | 'forwards' | 'leftwards' | 'rightwards'
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     actualVehicleEquipments: any[]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     SpotColumnRef: any
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     SpotRowRef: any
-    ByWindow: { text_value: boolean } | undefined
-    ByAisle: { text_value: boolean } | undefined
-    HasPower: { text_value: boolean } | undefined
+    ByWindow: boolean | undefined
+    ByAisle: boolean | undefined
+    HasPower: boolean | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Centroid: any | undefined
-    Width: { text_value: number } | undefined
-    Length: { text_value: number } | undefined
+    Width: number | undefined
+    Length: number | undefined
   }) {
     this.attr_id = attr_id
     this.attr_version = attr_version
-    this.Label = Label ? Label['text_value'] : undefined
-    this.Orientation = Orientation ? Orientation['text_value'] : undefined
+    this.Label = Label ? Label : ''
+    this.Orientation = Orientation ? Orientation : undefined
     this.actualVehicleEquipments = actualVehicleEquipments
       ? extractElementList(actualVehicleEquipments, ActualVehicleEquipment)
       : undefined
     this.SpotColumnRef = SpotColumnRef ? new GeneralSpotColumnRef(SpotColumnRef) : undefined
     this.SpotRowRef = SpotRowRef ? new GeneralSpotRowRef(SpotRowRef) : undefined
-    this.ByWindow = ByWindow?.text_value
-    this.ByAisle = ByAisle?.text_value
-    this.HasPower = HasPower?.text_value
+    this.ByWindow = ByWindow
+    this.ByAisle = ByAisle
+    this.HasPower = HasPower
     this.Centroid = Centroid ? GeneralCentroid.fromXML(Centroid) : undefined
-    this.Width = Width?.text_value || 0.5
-    this.Length = Length?.text_value || 0.5
+    this.Width = Width || 0.5
+    this.Length = Length || 0.5
   }
 
   toXML() {
@@ -91,6 +93,40 @@ export class PassengerSpot {
     }
   }
 
+  getFillColor() {
+    switch (this.availability) {
+      case PassengerSpotAvailability.Occupied:
+        return 'lightred'
+      case PassengerSpotAvailability.Selected:
+        return 'lightgreen'
+      case PassengerSpotAvailability.Filtered:
+        return 'lightgray'
+      case PassengerSpotAvailability.Defect:
+        return 'black'
+      case PassengerSpotAvailability.Undefined:
+        return 'lightyellow'
+      default:
+        return 'lightgray'
+    }
+  }
+
+  getStrokeColor() {
+    switch (this.availability) {
+      case PassengerSpotAvailability.Occupied:
+        return 'red'
+      case PassengerSpotAvailability.Selected:
+        return 'green'
+      case PassengerSpotAvailability.Filtered:
+        return 'gray'
+      case PassengerSpotAvailability.Defect:
+        return 'black'
+      case PassengerSpotAvailability.Undefined:
+        return '#121212'
+      default:
+        return '#121212'
+    }
+  }
+
   getShape(scale: number) {
     if (this.Centroid) {
       const width = this.Width * scale
@@ -100,8 +136,8 @@ export class PassengerSpot {
         y: (this.Centroid?.y ?? 1) * scale - height / 2 + 5,
         width,
         height,
-        fill: 'lightgray',
-        stroke: 'gray',
+        fill: this.getFillColor(),
+        stroke: this.getStrokeColor(),
         strokeWidth: 1,
         cornerRadius: 2,
         draggable: true,

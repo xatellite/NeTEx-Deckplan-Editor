@@ -1,7 +1,10 @@
 <template>
-        <!-- Invisible rect for area selection on stage background -->
-        <v-rect 
-          :config="{...deck.getShape(scale), y: 5, ...getStyle(deck)}" 
+    <v-stage
+      :config="getStageSize(deck, scale)"
+    >
+        <v-layer>
+        <v-rect
+          :config="{...deck.getShape(scale), y: 5, ...getStyle(deck)}"
           @click="(e: MouseEvent) => handleClick(e, deck)"
         />
         <v-rect
@@ -17,9 +20,9 @@
             @mousemove="handleMouseMove"
             @mouseup="handleMouseUp"
         />
-        <v-group 
-          v-for="(seat, index) in seats" 
-          :key="`seats-${index}`"  
+        <v-group
+          v-for="(seat, index) in seats"
+          :key="`seats-${index}`"
           :config="{
             x: seat.getShape(scale).x,
             y: seat.getShape(scale).y,
@@ -85,27 +88,32 @@
           :key="`guide-${index}`"
           :config="line"
         />
+    </v-layer>
+  </v-stage>
 </template>
 
 <script setup lang="ts">
-import type { Deck } from '../types/deck';
-import { PassengerSpot } from '../types/passengerSpot';
-import { PassengerEntrance } from '../types/passengerEntrance';
+import type { Deck } from '@/types/netex/deck';
+import { PassengerSpot } from '@/types/netex/passengerSpot';
+import { PassengerEntrance } from '@/types/netex/passengerEntrance';
 import type { PropType } from 'vue';
 import { computed, ref } from 'vue';
-import { PassengerSpace } from '../types/passengerSpace';
-import { Centroid } from '../types/centroid';
+import { PassengerSpace } from '@/types/netex/passengerSpace';
+import { Centroid } from '@/types/netex/centroid';
+import { PassengerSpotAvailability, type Availability, type PassengerSpotAnnotation, type Seat } from '@/types/view/seats';
 
 const props = defineProps({
   deck: {
     type: Object as PropType<Deck>,
     required: true,
   },
+  availability: {
+    type: Object as PropType<Availability> ,
+  },
   scale: {
     type: Number,
     required: true,
   },
-   
   selectedElements: {
     type: Array as PropType<any[]>,
     default: () => [],
@@ -120,12 +128,23 @@ const startPos = ref({ x: 0, y: 0 })
 const guideLines = ref<any[]>([])
 const dragStartPositions = ref<Map<PassengerSpot, {x: number, y: number}>>(new Map())
 
-const seats = computed(() => {
+const seats = computed((): PassengerSpot[] => {
   return props.deck.deckspaces?.flatMap(ds => {
     if (ds instanceof PassengerSpace) {
       return ds.passengerSpots?.filter((s): s is PassengerSpot => s instanceof PassengerSpot) || []
     }
     return []
+  }).map((spot: PassengerSpot) => {
+    const seat = spot as Seat
+
+      seat.availability =
+        props.availability && spot.attr_id
+          ? PassengerSpotAvailability[
+              props.availability[spot.attr_id] ?? "Undefined"
+            ]
+          : PassengerSpotAvailability.Undefined
+
+      return seat
   }) || []
 })
 
@@ -147,6 +166,20 @@ const getStyle = (element: any) => {
     }
   }
   return {}
+}
+
+const getStageSize = (deck: Deck, scale: number) => {
+  let maxWidth = 0
+  let maxHeight = 0
+
+  const { width, height } = deck.getBoundingBox()
+  maxWidth = Math.max(maxWidth, width)
+  maxHeight = Math.max(maxHeight, height)
+
+  return {
+    width: (maxWidth * scale) + 10,
+    height: (maxHeight * scale) + 10
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -184,7 +217,7 @@ const handleMouseDown = (e: any) => {
 
 const handleMouseMove = (e: any) => {
     if (!isSelecting.value) return
-    
+
     const stage = e.target.getStage()
     const pointer = stage.getPointerPosition()
     const transform = e.target.getAbsoluteTransform().copy();
@@ -198,7 +231,7 @@ const handleMouseMove = (e: any) => {
 const handleMouseUp = (e: any) => {
     if (!isSelecting.value) return
     isSelecting.value = false
-    
+
     const box = selectionRect.value
     if (!box) return
 
@@ -216,11 +249,11 @@ const handleMouseUp = (e: any) => {
             shape.y + shape.height > y
         )
     })
-    
+
     if (selected.length > 0) {
         emit('area-select', selected)
     }
-    
+
     selectionRect.value = null
 }
 
@@ -238,27 +271,27 @@ const handleDragStart = (e: any, seat: PassengerSpot) => {
 
 const handleDragMove = (e: any, seat: PassengerSpot) => {
     guideLines.value = []
-    
+
     const stage = e.target.getStage()
     const layer = e.target.getLayer()
-    
+
     // Get all other seats that are NOT selected (snap to static objects only)
     const otherSeats = seats.value.filter(s => s !== seat && !props.selectedElements.includes(s))
-    
+
     // Current position
     const x = e.target.x()
     const y = e.target.y()
-    
+
     // Snap threshold
     const SNAP_THRESHOLD = 10
-    
+
     let newX = x
     let newY = y
-    
+
     // Simple snapping to other seats' X and Y
     otherSeats.forEach(other => {
         const otherShape = other.getShape(props.scale)
-        
+
         // Snap X
         if (Math.abs(x - otherShape.x) < SNAP_THRESHOLD) {
             newX = otherShape.x
@@ -269,7 +302,7 @@ const handleDragMove = (e: any, seat: PassengerSpot) => {
                 dash: [4, 6]
             })
         }
-        
+
         // Snap Y
         if (Math.abs(y - otherShape.y) < SNAP_THRESHOLD) {
             newY = otherShape.y
@@ -281,7 +314,7 @@ const handleDragMove = (e: any, seat: PassengerSpot) => {
             })
         }
     })
-    
+
     e.target.x(newX)
     e.target.y(newY)
 
@@ -307,10 +340,10 @@ const handleDragEnd = (e: any, seat: PassengerSpot) => {
   guideLines.value = []
   const x = e.target.x()
   const y = e.target.y()
-  
+
   // Update dragged seat
   updateSeatPosition(seat, x, y)
-  
+
   dragStartPositions.value.clear()
 }
 
@@ -331,36 +364,36 @@ const updateSeatPosition = (seat: PassengerSpot, x: number, y: number) => {
 const handleEntranceDragMove = (e: any, entrance: PassengerEntrance) => {
     // const stage = e.target.getStage()
     // const layer = e.target.getLayer()
-    
+
     const x = e.target.x()
     const y = e.target.y()
-    
+
     const deckWidthPx = props.deck.Width * props.scale
     const deckLengthPx = props.deck.Length * props.scale
-    
+
     // Use getShape to get current dimensions (based on current VehicleSide)
     const shape = entrance.getShape(props.scale, props.deck.Length, props.deck.Width)
     const entranceWidth = shape.width
     const entranceHeight = shape.height
-    
+
     const deckLeft = 5
     const deckTop = 5
     const deckRight = deckLeft + deckLengthPx
     const deckBottom = deckTop + deckWidthPx
-    
+
     const centerX = x + entranceWidth / 2
     const centerY = y + entranceHeight / 2
-    
+
     const distLeft = Math.abs(centerX - deckLeft)
     const distRight = Math.abs(centerX - deckRight)
     const distTop = Math.abs(centerY - deckTop)
     const distBottom = Math.abs(centerY - deckBottom)
-    
+
     const minDist = Math.min(distLeft, distRight, distTop, distBottom)
-    
+
     let newX = x
     let newY = y
-    
+
     if (minDist === distTop) {
         // Snap to Top (Left Side)
         newY = deckTop
@@ -380,7 +413,7 @@ const handleEntranceDragMove = (e: any, entrance: PassengerEntrance) => {
         // Snap Y to center
         newY = (deckWidthPx / 2) + 5 - (entranceHeight / 2)
     }
-    
+
     e.target.x(newX)
     e.target.y(newY)
 
@@ -396,24 +429,24 @@ const handleEntranceDragMove = (e: any, entrance: PassengerEntrance) => {
 const handleEntranceDragEnd = (e: any, entrance: PassengerEntrance) => {
     const x = e.target.x()
     const y = e.target.y()
-    
+
     const deckWidthPx = props.deck.Width * props.scale
     const deckLengthPx = props.deck.Length * props.scale
-    
+
     const shape = entrance.getShape(props.scale, props.deck.Length, props.deck.Width)
     const entranceWidth = shape.width
     const entranceHeight = shape.height
-    
+
     const deckLeft = 5
     const deckTop = 5
     const deckRight = deckLeft + deckLengthPx
     const deckBottom = deckTop + deckWidthPx
-    
+
     // Determine side based on final position
     // We can use the same logic as dragMove or just check coordinates
     // Allow for small epsilon due to floating point
     const epsilon = 1
-    
+
     if (Math.abs(y - deckTop) < epsilon) {
         entrance.VehicleSide = 'leftSide'
         // Update SequenceFromFront
@@ -423,10 +456,10 @@ const handleEntranceDragEnd = (e: any, entrance: PassengerEntrance) => {
         entrance.SequenceFromFront = (x - deckLeft + (entranceWidth / 2)) / props.scale
     } else if (Math.abs(x - deckLeft) < epsilon) {
         entrance.VehicleSide = 'front'
-        entrance.SequenceFromFront = 0 
+        entrance.SequenceFromFront = 0
     } else if (Math.abs(x - (deckRight - entranceWidth)) < epsilon) {
         entrance.VehicleSide = 'back'
-        entrance.SequenceFromFront = props.deck.Length 
+        entrance.SequenceFromFront = props.deck.Length
     }
 }
 </script>

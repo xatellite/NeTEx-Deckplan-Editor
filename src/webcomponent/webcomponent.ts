@@ -1,8 +1,9 @@
 import { defineCustomElement } from 'vue'
 import DeckplanEditor from '@/components/DeckplanEditor.vue'
-import WagonVisualization from '@/components/WagonVisualization.vue'
 import VueKonva from 'vue-konva'
 import style from '@/assets/lib.css?inline'
+import { parseNeTEx } from '@/helpers/parser'
+import DeckVisualization from '@/components/DeckVisualization.vue'
 
 const DeckplanEditorElement = defineCustomElement(DeckplanEditor, {
   shadowRoot: true,
@@ -12,7 +13,7 @@ const DeckplanEditorElement = defineCustomElement(DeckplanEditor, {
   },
 })
 
-const WagonVisualizationElement = defineCustomElement(WagonVisualization, {
+const DeckVisualizationElement = defineCustomElement(DeckVisualization, {
   shadowRoot: true,
   styles: [style],
   configureApp(app) {
@@ -25,7 +26,13 @@ if (typeof customElements !== 'undefined') {
     customElements.define('deckplan-editor', DeckplanEditorElement)
   }
 
-  if (!customElements.get('wagon-visualization')) {
-    customElements.define('wagon-visualization', WagonVisualizationElement)
+  if (!customElements.get('deck-visualization')) {
+    customElements.define('deck-visualization', DeckVisualizationElement)
   }
+}
+
+export default {
+  DeckplanEditorElement,
+  DeckVisualizationElement,
+  parseNeTEx,
 }
