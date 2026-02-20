@@ -100,7 +100,7 @@ import type { PropType } from 'vue';
 import { computed, ref } from 'vue';
 import { PassengerSpace } from '@/types/netex/passengerSpace';
 import { Centroid } from '@/types/netex/centroid';
-import { PassengerSpotAvailability, type Availability, type PassengerSpotAnnotation, type Seat } from '@/types/view/seats';
+import { PassengerSpotAvailability, type Availability } from '@/types/view/seats';
 
 const props = defineProps({
   deck: {
@@ -135,7 +135,7 @@ const seats = computed((): PassengerSpot[] => {
     }
     return []
   }).map((spot: PassengerSpot) => {
-    const seat = spot as Seat
+    const seat = spot
 
       seat.availability =
         props.availability && spot.attr_id

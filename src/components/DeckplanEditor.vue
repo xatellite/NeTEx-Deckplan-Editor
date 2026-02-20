@@ -121,6 +121,13 @@ function load() {
       const result = event.target?.result
       if (typeof result !== 'string') return
 
+      const parser = new XMLParser({
+        ignoreAttributes: false,
+        attributeNamePrefix: 'attr_',
+        removeNSPrefix: true,
+      })
+
+      netex.value = parser.parse(result)
       deckPlans.value = parseNeTEx(result)
       deckPlans.value = [...deckPlans.value]
     })
@@ -173,17 +180,17 @@ const handleAddSeat = () => {
   const newSeat = new PassengerSpot({
       attr_id: `seat_${Date.now()}`,
       attr_version: '1',
-      Label: { text_value: '' },
-      Orientation: { text_value: 'forwards' },
+      Label: '',
+      Orientation: 'forwards',
       actualVehicleEquipments: [],
       SpotColumnRef: null,
       SpotRowRef: null,
-      ByWindow: { text_value: false },
-      ByAisle: { text_value: false },
-      HasPower: { text_value: false },
+      ByWindow: false,
+      ByAisle: false,
+      HasPower: false,
       Centroid: { x: 1, y: 1 }, // Default position
-      Width: { text_value: 0.5 },
-      Length: { text_value: 0.5 }
+      Width: 0.5,
+      Length: 0.5
   })
 
   if (!passengerSpace.passengerSpots) {
