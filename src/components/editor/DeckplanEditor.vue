@@ -41,10 +41,10 @@
 <script setup lang="ts">
 import { ref, type Ref, watch } from 'vue';
 import { XMLParser, XMLBuilder } from 'fast-xml-parser';
-import WagonVisualization from '@/components/WagonVisualization.vue';
-import ObjectProperties from '@/components/ObjectProperties.vue';
-import ElementCatalog from '@/components/ElementCatalog.vue';
-import XmlViewer from '@/components/XmlViewer.vue';
+import WagonVisualization from '@/components/editor/WagonVisualization.vue';
+import ObjectProperties from '@/components/editor/ObjectProperties.vue';
+import ElementCatalog from '@/components/editor/ElementCatalog.vue';
+import XmlViewer from '@/components/editor/XmlViewer.vue';
 import { DeckPlan } from '@/types/netex/deckPlan';
 import { extractElementList, serializeElements } from '@/types/netex/general';
 import { PassengerSpot } from '@/types/netex/passengerSpot';

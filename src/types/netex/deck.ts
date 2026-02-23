@@ -1,10 +1,5 @@
 import { DeckLevelRef as GeneralDeckLevelRef } from './deckLevel'
-import {
-  extractElementList,
-  Name as GeneralName,
-  serializeElements,
-  serializeElementsAndRefs,
-} from './general'
+import { extractElementList, serializeElements, serializeElementsAndRefs } from './general'
 import { OtherDeckSpace } from './otherDeckSpace'
 import { PassengerSpace } from './passengerSpace'
 import { Polygon } from './polygon'
@@ -44,18 +39,18 @@ export class Deck {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     spotColumns: { SpotColumn: any[] } | undefined
     DeckLevelRef: GeneralDeckLevelRef | undefined
-    Name: { text_value: string } | undefined
+    Name: string | undefined
     polygon: object | undefined
-    Width: { text_value: number } | undefined
-    Length: { text_value: number } | undefined
+    Width: number | undefined
+    Length: number | undefined
   }) {
     this.attr_id = attr_id
     this.attr_version = attr_version
-    this.Name = Name?.text_value || ''
+    this.Name = Name ?? ''
     this.polygon = polygon ? new Polygon(polygon) : undefined
     this.DeckLevelRef = DeckLevelRef ? new GeneralDeckLevelRef(DeckLevelRef) : undefined
-    this.Width = Width?.text_value || 2.825
-    this.Length = Length?.text_value || 26.4
+    this.Width = Width ?? 2.825
+    this.Length = Length ?? 26.4
     this.deckspaces = deckSpaces
       ? Object.entries(deckSpaces).flatMap(([k, d]) => {
           if (k === 'OtherDeckSpace') {
@@ -80,9 +75,9 @@ export class Deck {
       deckSpaces: serializeElementsAndRefs(this.deckspaces),
       DeckLevelRef: this.DeckLevelRef?.toXML(),
       polygon: this.polygon?.toXML(),
-      Name: {text_value: this.Name},
-      Width: {text_value: this.Width},
-      Length: {text_value: this.Length},
+      Name: this.Name,
+      Width: this.Width,
+      Length: this.Length,
     }
   }
 

@@ -93,38 +93,14 @@ export class PassengerSpot {
     }
   }
 
-  getFillColor() {
-    switch (this.availability) {
-      case PassengerSpotAvailability.Occupied:
-        return 'lightred'
-      case PassengerSpotAvailability.Selected:
-        return 'lightgreen'
-      case PassengerSpotAvailability.Filtered:
-        return 'lightgray'
-      case PassengerSpotAvailability.Defect:
-        return 'black'
-      case PassengerSpotAvailability.Undefined:
-        return 'lightyellow'
-      default:
-        return 'lightgray'
-    }
-  }
-
-  getStrokeColor() {
-    switch (this.availability) {
-      case PassengerSpotAvailability.Occupied:
-        return 'red'
-      case PassengerSpotAvailability.Selected:
-        return 'green'
-      case PassengerSpotAvailability.Filtered:
-        return 'gray'
-      case PassengerSpotAvailability.Defect:
-        return 'black'
-      case PassengerSpotAvailability.Undefined:
-        return '#121212'
-      default:
-        return '#121212'
-    }
+  getClasses() {
+    const classes = []
+    if (this.ByWindow) classes.push('seat__by-window')
+    if (this.ByAisle) classes.push('seat__by-aisle')
+    if (this.HasPower) classes.push('seat__has-power')
+    if (this.Orientation) classes.push(`seat__orientation-${this.Orientation}`)
+    if (this.availability) classes.push(`seat__availability-${this.availability.toLowerCase()}`)
+    return classes.join(' ')
   }
 
   getShape(scale: number) {
@@ -136,8 +112,8 @@ export class PassengerSpot {
         y: (this.Centroid?.y ?? 1) * scale - height / 2 + 5,
         width,
         height,
-        fill: this.getFillColor(),
-        stroke: this.getStrokeColor(),
+        fill: 'lightgray',
+        stroke: 'gray',
         strokeWidth: 1,
         cornerRadius: 2,
         draggable: true,
