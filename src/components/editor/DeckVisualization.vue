@@ -228,7 +228,7 @@ const handleMouseMove = (e: any) => {
     selectionRect.value.height = pos.y - startPos.value.y
 }
 
-const handleMouseUp = (e: any) => {
+const handleMouseUp = () => {
     if (!isSelecting.value) return
     isSelecting.value = false
 
@@ -273,7 +273,6 @@ const handleDragMove = (e: any, seat: PassengerSpot) => {
     guideLines.value = []
 
     const stage = e.target.getStage()
-    const layer = e.target.getLayer()
 
     // Get all other seats that are NOT selected (snap to static objects only)
     const otherSeats = seats.value.filter(s => s !== seat && !props.selectedElements.includes(s))
