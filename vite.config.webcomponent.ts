@@ -22,5 +22,6 @@ export default defineConfig({
       formats: ['es', 'umd'],
       fileName: (format) => `netex-deckplan-editor.${format}.js`,
     },
+    emptyOutDir: false
   },
 })

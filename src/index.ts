@@ -6,11 +6,11 @@ import '@/assets/lib.css'
 
 function install(app: App) {
   for (const key in editorComponents) {
-    app.component(key, editorComponents[key])
+    app.component(key, editorComponents[key as keyof typeof editorComponents])
   }
 
   for (const key in rendererComponents) {
-    app.component(key, rendererComponents[key])
+    app.component(key, rendererComponents[key as keyof typeof rendererComponents])
   }
 }
 

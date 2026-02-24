@@ -1,1 +1,1 @@
-export { default as DeckplanRenderer } from './DeckplanRenderer.vue'
+export { default as DeckplanRenderer } from './DeckRendering.vue'
