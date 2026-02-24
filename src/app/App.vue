@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import '@/assets/lib.css'
-import DeckplanEditor from '@/components/DeckplanEditor.vue'
+import DeckplanEditor from '@/components/editor/DeckplanEditor.vue'
 
 </script>
 

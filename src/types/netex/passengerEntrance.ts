@@ -4,7 +4,7 @@ import { extractElementList, Name as GeneralName, serializeElements } from './ge
 
 export class PassengerEntrance {
   static xmlTagName = 'PassengerEntrance'
-  
+
   attr_id: string
   attr_version: string
   Name: GeneralName | undefined
@@ -115,6 +115,10 @@ export class PassengerEntrance {
     let width = openingWidth
     let height = thickness
 
+    // Default position if not set
+    let x = 0
+    let y = 0
+
     // Swap dimensions for front/back
     if (this.VehicleSide === 'front' || this.VehicleSide === 'back') {
       width = thickness
@@ -122,9 +126,22 @@ export class PassengerEntrance {
     }
 
     if (this.Centroid) {
+      let x = (this.Centroid?.x ?? 0) * scale
+      let y = (this.Centroid?.y ?? 0) * scale
+
+      if (this.VehicleSide === 'leftSide') {
+        y = (this.Centroid?.y ?? 0) * scale - height / 2
+      } else if (this.VehicleSide === 'rightSide') {
+        y = (this.Centroid?.y ?? 0) * scale + height / 2
+      } else if (this.VehicleSide === 'front') {
+        x = (this.Centroid?.x ?? 0) * scale - width / 2
+      } else if (this.VehicleSide === 'back') {
+        x = (this.Centroid?.x ?? 0) * scale + width / 2
+      }
+
       return {
-        x: this.Centroid.x * scale,
-        y: this.Centroid.y * scale,
+        x,
+        y,
         width,
         height,
         fill: 'orange',
@@ -133,10 +150,6 @@ export class PassengerEntrance {
         draggable: true,
       }
     }
-
-    // Default position if not set
-    let x = 0
-    let y = 0
 
     // ToDo: Use Centroid here
     if (this.VehicleSide === 'leftSide') {

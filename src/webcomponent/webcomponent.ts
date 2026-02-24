@@ -1,9 +1,9 @@
 import { defineCustomElement } from 'vue'
-import DeckplanEditor from '@/components/DeckplanEditor.vue'
+import DeckplanEditor from '@/components/editor/DeckplanEditor.vue'
 import VueKonva from 'vue-konva'
 import style from '@/assets/lib.css?inline'
 import { parseNeTEx } from '@/helpers/parser'
-import DeckVisualization from '@/components/DeckVisualization.vue'
+import DeckRendering from '@/components/renderer/DeckRendering.vue'
 
 const DeckplanEditorElement = defineCustomElement(DeckplanEditor, {
   shadowRoot: true,
@@ -13,12 +13,9 @@ const DeckplanEditorElement = defineCustomElement(DeckplanEditor, {
   },
 })
 
-const DeckVisualizationElement = defineCustomElement(DeckVisualization, {
+const DeckRenderingElement = defineCustomElement(DeckRendering, {
   shadowRoot: true,
   styles: [style],
-  configureApp(app) {
-    app.use(VueKonva)
-  },
 })
 
 if (typeof customElements !== 'undefined') {
@@ -26,13 +23,13 @@ if (typeof customElements !== 'undefined') {
     customElements.define('deckplan-editor', DeckplanEditorElement)
   }
 
-  if (!customElements.get('deck-visualization')) {
-    customElements.define('deck-visualization', DeckVisualizationElement)
+  if (!customElements.get('deck-rendering')) {
+    customElements.define('deck-rendering', DeckRenderingElement)
   }
 }
 
 export default {
   DeckplanEditorElement,
-  DeckVisualizationElement,
+  DeckRenderingElement,
   parseNeTEx,
 }
