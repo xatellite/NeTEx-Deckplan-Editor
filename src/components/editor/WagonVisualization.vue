@@ -16,13 +16,6 @@
                     @select="(payload) => $emit('select', payload)"
                     @area-select="(elements) => $emit('area-select', elements)"
                   />
-                  <DeckRendering
-                    :deck="deck"
-                    :scale="scale"
-                    :selectedElements="selectedElements"
-                    @select="(payload) => $emit('select', payload)"
-                    @area-select="(elements) => $emit('area-select', elements)"
-                  />
             </div>
           </div>
       </div>
@@ -34,7 +27,6 @@ import { DeckPlan } from '@/types/netex/deckPlan';
 import type { PropType } from 'vue';
 import DeckVisualization from './DeckVisualization.vue';
 import { ref } from 'vue';
-import DeckRendering from '../renderer/DeckRendering.vue';
 
 const scale = ref(20)
 
