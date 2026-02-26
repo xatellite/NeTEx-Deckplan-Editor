@@ -10,7 +10,6 @@ export const parseNeTEx = (xml: string) => {
   })
 
   const delivery = parser.parse(xml)
-  console.log(delivery)
 
   return extractElementList(
     delivery.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan,
