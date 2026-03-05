@@ -1,5 +1,5 @@
-import { serializeElementsAndRefs } from "./general"
-import { ValidityCondition, ValidityConditionRef } from "./validityCondition"
+import { serializeElementsAndRefs } from "../../../../general"
+import { ValidityCondition, ValidityConditionRef } from "../../../../validityCondition"
 
 export class DeckEntranceUsage {
   attr_ref: string

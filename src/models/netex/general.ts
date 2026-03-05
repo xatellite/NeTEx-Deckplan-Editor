@@ -13,12 +13,12 @@ export class Text {
 export class Name {
   value: string
 
-  constructor(value: {"text_value": string}) {
-    this.value = value?.["text_value"]
+  constructor(value: { text_value: string }) {
+    this.value = value?.['text_value']
   }
 
   toXML() {
-    return {"text_value": this.value }
+    return { text_value: this.value }
   }
 }
 
@@ -59,7 +59,7 @@ interface xmlConstructor {
   xmlTagName?: string
 }
 
-export function serializeElementsAndRefs(elementsAndRefs:  Serializable[]) {
+export function serializeElementsAndRefs(elementsAndRefs: Serializable[]) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const outObj: any = {}
   elementsAndRefs.forEach((e) => {

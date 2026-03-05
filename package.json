@@ -39,6 +39,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "fast-xml-parser": "^5.3.3",
     "konva": "^10.0.12",
+    "pinia": "^3.0.4",
     "vue-konva": "^3.2.6",
     "xml-js": "^1.6.11"
   },

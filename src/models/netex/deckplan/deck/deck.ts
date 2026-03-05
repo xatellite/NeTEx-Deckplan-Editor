@@ -1,8 +1,12 @@
-import { DeckLevelRef as GeneralDeckLevelRef } from './deckLevel'
-import { extractElementList, serializeElements, serializeElementsAndRefs } from './general'
-import { OtherDeckSpace } from './otherDeckSpace'
-import { PassengerSpace } from './passengerSpace'
-import { Polygon } from './polygon'
+import {
+  DeckLevel,
+  DeckLevelRef,
+  DeckLevelRef as GeneralDeckLevelRef,
+} from '../decklevels/deckLevel'
+import { extractElementList, serializeElements, serializeElementsAndRefs } from '../../general'
+import { OtherDeckSpace } from './deckspace/otherDeckSpace'
+import { PassengerSpace } from './deckspace/passengerSpace'
+import { Polygon } from '../../polygon'
 import { SpotColumn } from './spotColumn'
 import { SpotRow } from './spotRow'
 
@@ -64,6 +68,46 @@ export class Deck {
       : []
     this.spotRows = extractElementList(spotRows?.SpotRow, SpotRow)
     this.spotColumns = extractElementList(spotColumns?.SpotColumn, SpotColumn)
+  }
+
+  static empty(deckLevel: DeckLevel) {
+    return new Deck({
+      attr_id: crypto.randomUUID(),
+      attr_version: '1.0',
+      deckSpaces: { OtherDeckSpace: [], PassengerSpace: [] },
+      spotRows: {
+        SpotRow: [
+          {
+            attr_id: 'spot_row_1',
+            Label: '1',
+          },
+          {
+            attr_id: 'spot_row_2',
+            Label: '2',
+          },
+        ],
+      },
+      spotColumns: {
+        SpotColumn: [
+          {
+            attr_id: 'spot_column_1',
+            Label: '1',
+          },
+          {
+            attr_id: 'spot_column_2',
+            Label: '2',
+          },
+        ],
+      },
+      DeckLevelRef: new DeckLevelRef({
+        attr_ref: deckLevel.attr_id,
+        attr_version: '1.0',
+      }),
+      Name: undefined,
+      polygon: undefined,
+      Length: 2,
+      Width: 2,
+    })
   }
 
   toXML() {

@@ -9,13 +9,13 @@
             <h3>{{ deckPlan.attr_id }}</h3>
             <div v-for="(deck, dIndex) in deckPlan.decks" :key="`deck-${dIndex}`">
               <h4 @click="$emit('select', { element: deck, ctrlKey: false })" :class="`${selectedElements.includes(deck) ? 'text-ott-accent' : ''} cursor-pointer`">{{ deck.Name }}</h4>
-                  <DeckVisualization
-                    :deck="deck"
-                    :scale="scale"
-                    :selectedElements="selectedElements"
-                    @select="(payload) => $emit('select', payload)"
-                    @area-select="(elements) => $emit('area-select', elements)"
-                  />
+                <DeckVisualization
+                  :deck="deck"
+                  :scale="scale"
+                  :selectedElements="selectedElements"
+                  @select="(payload) => $emit('select', payload)"
+                  @area-select="(elements) => $emit('area-select', elements)"
+                />
             </div>
           </div>
       </div>

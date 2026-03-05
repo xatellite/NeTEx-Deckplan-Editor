@@ -47,15 +47,15 @@ main {
 }
 
 .ott-button {
-  @apply text-ott-text-primary font-medium px-4 py-1 h-fit flex items-center justify-center gap-5 rounded-lg border-ott-text-primary border-2 cursor-pointer;
+  @apply text-ott-text-primary font-medium px-4 py-1 h-fit flex items-center justify-center gap-5 rounded-lg border-ott-text-primary border cursor-pointer;
 }
 
 .ott-button:disabled {
   @apply border-ott-bg-dark text-ott-bg-dark cursor-default;
 }
 
-.ott-button-action {
-  @apply w-full bg-ott-accent border-ott-accent text-ott-text-white font-medium px-4 py-1 h-fit flex items-center gap-5 rounded-lg cursor-pointer disabled:bg-ott-text-secondary disabled:cursor-default;
+.ott-button--accent {
+  @apply bg-ott-accent border-ott-accent text-ott-text-white font-medium px-4 py-1 h-fit flex items-center gap-5 rounded-lg cursor-pointer disabled:bg-ott-text-secondary disabled:cursor-default;
 }
 
 input {

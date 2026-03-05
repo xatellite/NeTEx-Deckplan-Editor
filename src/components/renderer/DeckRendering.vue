@@ -5,12 +5,12 @@
     class="vehicle-frame"
     style="user-select:none;"
   >
-    <g :class="`${vertical ? 'vehicle-frame--vertical' : ''}`"
-    :transform="`rotate(
-      ${vertical ? 90 : 0},
-      ${stageSize.height / 2},
-      ${stageSize.height / 2}
-    )`"
+    <g
+      :transform="`rotate(
+        ${vertical ? 90 : 0},
+        ${stageSize.height / 2},
+        ${stageSize.height / 2}
+      )`"
     >
       <!-- Deck -->
       <rect
@@ -50,11 +50,11 @@
         </g>
 
         <g class="seat__text-container"
-        :transform="`rotate(
-          ${vertical ? -90 : 0},
-          ${seat.getShape(scale).width / 2},
-          ${seat.getShape(scale).height / 2}
-        )`">
+          :transform="`rotate(
+            ${vertical ? -90 : 0},
+            ${seat.getShape(scale).width / 2},
+            ${seat.getShape(scale).height / 2}
+          )`">
           <text
             :x="seat.getShape(scale).width / 2"
             :y="seat.getShape(scale).height / 2"

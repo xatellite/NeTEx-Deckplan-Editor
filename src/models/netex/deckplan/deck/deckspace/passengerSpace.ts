@@ -1,18 +1,18 @@
-import { ActualVehicleEquipment } from './actualVehicleEquipment'
-import { DeckEntranceCouple } from './deckEntranceCouple'
-import { DeckEntranceUsage } from './deckEntranceUsage'
+import { ActualVehicleEquipment } from '../../../actualVehicleEquipment'
+import { DeckEntranceCouple } from './entrance/deckEntranceCouple'
+import { DeckEntranceUsage } from './entrance/deckEntranceUsage'
 import { DeckSpaceCapacity } from './deckSpaceCapacity'
-import { extractElementList, Name as GeneralName, serializeElementsAndRefs } from './general'
-import { LuggageSpot, LuggageSpotRef } from './luggageSpot'
-import { PassengerEntrance } from './passengerEntrance'
-import { PassengerSpot, PassengerSpotRef } from './passengerSpot'
-import { Polygon as GeneralPolygon } from './polygon'
-import { Centroid as GeneralCentroid } from './centroid'
-import { ServiceFacilitySetRef as GeneralServiceFacilitySetRef } from './serviceFacilitySet'
+import { extractElementList, Name as GeneralName, serializeElementsAndRefs } from '../../../general'
+import { LuggageSpot, LuggageSpotRef } from './spots/luggageSpot'
+import { PassengerEntrance } from './entrance/passengerEntrance'
+import { PassengerSpot, PassengerSpotRef } from './spots/passengerSpot'
+import { Polygon as GeneralPolygon } from '../../../polygon'
+import { Centroid as GeneralCentroid } from '../../../centroid'
+import { ServiceFacilitySetRef as GeneralServiceFacilitySetRef } from '../../../serviceFacilitySet'
 
 export class PassengerSpace {
   static xmlTagName = 'PassengerSpace'
-  
+
   attr_id: string
   attr_version: string
   Name: GeneralName | undefined

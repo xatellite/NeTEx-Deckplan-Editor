@@ -1,7 +1,7 @@
-import { ActualVehicleEquipment } from "./actualVehicleEquipment"
-import { extractElementList, serializeElements } from "./general"
-import { SpotColumnRef as GeneralSpotColumnRef } from "./spotColumn"
-import { SpotRowRef as GeneralSpotRowRef } from "./spotRow"
+import { ActualVehicleEquipment } from "../../../../actualVehicleEquipment"
+import { extractElementList, serializeElements } from "../../../../general"
+import { SpotColumnRef as GeneralSpotColumnRef } from "../../spotColumn"
+import { SpotRowRef as GeneralSpotRowRef } from "../../spotRow"
 
 export class LuggageSpot {
   attr_id: string

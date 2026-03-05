@@ -1,10 +1,10 @@
 export class SpotRow {
   attr_id: string
-  label: string //GeneralLabel[]
+  label: string
 
   constructor({ attr_id, Label }: { attr_id: string; Label: string }) {
     this.attr_id = attr_id
-    this.label = Label //.map((l) => new GeneralLabel(l))
+    this.label = Label
   }
 
   toXML() {

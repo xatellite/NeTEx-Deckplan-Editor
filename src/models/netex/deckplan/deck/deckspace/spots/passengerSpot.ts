@@ -1,9 +1,9 @@
-import { ActualVehicleEquipment } from './actualVehicleEquipment'
-import { extractElementList, serializeElementsAndRefs } from './general'
-import { SpotColumnRef as GeneralSpotColumnRef } from './spotColumn'
-import { Centroid as GeneralCentroid } from './centroid'
-import { SpotRowRef as GeneralSpotRowRef } from './spotRow'
-import { PassengerSpotAvailability } from '../view/seats'
+import { ActualVehicleEquipment } from '../../../../actualVehicleEquipment'
+import { extractElementList, serializeElementsAndRefs } from '../../../../general'
+import { SpotColumnRef as GeneralSpotColumnRef } from '../../spotColumn'
+import { Centroid as GeneralCentroid } from '../../../../centroid'
+import { SpotRowRef as GeneralSpotRowRef } from '../../spotRow'
+import { PassengerSpotAvailability } from '../../../../../view/seats'
 
 export class PassengerSpot {
   static xmlTagName = 'PassengerSpot'
