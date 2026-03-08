@@ -1,20 +1,23 @@
 <template>
-  <div class="w-full">
-    <div class="rotate-90 origin-top-left">
+  <div class="w-full flex justify-center">
+    <div>
       <v-stage
-        :config="getStageSize(deck, scale)"
+        :config="{
+          width: getStageSize(deck, scale).height,
+          height: getStageSize(deck, scale).width
+        }"
       >
           <v-layer>
           <v-rect
-            :config="{...deck.getShape(scale), y: 5, ...getStyle(deck)}"
+            :config="{...deck.getShape(scale), width: deck.getShape(scale).height, height: deck.getShape(scale).width, y: 5, ...getStyle(deck)}"
             @click="(e: MouseEvent) => handleClick(e, deck)"
           />
           <v-rect
               :config="{
                   x: 0,
                   y: 0,
-                  width: deck.getShape(scale).width,
-                  height: deck.getShape(scale).height,
+                  width: deck.getShape(scale).height,
+                  height: deck.getShape(scale).width,
                   fill: 'transparent',
                   listening: true
               }"
@@ -26,8 +29,8 @@
             v-for="(seat, index) in seats"
             :key="`seats-${index}`"
             :config="{
-              x: seat.getShape(scale).x,
-              y: seat.getShape(scale).y,
+              x: seat.getShape(scale).y,
+              y: seat.getShape(scale).x,
               draggable: true
             }"
             @dragstart="(e: MouseEvent) => handleDragStart(e, seat)"
@@ -62,8 +65,8 @@
             v-for="(entrance, index) in entrances"
             :key="`entrance-${index}`"
             :config="{
-              x: entrance.getShape(scale, deck.Length, deck.Width).x,
-              y: entrance.getShape(scale, deck.Length, deck.Width).y,
+              x: entrance.getShape(scale, deck.Length, deck.Width).y,
+              y: entrance.getShape(scale, deck.Length, deck.Width).x,
               draggable: true
             }"
             @dragmove="(e: MouseEvent) => handleEntranceDragMove(e, entrance)"
@@ -72,8 +75,8 @@
           >
             <v-rect
               :config="{
-                width: entrance.getShape(scale, deck.Length, deck.Width).width,
-                height: entrance.getShape(scale, deck.Length, deck.Width).height,
+                width: entrance.getShape(scale, deck.Length, deck.Width).height,
+                height: entrance.getShape(scale, deck.Length, deck.Width).width,
                 fill: entrance.getShape(scale, deck.Length, deck.Width).fill,
                 stroke: entrance.getShape(scale, deck.Length, deck.Width).stroke,
                 strokeWidth: entrance.getShape(scale, deck.Length, deck.Width).strokeWidth,
@@ -161,7 +164,7 @@ const entrances = computed(() => {
 const getStyle = (element: any) => {
   if (props.selectedElementId.includes(element)) {
     return {
-      stroke: '#68a691',
+      stroke: '#ffffff',
       strokeWidth: 3,
     }
   }

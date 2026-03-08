@@ -1,5 +1,5 @@
 <template>
-   <div v-if="!useEditorState().deckplan" class="flex flex-col gap-4 items-center w-150 bg-ott-bg-primary p-8 rounded-md">
+    <div v-if="!useEditorState().deckplan" class="flex flex-col gap-4 items-center w-150 bg-ott-bg-primary p-8 rounded-md">
       <h2>Deckplan Setup</h2>
       <button class="ott-button w-100" @click="initEmpty">Start from Scratch</button>
       <!-- <button class="ott-button w-100" @click="">Load Example</button> -->

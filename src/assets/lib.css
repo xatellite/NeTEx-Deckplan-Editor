@@ -19,15 +19,7 @@
 
 html,
 body,
-#app,
-#__nuxt {
-  @apply h-full w-full bg-ott-bg-secondary text-ott-text-primary;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-:host {
+#app {
   @apply h-full w-full bg-ott-bg-secondary text-ott-text-primary;
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
@@ -36,6 +28,10 @@ body,
 
 button {
   @apply cursor-pointer;
+}
+
+h1 {
+  @apply text-xl font-bold;
 }
 
 h2 {
@@ -47,7 +43,7 @@ main {
 }
 
 .ott-button {
-  @apply text-ott-text-primary font-medium px-4 py-1 h-fit flex items-center justify-center gap-5 rounded-lg border-ott-text-primary border cursor-pointer;
+  @apply text-ott-text-primary font-medium px-4 py-1 h-fit flex items-center justify-center gap-5 rounded-lg border-ott-text-primary border cursor-pointer hover:bg-ott-bg-secondary transition-colors;
 }
 
 .ott-button:disabled {
@@ -58,6 +54,57 @@ main {
   @apply bg-ott-accent border-ott-accent text-ott-text-white font-medium px-4 py-1 h-fit flex items-center gap-5 rounded-lg cursor-pointer disabled:bg-ott-text-secondary disabled:cursor-default;
 }
 
-input {
-  @apply border border-ott-bg-dark rounded py-1 px-3;
+input, .ott-input {
+  @apply border border-ott-bg-dark rounded py-1 px-3 bg-white text-sm focus:outline-none focus:border-ott-accent;
+}
+
+/* Scrollbar */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  @apply bg-ott-bg-dark rounded-full;
+}
+
+/* Toolbox */
+.ott-tool-btn {
+  @apply flex items-center gap-3 w-full p-2 px-3 rounded-md border border-transparent transition-all;
+  @apply hover:bg-ott-bg-secondary cursor-pointer font-medium text-sm;
+}
+
+.ott-tool-btn.active {
+  @apply bg-ott-accent-light border-ott-accent text-ott-accent;
+}
+
+.ott-sub-tool-btn {
+  @apply p-1 px-3 rounded-full border border-ott-bg-dark text-xs transition-all cursor-pointer;
+  @apply hover:bg-white hover:border-ott-accent hover:text-ott-accent bg-ott-bg-secondary;
+}
+
+.ott-sub-tool-btn.active {
+  @apply bg-ott-accent border-ott-accent text-white;
+}
+
+/* Annotate Page & Expandable Items */
+.ott-section-header {
+  @apply text-xs font-bold text-ott-text-secondary uppercase mb-4 tracking-wider border-b border-ott-bg-dark pb-1;
+}
+
+.ott-expandable-item {
+  @apply border border-ott-bg-dark rounded-lg bg-ott-bg-primary overflow-hidden transition-all;
+}
+
+.ott-item-header {
+  @apply flex items-center gap-3 p-3 px-4 cursor-pointer hover:bg-ott-bg-secondary transition-colors;
+}
+
+.ott-item-header.active {
+  @apply border-b border-ott-bg-dark bg-ott-bg-secondary;
+}
+
+.ott-item-content {
+  @apply bg-white;
 }

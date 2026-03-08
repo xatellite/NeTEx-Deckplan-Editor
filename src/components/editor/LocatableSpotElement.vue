@@ -1,12 +1,15 @@
 <template>
-  <div class="bg-ott-bg-secondary">
+  <div class="m-2 shadow rounded-md p-1 flex items-center gap-2">
+    <Icon v-if="element instanceof PassengerSpot" icon="material-symbols:event-seat-outline-rounded" />
+    <Icon v-if="element instanceof LuggageSpot" icon="material-symbols:luggage-outline-rounded" />
     {{ element.Label }}
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { LuggageSpot } from '@/models/netex/deckplan/deck/deckspace/spots/luggageSpot';
-import type { PassengerSpot } from '@/models/netex/deckplan/deck/deckspace/spots/passengerSpot';
+import { LuggageSpot } from '@/models/netex/deckplan/deck/deckspace/spots/luggageSpot';
+import { PassengerSpot } from '@/models/netex/deckplan/deck/deckspace/spots/passengerSpot';
+import { Icon } from '@iconify/vue';
 
 
 defineProps<{

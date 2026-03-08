@@ -15,8 +15,12 @@ export class PassengerSpot {
   actualVehicleEquipments: ActualVehicleEquipment[] | undefined
   SpotColumnRef: GeneralSpotColumnRef | undefined
   SpotRowRef: GeneralSpotRowRef | undefined
-  ByWindow: boolean | undefined
-  ByAisle: boolean | undefined
+  IsByWindow: boolean | undefined
+  IsByAisle: boolean | undefined
+  IsBetweenSeats: boolean | undefined
+  IsInFrontRow: boolean | undefined
+  IsInEndRow: boolean | undefined
+  TableType: string | undefined
   HasPower: boolean | undefined
   Centroid: GeneralCentroid | undefined
   Width: number
@@ -31,8 +35,12 @@ export class PassengerSpot {
     actualVehicleEquipments,
     SpotColumnRef,
     SpotRowRef,
-    ByWindow,
-    ByAisle,
+    IsByWindow,
+    IsByAisle,
+    IsBetweenSeats,
+    IsInFrontRow,
+    IsInEndRow,
+    TableType,
     HasPower,
     Centroid,
     Width,
@@ -48,8 +56,12 @@ export class PassengerSpot {
     SpotColumnRef: any
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     SpotRowRef: any
-    ByWindow: boolean | undefined
-    ByAisle: boolean | undefined
+    IsByWindow: boolean | undefined
+    IsByAisle: boolean | undefined
+    IsBetweenSeats: boolean | undefined
+    IsInFrontRow: boolean | undefined
+    IsInEndRow: boolean | undefined
+    TableType: string | undefined
     HasPower: boolean | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Centroid: any | undefined
@@ -65,8 +77,12 @@ export class PassengerSpot {
       : undefined
     this.SpotColumnRef = SpotColumnRef ? new GeneralSpotColumnRef(SpotColumnRef) : undefined
     this.SpotRowRef = SpotRowRef ? new GeneralSpotRowRef(SpotRowRef) : undefined
-    this.ByWindow = ByWindow
-    this.ByAisle = ByAisle
+    this.IsByWindow = IsByWindow
+    this.IsByAisle = IsByAisle
+    this.IsBetweenSeats = IsBetweenSeats
+    this.IsInFrontRow = IsInFrontRow
+    this.IsInEndRow = IsInEndRow
+    this.TableType = TableType
     this.HasPower = HasPower
     this.Centroid = Centroid ? GeneralCentroid.fromXML(Centroid) : undefined
     this.Width = Width || 0.5

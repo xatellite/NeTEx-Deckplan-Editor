@@ -9,8 +9,9 @@
 import { Icon } from '@iconify/vue';
 import { XMLBuilder } from 'fast-xml-parser';
 import { useEditorState } from '../store/editorstate';
+import { storeToRefs } from 'pinia';
 
-const deckplan = useEditorState().deckplan
+const { deckplan} = storeToRefs(useEditorState());
 
 function downloadNeTEx() {{
     if (!deckplan) return
