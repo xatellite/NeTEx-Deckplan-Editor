@@ -31,13 +31,15 @@
         </div>
 
         <!-- Cells -->
-        <div
-          v-for="column in deck.spotColumns"
+        <div 
+          v-for="column in deck.spotColumns" 
           :key="`${row.attr_id}-${column.attr_id}`"
           class="border border-ott-bg-dark bg-white flex items-center justify-center relative transition-all hover:bg-ott-bg-secondary/5 group"
+          @dragover.prevent
+          @drop="handleDrop($event, column.attr_id, row.attr_id)"
         >
           <template v-for="spot in [locatableSpots[column.attr_id]?.[row.attr_id]]" :key="`spot-${spot?.attr_id}`">
-            <LocatableSpotElement
+            <LocatableSpotElement 
               v-if="spot"
               draggable="true"
               :element="spot"
@@ -60,6 +62,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
 import type { Deck } from '@/models/netex/deckplan/deck/deck';
 import type { OtherDeckSpace } from '@/models/netex/deckplan/deck/deckspace/otherDeckSpace';
 import { PassengerSpace } from '@/models/netex/deckplan/deck/deckspace/passengerSpace';
@@ -67,35 +70,53 @@ import { LuggageSpotRef, type LuggageSpot } from '@/models/netex/deckplan/deck/d
 import { PassengerSpotRef, type PassengerSpot } from '@/models/netex/deckplan/deck/deckspace/spots/passengerSpot';
 import LocatableSpotElement from './LocatableSpotElement.vue';
 import { Icon } from '@iconify/vue';
+import { useEditorState } from '@/app/store/editorstate';
+import { SpotColumnRef } from '@/models/netex/deckplan/deck/spotColumn';
+import { SpotRowRef } from '@/models/netex/deckplan/deck/spotRow';
 
 const props = defineProps<{
   deck: Deck,
   scale: number,
 }>();
 
+const store = useEditorState();
+
+function handleDrop(event: DragEvent, columnId: string, rowId: string) {
+  const elementId = event.dataTransfer?.getData('elementId');
+  if (elementId) {
+    store.updateElement(elementId, {
+      SpotColumnRef: new SpotColumnRef({ attr_ref: columnId, attr_version: '1.0' }),
+      SpotRowRef: new SpotRowRef({ attr_ref: rowId, attr_version: '1.0' })
+    });
+  }
+}
+
 // Flatten locatable spots and pack them into a list
-const locatableSpotList = props.deck.deckspaces.flatMap((space: OtherDeckSpace | PassengerSpace) => {
+const locatableSpotList = computed(() => props.deck.deckspaces.flatMap((space: OtherDeckSpace | PassengerSpace) => {
   if (space instanceof PassengerSpace) {
     const spots = [...(space.luggageSpots || []), ...(space.passengerSpots || [])];
     return spots.filter((s): s is (LuggageSpot | PassengerSpot | LuggageSpotRef | PassengerSpotRef) => s !== undefined);
   }
   return [];
-});
+}));
 
-const locatableSpots: {[index: string]: {[index: string]: LuggageSpot | PassengerSpot }} = {}
-locatableSpotList.forEach((spot) => {
-  if (spot instanceof LuggageSpotRef || spot instanceof PassengerSpotRef) return;
+const locatableSpots = computed(() => {
+    const spots: {[index: string]: {[index: string]: LuggageSpot | PassengerSpot }} = {}
+    locatableSpotList.value.forEach((spot) => {
+      if (spot instanceof LuggageSpotRef || spot instanceof PassengerSpotRef) return;
 
-  if (!(spot.SpotColumnRef && spot.SpotRowRef)) return;
-  const columnRef = spot.SpotColumnRef.attr_ref
-  if (!locatableSpots[columnRef]) {
-    locatableSpots[columnRef] = {}
-  }
-  if (locatableSpots[columnRef][spot.SpotRowRef.attr_ref]) {
-    return
-    //throw Error("Collision in Locatable Spots!")
-  }
+      if (!(spot.SpotColumnRef && spot.SpotRowRef)) return;
+      const columnRef = spot.SpotColumnRef.attr_ref
+      if (!spots[columnRef]) {
+        spots[columnRef] = {}
+      }
+      if (spots[columnRef][spot.SpotRowRef.attr_ref]) {
+        return
+        //throw Error("Collision in Locatable Spots!")
+      }
 
-  locatableSpots[columnRef][spot.SpotRowRef.attr_ref] = spot
+      spots[columnRef][spot.SpotRowRef.attr_ref] = spot
+    })
+    return spots
 })
 </script>

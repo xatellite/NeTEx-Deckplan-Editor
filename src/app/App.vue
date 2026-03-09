@@ -55,9 +55,12 @@
           <div class="flex w-full max-w-full items-center h-full relative">
             <ZoomBar />
             <div class="overflow-hidden h-full max-h-full w-full">
-              <div class="flex-1 overflow-y flex items-center justify-center">
-                <DeckGridRenderer  :deck="selectedDeck" :scale="scale" v-if="selectedRenderer === 'grid'" />
-                <DeckExactRenderer  class="flex-1" :selectedElementId="selectedElementId" :deck="selectedDeck" :scale="scale*5" v-if="selectedRenderer === 'exact'" />
+              <div class="flex-1 overflow-y flex flex-col min-h-0 h-full">
+                <div class="flex-1 flex items-center justify-center overflow-auto min-h-0">
+                  <DeckGridRenderer  :deck="selectedDeck" :scale="scale" v-if="selectedRenderer === 'grid'" />
+                  <DeckExactRenderer  class="flex-1" :selectedElementId="selectedElementId" :deck="selectedDeck" :scale="scale*5" v-if="selectedRenderer === 'exact'" />
+                </div>
+                <DeckGridElementStorage v-if="selectedRenderer === 'grid'" :deck="selectedDeck" />
               </div>
             </div>
             <button class="ott-button" @click="handleEditDeck">
@@ -86,6 +89,7 @@ import { storeToRefs } from 'pinia';
 import ZoomBar from './components/ZoomBar.vue';
 import { Icon } from '@iconify/vue';
 import DeckTreeview from '@/components/editor/DeckTreeview.vue';
+import DeckGridElementStorage from './components/DeckGridElementStorage.vue';
 
 const selectedTab: Ref<'build' | 'annotate' | 'view'> = ref('build')
 const selectedRenderer: Ref<'grid' | 'exact'> = ref('grid')
