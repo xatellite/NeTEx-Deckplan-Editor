@@ -77,7 +77,8 @@
             <!-- Expanded Content -->
             <div v-if="expandedId === item.attr_id" class="p-6 bg-white transition-all">
               <div class="max-w-3xl">
-                <PropertyEditor :element="item" @update="(updates) => store.updateElement(item.attr_id, updates)" />
+                <DeckPropertyEditor v-if="item instanceof Deck" :deck="item" @update="(updates) => store.updateElement(item.attr_id, updates)" />
+                <PropertyEditor v-else :element="item" @update="(updates) => store.updateElement(item.attr_id, updates)" />
               </div>
             </div>
           </div>
@@ -92,11 +93,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive, type ComputedRef } from 'vue';
+import { ref, computed, reactive, watch, nextTick, type ComputedRef, onMounted } from 'vue';
 import { useEditorState } from '../store/editorstate';
 import { storeToRefs } from 'pinia';
 import { Icon } from '@iconify/vue';
 import PropertyEditor from '../components/PropertyEditor.vue';
+import DeckPropertyEditor from '../components/DeckPropertyEditor.vue';
 import { PassengerSpace } from '@/models/netex/deckplan/deck/deckspace/passengerSpace';
 import { PassengerSpot } from '@/models/netex/deckplan/deck/deckspace/spots/passengerSpot';
 import { LuggageSpot } from '@/models/netex/deckplan/deck/deckspace/spots/luggageSpot';
@@ -104,7 +106,7 @@ import { PassengerEntrance } from '@/models/netex/deckplan/deck/deckspace/entran
 import { Deck } from '@/models/netex/deckplan/deck/deck';
 
 const store = useEditorState();
-const { deckplan } = storeToRefs(store);
+const { deckplan, selectedElementId } = storeToRefs(store);
 
 const expandedId = ref<string | null>(null);
 const collapsedSections = reactive(new Set<string>());
@@ -188,4 +190,30 @@ const sections = computed(() => [
   { title: 'Passenger Spaces', items: allSpaces.value },
   { title: 'Decks', items: allDecks.value }
 ]);
+
+function openSelectedItem() {
+  if (selectedElementId.value) {
+    // Find which section this element belongs to and expand it
+    const section = sections.value.find(s => s.items.some(item => item.attr_id === selectedElementId.value));
+    if (section) {
+      sections.value.forEach((section) => {
+        collapsedSections.add(section.title)
+      })
+      collapsedSections.delete(section.title);
+      expandedId.value = selectedElementId.value;
+    }
+  } else {
+    expandedId.value = null;
+  }
+}
+
+onMounted(() => {
+  console.log("mount", selectedElementId.value)
+  openSelectedItem()
+})
+
+watch(selectedElementId, () => {
+  openSelectedItem()
+}, {immediate: true});
+
 </script>

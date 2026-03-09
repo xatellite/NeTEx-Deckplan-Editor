@@ -54,11 +54,15 @@
           <DeckSelector />
           <div class="flex w-full max-w-full items-center h-full relative">
             <ZoomBar />
-            <div class="flex-1 max-h-full overflow-y flex items-center justify-center">
-              <DeckGridRenderer  :deck="selectedDeck" :scale="scale" v-if="selectedRenderer === 'grid'" />
-              <DeckExactRenderer  class="flex-1" :selectedElementId="selectedElementId" :deck="selectedDeck" :scale="scale" v-if="selectedRenderer === 'exact'" />
+            <div class="overflow-hidden h-full max-h-full w-full">
+              <div class="flex-1 overflow-y flex items-center justify-center">
+                <DeckGridRenderer  :deck="selectedDeck" :scale="scale" v-if="selectedRenderer === 'grid'" />
+                <DeckExactRenderer  class="flex-1" :selectedElementId="selectedElementId" :deck="selectedDeck" :scale="scale*5" v-if="selectedRenderer === 'exact'" />
+              </div>
             </div>
-            <button class="ott-button"><Icon icon="material-symbols:edit-outline-rounded" /></button>
+            <button class="ott-button" @click="handleEditDeck">
+              <Icon icon="material-symbols:edit-outline-rounded" />
+            </button>
           </div>
         </div>
       </div>
@@ -90,5 +94,12 @@ const hierarchyShown = ref(false)
 // State of the deckplan lives in the store!
 const store = useEditorState()
 const {deckplan, selectedDeck, selectedElementId, scale} = storeToRefs(store)
+
+const handleEditDeck = () => {
+  if (selectedDeck.value) {
+    store.selectElement(selectedDeck.value.attr_id);
+    selectedTab.value = 'annotate';
+  }
+};
 </script>
 

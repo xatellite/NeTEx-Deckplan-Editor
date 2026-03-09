@@ -1,23 +1,59 @@
 <template>
-  <div :class="`flex flex-col w-[${scale*4}px] items-center m-4 p-2 border-2 rounded-md bg-ott-bg-primary`">
-    <div v-if="deck.spotColumns && deck.spotColumns" class="flex flex-col w-full">
-      <div
-        v-for="(row, rowIndex) in deck.spotRows"
-        :key="`${rowIndex}-row`"
-          class="flex w-full"
-      >
-        <span>{{row.label }}</span>
-        <div
-          v-for="(column, colIndex) in deck.spotColumns"
-          :key="`${colIndex}-column`"
-          class="w-full"
-        >
-          <span v-if="rowIndex == 0">{{column.label }}</span>
-          <div :class="`border border-ott-bg-dark m-[1px]  w-full`" :style="`height: ${scale*4}px`  ">
+  <div class="m-4 p-4 border-2 rounded-lg bg-ott-bg-primary shadow-sm overflow-auto">
+    <div
+      v-if="deck.spotRows.length > 0 && deck.spotColumns.length > 0"
+      class="grid w-max"
+      :style="{
+        gridTemplateColumns: `minmax(64px, auto) repeat(${deck.spotColumns.length}, ${scale * 6}px)`,
+        gridAutoRows: `${scale * 6}px`,
+        gap: '2px'
+      }"
+    >
+      <!-- Corner -->
+      <div class="bg-ott-bg-secondary/20 rounded border border-ott-bg-dark flex items-center justify-center p-2">
+        <Icon icon="material-symbols:grid-view-outline-rounded" width="18" class="text-ott-text-secondary" />
+      </div>
 
-          <LocatableSpotElement draggable="true" v-if="locatableSpots[column.attr_id]?.[row.attr_id]" :element="locatableSpots[column.attr_id]?.[row.attr_id]" />
-          </div>
+      <!-- Column Labels -->
+      <div
+        v-for="column in deck.spotColumns"
+        :key="column.attr_id"
+        class="flex items-center justify-center text-[11px] font-bold text-ott-text-secondary uppercase bg-ott-bg-secondary p-1 px-2 whitespace-nowrap"
+      >
+        {{ column.label || '-' }}
+      </div>
+
+      <!-- Rows -->
+      <template v-for="row in deck.spotRows" :key="row.attr_id">
+        <!-- Row Label -->
+        <div class="flex items-center justify-center text-[11px] font-bold text-ott-text-secondary uppercase bg-ott-bg-secondary p-2">
+          {{ row.label || '-' }}
         </div>
+
+        <!-- Cells -->
+        <div
+          v-for="column in deck.spotColumns"
+          :key="`${row.attr_id}-${column.attr_id}`"
+          class="border border-ott-bg-dark bg-white flex items-center justify-center relative transition-all hover:bg-ott-bg-secondary/5 group"
+        >
+          <template v-for="spot in [locatableSpots[column.attr_id]?.[row.attr_id]]" :key="`spot-${spot?.attr_id}`">
+            <LocatableSpotElement
+              v-if="spot"
+              draggable="true"
+              :element="spot"
+              class="scale-90"
+            />
+          </template>
+          <div v-if="!locatableSpots[column.attr_id]?.[row.attr_id]" class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-ott-accent/5"></div>
+        </div>
+      </template>
+    </div>
+
+    <div v-else class="p-12 text-center bg-white border-2 border-dashed border-ott-bg-dark rounded-2xl flex flex-col items-center gap-3">
+      <Icon icon="material-symbols:format-list-bulleted-rounded" width="32" class="text-ott-bg-dark" />
+      <div class="flex flex-col gap-1">
+        <span class="text-ott-text-primary font-bold">Grid Not Configured</span>
+        <span class="text-ott-text-secondary text-sm italic">Define spot rows and columns in the deck properties to see the layout grid</span>
       </div>
     </div>
   </div>
@@ -30,20 +66,21 @@ import { PassengerSpace } from '@/models/netex/deckplan/deck/deckspace/passenger
 import { LuggageSpotRef, type LuggageSpot } from '@/models/netex/deckplan/deck/deckspace/spots/luggageSpot';
 import { PassengerSpotRef, type PassengerSpot } from '@/models/netex/deckplan/deck/deckspace/spots/passengerSpot';
 import LocatableSpotElement from './LocatableSpotElement.vue';
-import type { DeckLevel } from '@/models/netex/deckplan/decklevels/deckLevel';
+import { Icon } from '@iconify/vue';
 
 const props = defineProps<{
   deck: Deck,
   scale: number,
 }>();
 
-// Flatten locatable spots and pack them into a
-const locatableSpotList: (LuggageSpot | PassengerSpot | LuggageSpotRef | PassengerSpotRef )[] = props.deck.deckspaces.flatMap((space: OtherDeckSpace | PassengerSpace) => {
+// Flatten locatable spots and pack them into a list
+const locatableSpotList = props.deck.deckspaces.flatMap((space: OtherDeckSpace | PassengerSpace) => {
   if (space instanceof PassengerSpace) {
-    return [...space?.luggageSpots ?? [], ...space?.passengerSpots ?? []]
+    const spots = [...(space.luggageSpots || []), ...(space.passengerSpots || [])];
+    return spots.filter((s): s is (LuggageSpot | PassengerSpot | LuggageSpotRef | PassengerSpotRef) => s !== undefined);
   }
-  return []
-})
+  return [];
+});
 
 const locatableSpots: {[index: string]: {[index: string]: LuggageSpot | PassengerSpot }} = {}
 locatableSpotList.forEach((spot) => {
