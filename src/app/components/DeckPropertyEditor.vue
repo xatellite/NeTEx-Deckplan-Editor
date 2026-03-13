@@ -42,16 +42,16 @@
 
     <div class="border-t border-ott-bg-dark pt-4">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-xs font-bold text-ott-text-primary uppercase tracking-wider">Spot Rows</h3>
-        <button 
+        <h3 class="font-bold text-ott-text-primary tracking-wider">Spot Rows</h3>
+        <button
           @click="addRow"
-          class="text-[10px] bg-ott-accent text-white px-2 py-1 rounded hover:bg-ott-accent/90 transition-colors flex items-center gap-1"
+          class="text-base bg-ott-accent text-white px-2 py-1 rounded hover:bg-ott-accent/90 transition-colors flex items-center gap-1"
         >
           <Icon icon="material-symbols:add-rounded" width="14" />
           Add Row
         </button>
       </div>
-      
+
       <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
         <div v-for="(row, index) in deck.spotRows" :key="row.attr_id" class="flex items-center gap-2 bg-ott-bg-secondary/30 p-1.5 px-2 rounded border border-ott-bg-dark/50 group">
           <input
@@ -62,7 +62,7 @@
             @input="(e) => updateRowLabel(index, (e.target as HTMLInputElement).value)"
             class="ott-input py-0.5 px-1.5 text-xs bg-white border-ott-bg-dark focus:border-ott-accent flex-1 min-w-0"
           />
-          <button 
+          <button
             @click="deleteRow(index)"
             class="p-1 text-ott-text-secondary hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
             title="Delete Row"
@@ -78,16 +78,16 @@
 
     <div class="border-t border-ott-bg-dark pt-4">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-xs font-bold text-ott-text-primary uppercase tracking-wider">Spot Columns</h3>
-        <button 
+        <h3 class="font-bold text-ott-text-primary tracking-wider">Spot Columns</h3>
+        <button
           @click="addColumn"
-          class="text-[10px] bg-ott-accent text-white px-2 py-1 rounded hover:bg-ott-accent/90 transition-colors flex items-center gap-1"
+          class="text-base bg-ott-accent text-white px-2 py-1 rounded hover:bg-ott-accent/90 transition-colors flex items-center gap-1"
         >
-          <Icon icon="material-symbols:add-rounded" width="14" />
+          <Icon icon="material-symbols:add-rounded" width="16" />
           Add Column
         </button>
       </div>
-      
+
       <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
         <div v-for="(col, index) in deck.spotColumns" :key="col.attr_id" class="flex items-center gap-2 bg-ott-bg-secondary/30 p-1.5 px-2 rounded border border-ott-bg-dark/50 group">
           <input
@@ -98,7 +98,7 @@
             @input="(e) => updateColumnLabel(index, (e.target as HTMLInputElement).value)"
             class="ott-input py-0.5 px-1.5 text-xs bg-white border-ott-bg-dark focus:border-ott-accent flex-1 min-w-0"
           />
-          <button 
+          <button
             @click="deleteColumn(index)"
             class="p-1 text-ott-text-secondary hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
             title="Delete Column"

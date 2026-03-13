@@ -43,29 +43,30 @@
 
       <div class="bg-ott-bg-dark w-0.5 cursor-col-resize" />
       <!-- Renderer -->
-      <div class="min-w-96 flex flex-col">
-        <div class="bg-ott-bg-primary p-4 w-full  flex justify-center">
+      <div class="min-w-96 flex flex-col min-h-0">
+        <div class="bg-ott-bg-primary p-4 w-full flex justify-center border-b border-ott-bg-secondary h-21 flex-shrink-0 items-center">
           <div class="flex gap-4 p-1 px-2 border-ott-bg-dark bg-ott-bg-secondary border rounded-md w-fit font-medium">
             <button @click="() => selectedRenderer = 'grid'" :class="`${selectedRenderer === 'grid' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Grid</button>
             <button @click="() => selectedRenderer = 'exact'" :class="`${selectedRenderer === 'exact' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Exact</button>
           </div>
         </div>
-        <div class="flex-1 flex items-center flex-col pt-4 min-h-0" v-if="selectedDeck">
-          <DeckSelector />
-          <div class="flex w-full max-w-full items-center h-full relative">
-            <ZoomBar />
-            <div class="overflow-hidden h-full max-h-full w-full">
-              <div class="flex-1 overflow-y flex flex-col min-h-0 h-full">
-                <div class="flex-1 flex items-center justify-center overflow-auto min-h-0">
-                  <DeckGridRenderer  :deck="selectedDeck" :scale="scale" v-if="selectedRenderer === 'grid'" />
-                  <DeckExactRenderer  class="flex-1" :selectedElementId="selectedElementId" :deck="selectedDeck" :scale="scale*5" v-if="selectedRenderer === 'exact'" />
-                </div>
-                <DeckGridElementStorage v-if="selectedRenderer === 'grid'" :deck="selectedDeck" />
+        <div class="flex-1 flex flex-col min-h-0 overflow-hidden" v-if="selectedDeck">
+          <div class="p-4 pb-0 shrink-0 flex justify-center">
+            <DeckSelector />
+          </div>
+          <div class="flex-1 flex w-full max-w-full items-center min-h-0 relative overflow-hidden">
+            <div class="h-full flex items-center justify-center shrink-0">
+              <ZoomBar />
+            </div>
+            <div class="flex-1 h-full min-h-0 overflow-auto relative bg-ott-bg-secondary/10">
+              <div class="flex flex-col min-h-full min-w-full items-center justify-start p-8">
+                <DeckGridRenderer @editGrid="handleEditDeck" :deck="selectedDeck" :scale="scale" v-if="selectedRenderer === 'grid'" />
+                <DeckExactRenderer class="w-full" :selectedElements="selectedElement ? [selectedElement] : []" :deck="selectedDeck" :scale="scale*5" v-if="selectedRenderer === 'exact'" />
               </div>
             </div>
-            <button class="ott-button" @click="handleEditDeck">
-              <Icon icon="material-symbols:edit-outline-rounded" />
-            </button>
+          </div>
+          <div class="shrink-0 border-t border-ott-bg-secondary py-2 flex justify-center " v-if="selectedRenderer === 'grid'">
+             <DeckGridElementStorage :deck="selectedDeck" />
           </div>
         </div>
       </div>
@@ -97,7 +98,7 @@ const hierarchyShown = ref(false)
 
 // State of the deckplan lives in the store!
 const store = useEditorState()
-const {deckplan, selectedDeck, selectedElementId, scale} = storeToRefs(store)
+const {deckplan, selectedDeck, selectedElementId, selectedElement, scale} = storeToRefs(store)
 
 const handleEditDeck = () => {
   if (selectedDeck.value) {

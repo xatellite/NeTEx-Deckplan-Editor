@@ -100,8 +100,9 @@ export class PassengerSpot {
         : undefined,
       SpotColumnRef: this.SpotColumnRef?.toXML(),
       SpotRowRef: this.SpotRowRef?.toXML(),
-      ByWindow: this.ByWindow ? { text_value: this.ByWindow } : undefined,
-      ByAisle: this.ByAisle ? { text_value: this.ByAisle } : undefined,
+      IsByWindow: this.IsByWindow ? { text_value: this.IsByWindow } : undefined,
+      IsByAisle: this.IsByAisle ? { text_value: this.IsByAisle } : undefined,
+      TableType: this.TableType ? { text_value: this.TableType } : undefined,
       HasPower: this.HasPower ? { text_value: this.HasPower } : undefined,
       Centroid: this.Centroid?.toXML(),
       Width: this.Width,
@@ -111,8 +112,8 @@ export class PassengerSpot {
 
   getClasses() {
     const classes = []
-    if (this.ByWindow) classes.push('seat__by-window')
-    if (this.ByAisle) classes.push('seat__by-aisle')
+    if (this.IsByWindow) classes.push('seat__by-window')
+    if (this.IsByAisle) classes.push('seat__by-aisle')
     if (this.HasPower) classes.push('seat__has-power')
     if (this.Orientation) classes.push(`seat__orientation-${this.Orientation}`)
     if (this.availability) classes.push(`seat__availability-${this.availability.toLowerCase()}`)

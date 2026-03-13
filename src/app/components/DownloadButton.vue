@@ -14,15 +14,19 @@ import { storeToRefs } from 'pinia';
 const { deckplan} = storeToRefs(useEditorState());
 
 function downloadNeTEx() {{
-    if (!deckplan) return
+    if (!deckplan.value) return
 
     const builder = new XMLBuilder({
       ignoreAttributes: false,
       textNodeName: 'text_value',
       attributeNamePrefix: 'attr_',
-    })
+      format: true,
+      indentBy: '  ',
+    });
 
-    const text = builder.build(deckplan)
+    console.log("check1")
+    const text = builder.build(deckplan.value.toXML())
+    console.log("check")
     const blob = new Blob([text], { type: 'text/xml' })
     const link = document.createElement('a')
     link.href = URL.createObjectURL(blob)

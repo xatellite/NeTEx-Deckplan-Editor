@@ -1,6 +1,6 @@
 <template>
-  <div class="w-full flex justify-center">
-    <div>
+  <div class="w-max mx-auto shadow-sm border-2 rounded-lg bg-ott-bg-primary p-4">
+    <div class="relative">
       <v-stage
         :config="{
           width: getStageSize(deck, scale).height,
@@ -117,7 +117,7 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  selectedElementId: {
+  selectedElements: {
     type: Array as PropType<any[]>,
     default: () => [],
   }
@@ -162,7 +162,7 @@ const entrances = computed(() => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getStyle = (element: any) => {
-  if (props.selectedElementId.includes(element)) {
+  if (props.selectedElements.includes(element)) {
     return {
       stroke: '#ffffff',
       strokeWidth: 3,
@@ -262,8 +262,8 @@ const handleMouseUp = () => {
 
 const handleDragStart = (e: any, seat: PassengerSpot) => {
     dragStartPositions.value.clear()
-    if (props.selectedElementId.includes(seat)) {
-        props.selectedElementId.forEach(el => {
+    if (props.selectedElements.includes(seat)) {
+        props.selectedElements.forEach(el => {
             if (el instanceof PassengerSpot) {
                 const shape = el.getShape(props.scale)
                 dragStartPositions.value.set(el, { x: shape.x, y: shape.y })
@@ -278,7 +278,7 @@ const handleDragMove = (e: any, seat: PassengerSpot) => {
     const stage = e.target.getStage()
 
     // Get all other seats that are NOT selected (snap to static objects only)
-    const otherSeats = seats.value.filter(s => s !== seat && !props.selectedElementId.includes(s))
+    const otherSeats = seats.value.filter(s => s !== seat && !props.selectedElements.includes(s))
 
     // Current position
     const x = e.target.x()
@@ -322,11 +322,11 @@ const handleDragMove = (e: any, seat: PassengerSpot) => {
 
     // Move other selected seats
     const startPos = dragStartPositions.value.get(seat)
-    if (startPos && props.selectedElementId.includes(seat)) {
+    if (startPos && props.selectedElements.includes(seat)) {
         const dx = newX - startPos.x
         const dy = newY - startPos.y
 
-        props.selectedElementId.forEach(other => {
+        props.selectedElements.forEach(other => {
             if (other !== seat && other instanceof PassengerSpot) {
                 const otherStart = dragStartPositions.value.get(other)
                 if (otherStart) {
@@ -349,7 +349,7 @@ const handleDragEnd = (e: any, seat: PassengerSpot) => {
   dragStartPositions.value.clear()
 }
 
-const updateSeatPosition = (seat: PassengerSpot, x: number, y: number) => {
+const updateSeatPosition = (seat: PassengerSpot, y: number, x: number) => {
   if (seat.Centroid) {
     seat.Centroid.x = ((x - 5) / props.scale) + (seat.Width / 2)
     seat.Centroid.y = ((y - 5) / props.scale) + (seat.Length / 2)
@@ -423,8 +423,8 @@ const handleEntranceDragMove = (e: any, entrance: PassengerEntrance) => {
       entrance.Centroid = new Centroid(0, 0)
     }
 
-    entrance.Centroid.x = newX / props.scale
-    entrance.Centroid.y = newY / props.scale
+    entrance.Centroid.x = newY / props.scale
+    entrance.Centroid.y = newX / props.scale
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

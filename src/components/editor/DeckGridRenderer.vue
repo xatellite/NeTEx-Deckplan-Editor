@@ -1,8 +1,8 @@
 <template>
-  <div class="m-4 p-4 border-2 rounded-lg bg-ott-bg-primary shadow-sm overflow-auto">
+  <div class="shadow-sm border-2 rounded-lg bg-ott-bg-primary">
     <div
       v-if="deck.spotRows.length > 0 && deck.spotColumns.length > 0"
-      class="grid w-max"
+      class="grid w-max p-4"
       :style="{
         gridTemplateColumns: `minmax(64px, auto) repeat(${deck.spotColumns.length}, ${scale * 6}px)`,
         gridAutoRows: `${scale * 6}px`,
@@ -10,9 +10,9 @@
       }"
     >
       <!-- Corner -->
-      <div class="bg-ott-bg-secondary/20 rounded border border-ott-bg-dark flex items-center justify-center p-2">
+      <button class="bg-ott-bg-secondary/20 rounded border border-ott-bg-dark flex items-center justify-center p-2" @click="handleEditClicked">
         <Icon icon="material-symbols:grid-view-outline-rounded" width="18" class="text-ott-text-secondary" />
-      </div>
+      </button>
 
       <!-- Column Labels -->
       <div
@@ -31,15 +31,15 @@
         </div>
 
         <!-- Cells -->
-        <div 
-          v-for="column in deck.spotColumns" 
+        <div
+          v-for="column in deck.spotColumns"
           :key="`${row.attr_id}-${column.attr_id}`"
           class="border border-ott-bg-dark bg-white flex items-center justify-center relative transition-all hover:bg-ott-bg-secondary/5 group"
           @dragover.prevent
           @drop="handleDrop($event, column.attr_id, row.attr_id)"
         >
           <template v-for="spot in [locatableSpots[column.attr_id]?.[row.attr_id]]" :key="`spot-${spot?.attr_id}`">
-            <LocatableSpotElement 
+            <LocatableSpotElement
               v-if="spot"
               draggable="true"
               :element="spot"
@@ -77,9 +77,16 @@ import { SpotRowRef } from '@/models/netex/deckplan/deck/spotRow';
 const props = defineProps<{
   deck: Deck,
   scale: number,
+
 }>();
 
+const emit = defineEmits(['editGrid'])
+
 const store = useEditorState();
+
+function handleEditClicked() {
+  emit('editGrid')
+}
 
 function handleDrop(event: DragEvent, columnId: string, rowId: string) {
   const elementId = event.dataTransfer?.getData('elementId');
