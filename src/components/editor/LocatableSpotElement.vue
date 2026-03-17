@@ -12,23 +12,31 @@
 </template>
 
 <script lang="ts" setup>
-import { useEditorState } from '@/app/store/editorstate';
 import { LuggageSpot } from '@/models/netex/deckplan/deck/deckspace/spots/luggageSpot';
 import { PassengerSpot } from '@/models/netex/deckplan/deck/deckspace/spots/passengerSpot';
 import { Icon } from '@iconify/vue';
 
 const props = defineProps<{
   element: PassengerSpot | LuggageSpot,
+  isNew?: boolean,
+}>()
+
+const emit = defineEmits<{
+  (e: 'select', id: string): void
 }>()
 
 function selectElement() {
-  useEditorState().selectElement(props.element.attr_id)
+  if (props.isNew) return;
+  emit('select', props.element.attr_id)
 }
 
 function handleDragStart(event: DragEvent) {
   if (event.dataTransfer) {
+    if (props.isNew) {
+        event.dataTransfer.setData('isNewElement', 'true');
+    }
     event.dataTransfer.setData('elementId', props.element.attr_id);
-    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.effectAllowed = props.isNew ? 'copy' : 'move';
   }
 }
 

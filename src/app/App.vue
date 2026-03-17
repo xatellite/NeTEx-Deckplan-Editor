@@ -23,6 +23,12 @@
             }
             store.selectElement(id);
           }"
+          @dropNew="(data) => {
+            if (store.elementToBuild) {
+              store.moveElement(store.elementToBuild.attr_id, data.targetId, data.position);
+            }
+          }"
+          @move="(data) => store.moveElement(data.sourceId, data.targetId, data.position)"
         />
       </div>
       <!-- Workbench -->
@@ -60,13 +66,35 @@
             </div>
             <div class="flex-1 h-full min-h-0 overflow-auto relative bg-ott-bg-secondary/10">
               <div class="flex flex-col min-h-full min-w-full items-center justify-start p-8">
-                <DeckGridRenderer @editGrid="handleEditDeck" :deck="selectedDeck" :scale="scale" v-if="selectedRenderer === 'grid'" />
-                <DeckExactRenderer class="w-full" :selectedElements="selectedElement ? [selectedElement] : []" :deck="selectedDeck" :scale="scale*5" v-if="selectedRenderer === 'exact'" />
+                <DeckGridRenderer 
+                  v-if="selectedRenderer === 'grid'"
+                  :deck="selectedDeck" 
+                  :scale="scale" 
+                  :elementToBuild="store.elementToBuild"
+                  @editGrid="handleEditDeck" 
+                  @select="(id: string) => store.selectElement(id)"
+                  @drop="({ element, deckId }: { element: any, deckId: string }) => store.addElementToDeck(element, deckId)"
+                  @updateElement="({ id, updates }: { id: string, updates: any }) => store.updateElement(id, updates)"
+                />
+                <DeckExactRenderer 
+                  v-if="selectedRenderer === 'exact'"
+                  class="w-full" 
+                  :selectedElements="selectedElement ? [selectedElement] : []" 
+                  :deck="selectedDeck" 
+                  :scale="scale*5" 
+                  :elementToBuild="store.elementToBuild"
+                  @select="({ element }: { element: any }) => store.selectElement(element.attr_id)"
+                  @area-select="(elements: any[]) => {
+                    if (elements.length > 0) store.selectElement(elements[0].attr_id)
+                  }"
+                  @drop="({ element, deckId }: { element: any, deckId: string }) => store.addElementToDeck(element, deckId)"
+                  @updateElement="({ id, updates }: { id: string, updates: any }) => store.updateElement(id, updates)"
+                />
               </div>
             </div>
           </div>
           <div class="shrink-0 border-t border-ott-bg-secondary py-2 flex justify-center " v-if="selectedRenderer === 'grid'">
-             <DeckGridElementStorage :deck="selectedDeck" />
+             <DeckGridElementStorage :deck="selectedDeck" @select="(id: string) => store.selectElement(id)" />
           </div>
         </div>
       </div>

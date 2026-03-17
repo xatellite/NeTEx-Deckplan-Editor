@@ -24,6 +24,8 @@
               @mousedown="handleMouseDown"
               @mousemove="handleMouseMove"
               @mouseup="handleMouseUp"
+              @dragover.prevent
+              @drop="handleDropInExact"
           />
           <v-group
             v-for="(seat, index) in seats"
@@ -120,10 +122,14 @@ const props = defineProps({
   selectedElements: {
     type: Array as PropType<any[]>,
     default: () => [],
+  },
+  elementToBuild: {
+    type: Object as PropType<any>,
+    default: null,
   }
 })
 
-const emit = defineEmits(['select', 'area-select'])
+const emit = defineEmits(['select', 'area-select', 'drop', 'updateElement'])
 
 const selectionRect = ref<any>(null)
 const isSelecting = ref(false)
@@ -350,14 +356,42 @@ const handleDragEnd = (e: any, seat: PassengerSpot) => {
 }
 
 const updateSeatPosition = (seat: PassengerSpot, y: number, x: number) => {
-  if (seat.Centroid) {
-    seat.Centroid.x = ((x - 5) / props.scale) + (seat.Width / 2)
-    seat.Centroid.y = ((y - 5) / props.scale) + (seat.Length / 2)
-  } else {
-    seat.Centroid = new Centroid(
-      ((x - 5) / props.scale) + (seat.Width / 2),
-      ((y - 5) / props.scale) + (seat.Length / 2)
-    )
+  const newCentroid = {
+    x: ((x - 5) / props.scale) + (seat.Width / 2),
+    y: ((y - 5) / props.scale) + (seat.Length / 2)
+  }
+  
+  emit('updateElement', {
+    id: seat.attr_id,
+    updates: {
+      Centroid: new Centroid(newCentroid.x, newCentroid.y)
+    }
+  })
+}
+
+const handleDropInExact = (e: any) => {
+  const isNew = e.evt.dataTransfer?.getData('isNewElement') === 'true'
+  if (isNew && props.elementToBuild) {
+    const stage = e.target.getStage()
+    const pointer = stage.getPointerPosition()
+    const transform = e.target.getAbsoluteTransform().copy()
+    transform.invert()
+    const pos = transform.point(pointer)
+
+    const el = props.elementToBuild
+    if (el instanceof PassengerSpot || el.constructor.name === 'LuggageSpot' || el instanceof PassengerEntrance) {
+      if (el instanceof PassengerSpot) {
+          const x = pos.y
+          const y = pos.x
+          el.Centroid = new Centroid(
+            ((x - 5) / props.scale) + (el.Width / 2),
+            ((y - 5) / props.scale) + (el.Length / 2)
+          )
+      } else if (el instanceof PassengerEntrance) {
+           el.Centroid = new Centroid(pos.y / props.scale, pos.x / props.scale)
+      }
+      emit('drop', { element: el, deckId: props.deck.attr_id })
+    }
   }
 }
 

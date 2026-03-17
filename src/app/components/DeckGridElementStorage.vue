@@ -7,7 +7,7 @@
     <div class="flex-1 overflow-y-auto p-4 flex flex-wrap gap-2 content-start scrollbar-thin">
       <span>Unlocated elements:</span>
       <template v-for="spot in unallocatedSpots" :key="spot.attr_id">
-        <LocatableSpotElement :element="spot" />
+        <LocatableSpotElement :element="spot" @select="(id) => $emit('select', id)" />
       </template>
 
       <div v-if="unallocatedSpots.length === 0" class="w-full h-full flex flex-col items-center justify-center text-ott-text-secondary/30 italic text-sm gap-2 py-8">
@@ -33,6 +33,8 @@ const props = defineProps<{
   deck: Deck
 }>();
 
+defineEmits(['select'])
+
 const store = useEditorState();
 
 const unallocatedSpots = computed(() => {
@@ -51,8 +53,15 @@ const unallocatedSpots = computed(() => {
 });
 
 function handleDrop(event: DragEvent) {
+  const isNew = event.dataTransfer?.getData('isNewElement') === 'true';
   const elementId = event.dataTransfer?.getData('elementId');
-  if (elementId) {
+
+  if (isNew && store.elementToBuild) {
+    const el = store.elementToBuild;
+    el.SpotColumnRef = undefined;
+    el.SpotRowRef = undefined;
+    store.addElementToDeck(el, props.deck.attr_id);
+  } else if (elementId) {
     store.updateElement(elementId, {
       SpotColumnRef: undefined,
       SpotRowRef: undefined

@@ -15,6 +15,7 @@
           :selectedId="selectedId"
           @select="(id) => $emit('select', id)"
           @move="(moveData) => $emit('move', moveData)"
+          @dropNew="(dropData) => $emit('dropNew', dropData)"
         />
       </div>
     </div>
@@ -34,7 +35,8 @@ const props = defineProps<{
 
 defineEmits<{
   (e: 'select', id: string): void;
-  (e: 'move', data: { sourceId: string; targetId: string }): void;
+  (e: 'move', data: { sourceId: string; targetId: string; position?: 'before' | 'inside' | 'after' }): void;
+  (e: 'dropNew', data: { targetId: string; position?: 'before' | 'inside' | 'after' }): void;
 }>();
 
 const treeData = computed(() => {

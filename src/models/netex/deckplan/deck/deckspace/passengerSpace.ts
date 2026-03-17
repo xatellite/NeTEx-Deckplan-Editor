@@ -151,6 +151,31 @@ export class PassengerSpace {
     this.AirConditioned = AirConditioned?.text_value
   }
 
+  static createDefault(id: string): PassengerSpace {
+    return new PassengerSpace({
+      attr_id: id,
+      attr_version: '1.0',
+      Name: { text_value: 'Default Space' } as any,
+      SmokingAllowed: false,
+      StandingAllowed: true,
+      PassengerSpaceType: 'seatingArea',
+      passengerSpots: { PassengerSpot: [], PassengerSpotRef: [] },
+      luggageSpots: { LuggageSpot: [], LuggageSpotRef: [] },
+      deckEntrances: { PassengerEntrance: [] },
+      deckEntranceUsage: { DeckEntranceUsage: [] },
+      deckEntranceCouples: { DeckEntranceCouple: [] },
+      deckSpaceCapacities: { DeckSpaceCapacity: [] },
+      actualVehicleEquipments: { ActualVehicleEquipment: [] },
+      ServiceFacilitySetRef: undefined,
+      Centroid: undefined,
+      Polygon: undefined,
+      PublicUse: { text_value: true },
+      TotalCapacity: { text_value: 0 },
+      FareClass: { text_value: 'secondClass' },
+      AirConditioned: { text_value: true }
+    })
+  }
+
   toXML() {
     return {
       attr_id: this.attr_id,
