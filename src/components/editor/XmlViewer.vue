@@ -90,7 +90,7 @@ const updateHighlight = () => {
   nextTick(() => {
     const element = scrollContainer.value?.querySelector(`#line-${startLineIndex}`);
     if (element && scrollContainer.value) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: 'smooth', block: "nearest", inline: "nearest" });
     }
   });
 }

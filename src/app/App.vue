@@ -4,22 +4,7 @@
       <h1>NeTEx common public transport deckplan editor</h1>
       <DownloadButton />
     </header>
-    <div class="flex-1 flex border-t-ott-bg-dark border-t overflow-hidden min-h-0">
-      <!-- Workbench -->
-      <div class="flex-1 flex flex-col min-w-0">
-        <div class="bg-ott-bg-primary p-4 w-full flex justify-center">
-          <div class="flex gap-4 p-1 px-2 border-ott-bg-dark bg-ott-bg-secondary border rounded-md w-fit font-medium">
-            <button @click="() => selectedTab = 'build'" :class="`${selectedTab === 'build' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Build</button>
-            <button @click="() => deckplan ? selectedTab = 'annotate' : {}" :class="`${!deckplan ? 'text-ott-text-secondary':''} ${selectedTab === 'annotate' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Annotate</button>
-            <button @click="() => deckplan ? selectedTab = 'view' : {}" :class="`${!deckplan ? 'text-ott-text-secondary':''} ${selectedTab === 'view' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">View</button>
-          </div>
-        </div>
-        <div class="flex-1 overflow-hidden h-full relative">
-          <BuildPage v-if="selectedTab == 'build'" />
-          <AnnotatePage v-if="selectedTab == 'annotate'" />
-          <ViewPage v-if="selectedTab == 'view'" />
-        </div>
-      </div>
+    <div class="flex-1 flex border-t-ott-bg-dark border-t min-h-0">
       <!-- Treeview -->
       <div>
         <div class="bg-ott-bg-primary h-21 p-4 w-full flex justify-center border-b border-ott-bg-secondary items-center">
@@ -39,6 +24,21 @@
             store.selectElement(id);
           }"
         />
+      </div>
+      <!-- Workbench -->
+      <div class="flex-1 flex flex-col min-w-0">
+        <div class="bg-ott-bg-primary p-4 w-full flex justify-center">
+          <div class="flex gap-4 p-1 px-2 border-ott-bg-dark bg-ott-bg-secondary border rounded-md w-fit font-medium">
+            <button @click="() => selectedTab = 'build'" :class="`${selectedTab === 'build' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Build</button>
+            <button @click="() => deckplan ? selectedTab = 'annotate' : {}" :class="`${!deckplan ? 'text-ott-text-secondary':''} ${selectedTab === 'annotate' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Annotate</button>
+            <button @click="() => deckplan ? selectedTab = 'view' : {}" :class="`${!deckplan ? 'text-ott-text-secondary':''} ${selectedTab === 'view' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">View</button>
+          </div>
+        </div>
+        <div class="flex-1 overflow-hidden h-full relative">
+          <BuildPage v-if="selectedTab == 'build'" />
+          <AnnotatePage v-if="selectedTab == 'annotate'" />
+          <ViewPage v-if="selectedTab == 'view'" />
+        </div>
       </div>
 
       <div class="bg-ott-bg-dark w-0.5 cursor-col-resize" />
