@@ -17,7 +17,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/xatellite/netex-deckplan-editor">
+  <a href="https://github.com/xatellite/NeTEx-Deckplan-Editor">
     <img src="doc/logo.svg" alt="Logo" width="80" height="80">
   </a>
 
@@ -26,12 +26,12 @@
   <p align="center">
     Create and edit public transport vehicle layouts. Recieve interoperable NeTEx deckplans.
     <br />
-    <a href="https://xatellite.github.io/netex-deckplan-editor"><strong>Check out the Demo »</strong></a>
+    <a href="https://xatellite.github.io/NeTEx-Deckplan-Editor"><strong>Check out the Demo »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/xatellite/netex-deckplan-editor/issues">Report Bug</a>
+    <a href="https://github.com/xatellite/NeTEx-Deckplan-Editor/issues">Report Bug</a>
     ·
-    <a href="https://github.com/xatellite/netex-deckplan-editor/issues">Request Feature</a>
+    <a href="https://github.com/xatellite/NeTEx-Deckplan-Editor/issues">Request Feature</a>
     ·
     <a href="mailto:hi@xatellite.space?subject=%5BDeckplan%5D">Send Feedback</a>
   </p>
@@ -125,7 +125,7 @@ This is a short guide to setup your own development environment of this project.
 1. To start of clone the Repo:
 
    ```sh
-   $ git clone https://github.com/xatellite/netex-deckplan-editor.git
+   $ git clone https://github.com/xatellite/NeTEx-Deckplan-Editor.git
    ```
 
 2. Install all NPM packages
@@ -186,16 +186,16 @@ The following pages and resources have been very helpful in the creation of the 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-[contributors-shield]: https://img.shields.io/github/contributors/xatellite/netex-deckplan-editor.svg?style=for-the-badge
-[contributors-url]: https://github.com/xatellite/netex-deckplan-editor/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/xatellite/netex-deckplan-editor.svg?style=for-the-badge
-[forks-url]: https://github.com/xatellite/netex-deckplan-editor/network/members
-[stars-shield]: https://img.shields.io/github/stars/xatellite/netex-deckplan-editor.svg?style=for-the-badge
-[stars-url]: https://github.com/xatellite/netex-deckplan-editor/stargazers
-[issues-shield]: https://img.shields.io/github/issues/xatellite/netex-deckplan-editor.svg?style=for-the-badge
-[issues-url]: https://github.com/xatellite/netex-deckplan-editor/issues
-[license-shield]: https://img.shields.io/github/license/xatellite/netex-deckplan-editor.svg?style=for-the-badge
-[license-url]: https://github.com/xatellite/netex-deckplan-editor/blob/main/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/xatellite/NeTEx-Deckplan-Editor.svg?style=for-the-badge
+[contributors-url]: https://github.com/xatellite/NeTEx-Deckplan-Editor/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/xatellite/NeTEx-Deckplan-Editor.svg?style=for-the-badge
+[forks-url]: https://github.com/xatellite/NeTEx-Deckplan-Editor/network/members
+[stars-shield]: https://img.shields.io/github/stars/xatellite/NeTEx-Deckplan-Editor.svg?style=for-the-badge
+[stars-url]: https://github.com/xatellite/NeTEx-Deckplan-Editor/stargazers
+[issues-shield]: https://img.shields.io/github/issues/xatellite/NeTEx-Deckplan-Editor.svg?style=for-the-badge
+[issues-url]: https://github.com/xatellite/NeTEx-Deckplan-Editor/issues
+[license-shield]: https://img.shields.io/github/license/xatellite/NeTEx-Deckplan-Editor.svg?style=for-the-badge
+[license-url]: https://github.com/xatellite/NeTEx-Deckplan-Editor/blob/main/LICENSE
 [annotate-screenshot]: ./doc/images/editor_01.png
 [xml-screenshot]: ./doc/images/editor_02.png
 [build-screenshot]: ./doc/images/editor_03.png
