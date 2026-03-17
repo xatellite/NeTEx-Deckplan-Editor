@@ -1,0 +1,6 @@
+export { default as DeckExactRenderer } from './DeckExactRenderer.vue'
+export { default as DeckGridRenderer } from './DeckGridRenderer.vue'
+export { default as DeckTreeview } from './DeckTreeview.vue'
+export { default as LocatableSpotElement } from './LocatableSpotElement.vue'
+export { default as TreeItem } from './TreeItem.vue'
+export { default as XmlViewer } from './XmlViewer.vue'

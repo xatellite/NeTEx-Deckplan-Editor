@@ -28,6 +28,7 @@
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
+    "build-app": "vite build --config vite.config.app.ts",
     "build-wc": "vite build --config vite.config.webcomponent.ts",
     "build:types": "vue-tsc -p tsconfig.build.json",
     "type-check": "vue-tsc --noEmit",
