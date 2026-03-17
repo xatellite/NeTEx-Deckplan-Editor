@@ -49,7 +49,7 @@
 
       <div class="bg-ott-bg-dark w-0.5 cursor-col-resize" />
       <!-- Renderer -->
-      <div class="min-w-96 flex flex-col min-h-0">
+      <div class="min-w-96 max-w-20 flex flex-col min-h-0">
         <div class="bg-ott-bg-primary p-4 w-full flex justify-center border-b h-21 shrink-0 border-ott-bg-dark items-center">
           <div class="flex gap-4 p-1 px-2 border-ott-bg-dark bg-ott-bg-secondary border rounded-md w-fit font-medium">
             <button @click="() => selectedRenderer = 'grid'" :class="`${selectedRenderer === 'grid' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Grid</button>
@@ -93,7 +93,7 @@
               </div>
             </div>
           </div>
-          <div class="shrink-0 border-t border-ott-bg-secondary py-2 flex justify-center " v-if="selectedRenderer === 'grid'">
+          <div class="shrink-0 border-t max-h-48 border-ott-bg-secondary py-2 flex justify-center " v-if="selectedRenderer === 'grid'">
              <DeckGridElementStorage :deck="selectedDeck" @select="(id: string) => store.selectElement(id)" />
           </div>
         </div>

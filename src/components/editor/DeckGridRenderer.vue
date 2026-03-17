@@ -73,37 +73,43 @@ import LocatableSpotElement from './LocatableSpotElement.vue';
 import { Icon } from '@iconify/vue';
 import { SpotColumnRef } from '@/models/netex/deckplan/deck/spotColumn';
 import { SpotRowRef } from '@/models/netex/deckplan/deck/spotRow';
+import type { BuildableElement } from '@/models/netex/deckplan/deckPlan';
+import { LocatableSpot } from '@/models/netex/deckplan/deck/deckspace/spots/locatableSpot';
 
 const props = defineProps<{
-deck: Deck,
-scale: number,
-elementToBuild?: any,
+  deck: Deck,
+  scale: number,
+  elementToBuild?: BuildableElement,
 }>();
 
 const emit = defineEmits(['editGrid', 'select', 'drop', 'updateElement'])
 
 function handleEditClicked() {
-emit('editGrid')
+  emit('editGrid')
 }
 
 function handleDrop(event: DragEvent, columnId: string, rowId: string) {
-const isNew = event.dataTransfer?.getData('isNewElement') === 'true';
-const elementId = event.dataTransfer?.getData('elementId');
+  const isNew = event.dataTransfer?.getData('isNewElement') === 'true';
+  const elementId = event.dataTransfer?.getData('elementId');
 
-if (isNew && props.elementToBuild) {
-const el = props.elementToBuild;
-el.SpotColumnRef = new SpotColumnRef({ attr_ref: columnId, attr_version: '1.0' });
-el.SpotRowRef = new SpotRowRef({ attr_ref: rowId, attr_version: '1.0' });
-emit('drop', { element: el, deckId: props.deck.attr_id });
-} else if (elementId) {
-emit('updateElement', {
-  id: elementId,
-  updates: {
-    SpotColumnRef: new SpotColumnRef({ attr_ref: columnId, attr_version: '1.0' }),
-    SpotRowRef: new SpotRowRef({ attr_ref: rowId, attr_version: '1.0' })
+  if (isNew && props.elementToBuild) {
+    const el = props.elementToBuild;
+
+    if (el instanceof LocatableSpot) {
+      el.SpotColumnRef = new SpotColumnRef({ attr_ref: columnId, attr_version: '1.0' });
+      el.SpotRowRef = new SpotRowRef({ attr_ref: rowId, attr_version: '1.0' });
+    }
+
+    emit('drop', { element: el, deckId: props.deck.attr_id });
+  } else if (elementId) {
+    emit('updateElement', {
+      id: elementId,
+      updates: {
+        SpotColumnRef: new SpotColumnRef({ attr_ref: columnId, attr_version: '1.0' }),
+        SpotRowRef: new SpotRowRef({ attr_ref: rowId, attr_version: '1.0' })
+      }
+    });
   }
-});
-}
 }
 
 // Flatten locatable spots and pack them into a list

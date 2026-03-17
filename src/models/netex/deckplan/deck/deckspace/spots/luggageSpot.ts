@@ -1,47 +1,49 @@
-import { ActualVehicleEquipment } from "../../../../actualVehicleEquipment"
-import { extractElementList, serializeElements } from "../../../../general"
-import { SpotColumnRef as GeneralSpotColumnRef } from "../../spotColumn"
-import { SpotRowRef as GeneralSpotRowRef } from "../../spotRow"
+import { serializeElements } from '../../../../general'
+import { LocatableSpot } from './locatableSpot'
 
-export class LuggageSpot {
-  attr_id: string
-  attr_version: string
-  Label: string | undefined
-  Orientation: 'backwards' | 'forwards'| 'leftwards' | 'rightwards'  | undefined
-  actualVehicleEquipments: ActualVehicleEquipment[]
-  SpotColumnRef: GeneralSpotColumnRef | undefined
-  SpotRowRef: GeneralSpotRowRef|undefined
-
-  constructor({ attr_id, attr_version, Label, Orientation, actualVehicleEquipments, SpotColumnRef, SpotRowRef }: {
-   attr_id: string,
-   attr_version: string,
-   Label: string | undefined,
-   Orientation: 'backwards' | 'forwards' | 'leftwards' | 'rightwards' | undefined,
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-   actualVehicleEquipments: any[],
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-   SpotColumnRef: any,
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-   SpotRowRef: any,
-    }) {
-    this.attr_id = attr_id
-    this.attr_version = attr_version
-    this.Label = Label
-    this.Orientation = Orientation
-    this.actualVehicleEquipments = actualVehicleEquipments ? extractElementList(actualVehicleEquipments, ActualVehicleEquipment) : []
-    this.SpotColumnRef = SpotColumnRef ? new GeneralSpotColumnRef(SpotColumnRef) : undefined
-    this.SpotRowRef = SpotRowRef ? new GeneralSpotRowRef(SpotRowRef) : undefined
+export class LuggageSpot extends LocatableSpot {
+  constructor({
+    attr_id,
+    attr_version,
+    Label,
+    Orientation,
+    actualVehicleEquipments,
+    SpotColumnRef,
+    SpotRowRef,
+  }: {
+    attr_id: string
+    attr_version: string
+    Label: string | undefined
+    Orientation: 'backwards' | 'forwards' | 'leftwards' | 'rightwards' | undefined
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    actualVehicleEquipments: any[]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    SpotColumnRef: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    SpotRowRef: any
+  }) {
+    super({
+      attr_id,
+      attr_version,
+      Label,
+      Orientation,
+      actualVehicleEquipments,
+      SpotColumnRef,
+      SpotRowRef,
+    })
   }
 
   toXML() {
     return {
-        attr_id: this.attr_id,
-        attr_version: this.attr_version,
-        Label: this.Label,
-        Orientation: this.Orientation,
-        actualVehicleEquipments: {ActualVehicleEquipment: serializeElements(this.actualVehicleEquipments)},
-        SpotColumnRef: this.SpotColumnRef?.toXML(),
-        SpotRowRef: this.SpotRowRef?.toXML(),
+      attr_id: this.attr_id,
+      attr_version: this.attr_version,
+      Label: this.Label,
+      Orientation: this.Orientation,
+      actualVehicleEquipments: {
+        ActualVehicleEquipment: serializeElements(this.actualVehicleEquipments),
+      },
+      SpotColumnRef: this.SpotColumnRef?.toXML(),
+      SpotRowRef: this.SpotRowRef?.toXML(),
     }
   }
 }
@@ -58,8 +60,7 @@ export class LuggageSpotRef {
   toXML() {
     return {
       attr_ref: this.attr_ref,
-      attr_version: this.attr_version
+      attr_version: this.attr_version,
     }
   }
 }
-

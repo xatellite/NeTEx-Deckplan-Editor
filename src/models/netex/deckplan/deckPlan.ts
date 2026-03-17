@@ -1,6 +1,10 @@
 import { Deck } from './deck/deck'
 import { DeckLevel } from './decklevels/deckLevel'
 import { extractElementList, serializeElements } from '../general'
+import type { PassengerSpot } from './deck/deckspace/spots/passengerSpot'
+import type { LuggageSpot } from './deck/deckspace/spots/luggageSpot'
+import type { PassengerSpace } from './deck/deckspace/passengerSpace'
+import type { PassengerEntrance } from './deck/deckspace/entrance/passengerEntrance'
 
 export class DeckPlan {
   attr_id: string
@@ -76,3 +80,5 @@ export class DeckPlan {
     }
   }
 }
+
+export type BuildableElement = PassengerSpot | PassengerSpace | LuggageSpot | PassengerEntrance

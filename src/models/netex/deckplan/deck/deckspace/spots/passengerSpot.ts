@@ -1,20 +1,11 @@
-import { ActualVehicleEquipment } from '../../../../actualVehicleEquipment'
-import { extractElementList, serializeElementsAndRefs } from '../../../../general'
-import { SpotColumnRef as GeneralSpotColumnRef } from '../../spotColumn'
+import { serializeElementsAndRefs } from '../../../../general'
 import { Centroid as GeneralCentroid } from '../../../../centroid'
-import { SpotRowRef as GeneralSpotRowRef } from '../../spotRow'
 import { PassengerSpotAvailability } from '../../../../../view/seats'
+import { LocatableSpot } from './locatableSpot'
 
-export class PassengerSpot {
+export class PassengerSpot extends LocatableSpot {
   static xmlTagName = 'PassengerSpot'
 
-  attr_id: string
-  attr_version: string
-  Label: string | undefined
-  Orientation: 'backwards' | 'forwards' | 'leftwards' | 'rightwards' | undefined
-  actualVehicleEquipments: ActualVehicleEquipment[] | undefined
-  SpotColumnRef: GeneralSpotColumnRef | undefined
-  SpotRowRef: GeneralSpotRowRef | undefined
   IsByWindow: boolean | undefined
   IsByAisle: boolean | undefined
   IsBetweenSeats: boolean | undefined
@@ -68,15 +59,15 @@ export class PassengerSpot {
     Width: number | undefined
     Length: number | undefined
   }) {
-    this.attr_id = attr_id
-    this.attr_version = attr_version
-    this.Label = Label ? Label : ''
-    this.Orientation = Orientation ? Orientation : undefined
-    this.actualVehicleEquipments = actualVehicleEquipments
-      ? extractElementList(actualVehicleEquipments, ActualVehicleEquipment)
-      : undefined
-    this.SpotColumnRef = SpotColumnRef ? new GeneralSpotColumnRef(SpotColumnRef) : undefined
-    this.SpotRowRef = SpotRowRef ? new GeneralSpotRowRef(SpotRowRef) : undefined
+    super({
+      attr_id,
+      attr_version,
+      Label,
+      Orientation,
+      actualVehicleEquipments,
+      SpotColumnRef,
+      SpotRowRef,
+    })
     this.IsByWindow = IsByWindow
     this.IsByAisle = IsByAisle
     this.IsBetweenSeats = IsBetweenSeats

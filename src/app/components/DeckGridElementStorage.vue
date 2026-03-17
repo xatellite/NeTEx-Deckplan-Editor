@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col bg-ott-bg-primary max-w-120 max-h-34 overflow-auto border-ott-text-primary"
+    class="flex flex-col bg-ott-bg-primary w-full overflow-auto border-ott-text-primary"
     @dragover.prevent
     @drop="handleDrop"
   >
