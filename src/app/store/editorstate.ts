@@ -127,7 +127,6 @@ export const useEditorState = defineStore('editor', {
     },
     setDeckplan(deckplan: DeckPlan) {
       this.deckplan = deckplan
-      console.log('deckplan', this.deckplan)
       // Check if Levels exist, else introduce them
       if (this.deckplan.decks.length > 0) {
         if (this.deckplan.deckLevels.length < this.deckplan.decks.length) {
@@ -158,7 +157,6 @@ export const useEditorState = defineStore('editor', {
         }
         // select Level
         this.selectedDeckLevelId = this.deckplan.decks[0]?.DeckLevelRef?.attr_ref
-        console.log('selectedDeck', this.selectedDeckLevelId)
       }
     },
     addDeckLevel() {
@@ -171,7 +169,6 @@ export const useEditorState = defineStore('editor', {
       }
     },
     selectDeckLevel(deckLevelId: string) {
-      console.log('stor', deckLevelId)
       this.selectedDeckLevelId = deckLevelId
     },
     selectElement(elementId: string | undefined) {
@@ -321,8 +318,6 @@ export const useEditorState = defineStore('editor', {
     },
     addElementToParent(element: BuildableElement, targetId: string, insertIndex?: number) {
       if (!this.deckplan) return
-
-      console.log('Adding element', element, 'to target', targetId, 'at index', insertIndex)
 
       // 1. Find the target and its context (Deck and optionally PassengerSpace)
       let foundTarget: any = undefined
