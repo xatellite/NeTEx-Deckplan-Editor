@@ -7,7 +7,7 @@
     <div class="flex-1 flex border-t-ott-bg-dark border-t min-h-0">
       <!-- Treeview -->
       <div>
-        <div class="bg-ott-bg-primary h-21 p-4 w-full flex justify-center border-b border-ott-bg-secondary items-center">
+        <div class="bg-ott-bg-primary h-21 p-4 w-full flex justify-center border-b border-ott-bg-dark items-center">
           <div class="p-1 px-2 border-ott-bg-dark bg-ott-bg-secondary border rounded-md w-fit font-medium">
             <button @click="hierarchyShown = !hierarchyShown" :disabled="!deckplan" :class="`${hierarchyShown ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6 disabled:text-ott-bg-dark`"> <Icon icon="material-symbols:account-tree-outline-rounded" width="20" /></button>
           </div>
@@ -33,7 +33,7 @@
       </div>
       <!-- Workbench -->
       <div class="flex-1 flex flex-col min-w-0">
-        <div class="bg-ott-bg-primary p-4 w-full flex justify-center">
+        <div class="bg-ott-bg-primary p-4 w-full  h-21  flex justify-center border-b border-ott-bg-dark">
           <div class="flex gap-4 p-1 px-2 border-ott-bg-dark bg-ott-bg-secondary border rounded-md w-fit font-medium">
             <button @click="() => selectedTab = 'build'" :class="`${selectedTab === 'build' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Build</button>
             <button @click="() => deckplan ? selectedTab = 'annotate' : {}" :class="`${!deckplan ? 'text-ott-text-secondary':''} ${selectedTab === 'annotate' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Annotate</button>
@@ -50,7 +50,7 @@
       <div class="bg-ott-bg-dark w-0.5 cursor-col-resize" />
       <!-- Renderer -->
       <div class="min-w-96 flex flex-col min-h-0">
-        <div class="bg-ott-bg-primary p-4 w-full flex justify-center border-b border-ott-bg-secondary h-21 flex-shrink-0 items-center">
+        <div class="bg-ott-bg-primary p-4 w-full flex justify-center border-b h-21 shrink-0 border-ott-bg-dark items-center">
           <div class="flex gap-4 p-1 px-2 border-ott-bg-dark bg-ott-bg-secondary border rounded-md w-fit font-medium">
             <button @click="() => selectedRenderer = 'grid'" :class="`${selectedRenderer === 'grid' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Grid</button>
             <button @click="() => selectedRenderer = 'exact'" :class="`${selectedRenderer === 'exact' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Exact</button>
@@ -66,22 +66,22 @@
             </div>
             <div class="flex-1 h-full min-h-0 overflow-auto relative bg-ott-bg-secondary/10">
               <div class="flex flex-col min-h-full min-w-full items-center justify-start p-8">
-                <DeckGridRenderer 
+                <DeckGridRenderer
                   v-if="selectedRenderer === 'grid'"
-                  :deck="selectedDeck" 
-                  :scale="scale" 
+                  :deck="selectedDeck"
+                  :scale="scale"
                   :elementToBuild="store.elementToBuild"
-                  @editGrid="handleEditDeck" 
+                  @editGrid="handleEditDeck"
                   @select="(id: string) => store.selectElement(id)"
                   @drop="({ element, deckId }: { element: any, deckId: string }) => store.addElementToDeck(element, deckId)"
                   @updateElement="({ id, updates }: { id: string, updates: any }) => store.updateElement(id, updates)"
                 />
-                <DeckExactRenderer 
+                <DeckExactRenderer
                   v-if="selectedRenderer === 'exact'"
-                  class="w-full" 
-                  :selectedElements="selectedElement ? [selectedElement] : []" 
-                  :deck="selectedDeck" 
-                  :scale="scale*5" 
+                  class="w-full"
+                  :selectedElements="selectedElement ? [selectedElement] : []"
+                  :deck="selectedDeck"
+                  :scale="scale*5"
                   :elementToBuild="store.elementToBuild"
                   @select="({ element }: { element: any }) => store.selectElement(element.attr_id)"
                   @area-select="(elements: any[]) => {
