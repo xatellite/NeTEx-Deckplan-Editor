@@ -195,7 +195,7 @@ The following pages and resources have been very helpful in the creation of the 
 [issues-shield]: https://img.shields.io/github/issues/xatellite/netex-deckplan-editor.svg?style=for-the-badge
 [issues-url]: https://github.com/xatellite/netex-deckplan-editor/issues
 [license-shield]: https://img.shields.io/github/license/xatellite/netex-deckplan-editor.svg?style=for-the-badge
-[license-url]: https://github.com/xatellite/netex-deckplan-editor/blob/master/LICENSE
+[license-url]: https://github.com/xatellite/netex-deckplan-editor/blob/main/LICENSE
 [annotate-screenshot]: ./doc/images/editor_01.png
 [xml-screenshot]: ./doc/images/editor_02.png
 [build-screenshot]: ./doc/images/editor_03.png
