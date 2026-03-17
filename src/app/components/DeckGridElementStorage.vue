@@ -1,10 +1,11 @@
 <template>
   <div
-    class="flex flex-col bg-ott-bg-primary border-2 max-w-80 max-h-20 overflow-auto border-ott-text-primary"
+    class="flex flex-col bg-ott-bg-primary max-w-120 max-h-34 overflow-auto border-ott-text-primary"
     @dragover.prevent
     @drop="handleDrop"
   >
     <div class="flex-1 overflow-y-auto p-4 flex flex-wrap gap-2 content-start scrollbar-thin">
+      <span>Unlocated elements:</span>
       <template v-for="spot in unallocatedSpots" :key="spot.attr_id">
         <LocatableSpotElement :element="spot" />
       </template>

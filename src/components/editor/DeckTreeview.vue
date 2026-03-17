@@ -70,7 +70,7 @@ const treeData = computed(() => {
             if (typeof spot !== 'string' && 'attr_id' in spot) {
               children.push({
                 label: getLabel(spot),
-                id: (spot as any).attr_id,
+                id: spot.attr_id,
                 icon: 'material-symbols:event-seat-outline-rounded',
               });
             }
@@ -81,7 +81,7 @@ const treeData = computed(() => {
             if (typeof spot !== 'string' && 'attr_id' in spot) {
               children.push({
                 label: getLabel(spot),
-                id: (spot as any).attr_id,
+                id: spot.attr_id,
                 icon: 'material-symbols:luggage-outline-rounded',
               });
             }
