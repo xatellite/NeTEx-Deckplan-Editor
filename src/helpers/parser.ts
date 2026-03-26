@@ -17,8 +17,6 @@ export const parseNeTEx = (xml: string) => {
   )
 }
 
-
-
 export const parseDeckplanOrNetex = (xml: string): DeckPlan => {
   const parser = new XMLParser({
     ignoreAttributes: false,
@@ -28,7 +26,11 @@ export const parseDeckplanOrNetex = (xml: string): DeckPlan => {
 
   const delivery = parser.parse(xml)
   if (delivery.DeckPlan) {
-    return delivery.DeckPlan
+    const extractedDeckplan = extractElementList([delivery.DeckPlan], DeckPlan)[0]
+    if (!extractedDeckplan) {
+      throw new Error('No DeckPlan found in the provided XML')
+    }
+    return extractedDeckplan
   }
 
   const deckplan = extractElementList(

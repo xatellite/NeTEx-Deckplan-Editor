@@ -24,9 +24,7 @@ function downloadNeTEx() {{
       indentBy: '  ',
     });
 
-    console.log("check1")
     const text = builder.build(deckplan.value.toXML())
-    console.log("check")
     const blob = new Blob([text], { type: 'text/xml' })
     const link = document.createElement('a')
     link.href = URL.createObjectURL(blob)

@@ -127,6 +127,7 @@ export const useEditorState = defineStore('editor', {
     },
     setDeckplan(deckplan: DeckPlan) {
       this.deckplan = deckplan
+      console.log(this.deckplan)
       // Check if Levels exist, else introduce them
       if (this.deckplan.decks.length > 0) {
         if (this.deckplan.deckLevels.length < this.deckplan.decks.length) {

@@ -65,18 +65,19 @@ export class DeckPlan {
   }
 
   removeDeckLevel(deckLevelId: string) {
-    console.log(deckLevelId, this.deckLevels)
     this.decks = this.decks.filter((deck) => deck.DeckLevelRef?.attr_ref !== deckLevelId)
     this.deckLevels = this.deckLevels.filter((deckLevel) => deckLevel?.attr_id !== deckLevelId)
-    console.log(this.deckLevels)
   }
 
   toXML() {
     return {
-      attr_id: this.attr_id,
-      attr_version: this.attr_version,
-      decks: { Deck: serializeElements(this.decks) },
-      deckLevels: { DeckLevel: serializeElements(this.deckLevels) },
+      DeckPlan: {
+        xmlTagName: '',
+        attr_id: this.attr_id,
+        attr_version: this.attr_version,
+        decks: { Deck: serializeElements(this.decks) },
+        deckLevels: { DeckLevel: serializeElements(this.deckLevels) },
+      },
     }
   }
 }
