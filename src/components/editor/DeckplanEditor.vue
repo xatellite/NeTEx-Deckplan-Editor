@@ -121,13 +121,6 @@ function load() {
       const result = event.target?.result
       if (typeof result !== 'string') return
 
-      const parser = new XMLParser({
-        ignoreAttributes: false,
-        attributeNamePrefix: 'attr_',
-        removeNSPrefix: true,
-      })
-
-      netex.value = parser.parse(result)
       deckPlans.value = parseNeTEx(result)
       deckPlans.value = [...deckPlans.value]
     })

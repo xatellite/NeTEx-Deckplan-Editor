@@ -6,6 +6,7 @@ export const parseNeTEx = (xml: string) => {
   const parser = new XMLParser({
     ignoreAttributes: false,
     attributeNamePrefix: 'attr_',
+    textNodeName: 'text_value',
     removeNSPrefix: true,
   })
 

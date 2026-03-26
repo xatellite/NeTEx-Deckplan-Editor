@@ -36,3 +36,8 @@ coverage
 __screenshots__/
 
 *.tgz
+dist-app/favicon.ico
+.gitignore
+dist-app/assets
+.gitignore
+dist-app/index.html
