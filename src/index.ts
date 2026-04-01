@@ -1,8 +1,8 @@
 import { type App } from 'vue'
 import * as editorComponents from './components/editor'
 import * as rendererComponents from './components/renderer'
-import {parseNeTEx} from './helpers/parser'
-import {type Availability, PassengerSpotAvailability} from './models/view/seats'
+import { parseNeTEx } from './helpers/parser'
+import { type Availability, PassengerSpotAvailability } from './models/view/seats'
 import '@/assets/lib.css'
 
 function install(app: App) {
@@ -19,4 +19,5 @@ export default { install }
 
 export * from './components/editor'
 export * from './components/renderer'
+export * from './models'
 export { parseNeTEx, type Availability, PassengerSpotAvailability }

@@ -1,0 +1,5 @@
+export * from './entrance'
+export * from './spots'
+export * from './deckSpaceCapacity.ts'
+export * from './otherDeckSpace.ts'
+export * from './passengerSpace.ts'
