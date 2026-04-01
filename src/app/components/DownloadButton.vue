@@ -27,7 +27,7 @@ function downloadNeTEx() {{
     let text = ''
     if (useEditorState().wrapper) {
       const netex = (useEditorState().wrapper as any) // Netex
-      netex.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan = deckplan.value.toXML()
+      netex.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans = deckplan.value.toXML()
       text = builder.build(netex)
     }  else {
       text = builder.build(deckplan.value.toXML())
