@@ -24,7 +24,14 @@ function downloadNeTEx() {{
       indentBy: '  ',
     });
 
-    const text = builder.build(deckplan.value.toXML())
+    let text = ''
+    if (useEditorState().wrapper) {
+      const netex = (useEditorState().wrapper as any) // Netex
+      netex.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan = deckplan.value.toXML()
+      text = builder.build(netex)
+    }  else {
+      text = builder.build(deckplan.value.toXML())
+    }
     const blob = new Blob([text], { type: 'text/xml' })
     const link = document.createElement('a')
     link.href = URL.createObjectURL(blob)

@@ -10,6 +10,7 @@ import { Deck } from '@/models/netex/deckplan/deck/deck'
 export const useEditorState = defineStore('editor', {
   state: (): {
     deckplan: DeckPlan | undefined
+    wrapper: object | undefined
     selectedDeckLevelId: string | undefined
     selectedElementId: string | undefined
     scale: number
@@ -18,6 +19,7 @@ export const useEditorState = defineStore('editor', {
     elementToBuild: any | undefined
   } => ({
     deckplan: undefined,
+    wrapper: undefined,
     selectedDeckLevelId: undefined,
     selectedElementId: undefined,
     scale: 10,
@@ -125,8 +127,9 @@ export const useEditorState = defineStore('editor', {
       this.activeTool = tool
       this.activeEquipment = equipment
     },
-    setDeckplan(deckplan: DeckPlan) {
+    setDeckplan([deckplan, wrapper]: [DeckPlan, object | undefined]) {
       this.deckplan = deckplan
+      this.wrapper = wrapper
       console.log(this.deckplan)
       // Check if Levels exist, else introduce them
       if (this.deckplan.decks.length > 0) {

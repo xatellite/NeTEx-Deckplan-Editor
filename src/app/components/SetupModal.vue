@@ -13,7 +13,7 @@ import { parseDeckplanOrNetex } from '@/helpers/parser';
 import { useEditorState } from '../store/editorstate';
 
 function initEmpty() {
-  useEditorState().setDeckplan(DeckPlan.empty());
+  useEditorState().setDeckplan([DeckPlan.empty(), undefined]);
 }
 
 function loadFromDisk() {

@@ -17,7 +17,7 @@ export const parseNeTEx = (xml: string) => {
   )
 }
 
-export const parseDeckplanOrNetex = (xml: string): DeckPlan => {
+export const parseDeckplanOrNetex = (xml: string): [DeckPlan, object | undefined] => {
   const parser = new XMLParser({
     ignoreAttributes: false,
     attributeNamePrefix: 'attr_',
@@ -30,7 +30,7 @@ export const parseDeckplanOrNetex = (xml: string): DeckPlan => {
     if (!extractedDeckplan) {
       throw new Error('No DeckPlan found in the provided XML')
     }
-    return extractedDeckplan
+    return [extractedDeckplan, undefined]
   }
 
   const deckplan = extractElementList(
@@ -42,5 +42,5 @@ export const parseDeckplanOrNetex = (xml: string): DeckPlan => {
     throw new Error('No DeckPlan found in the provided XML')
   }
 
-  return deckplan
+  return [deckplan, delivery]
 }
