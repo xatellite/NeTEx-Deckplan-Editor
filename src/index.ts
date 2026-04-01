@@ -19,4 +19,5 @@ export default { install }
 
 export * from './components/editor'
 export * from './components/renderer'
+export * from './types'
 export { parseNeTEx, type Availability, PassengerSpotAvailability }

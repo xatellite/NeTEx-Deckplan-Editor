@@ -28,7 +28,8 @@ if (typeof customElements !== 'undefined') {
   }
 }
 
-export default {
+export * from '../types/netex/deckPlan'
+export {
   DeckplanEditorElement,
   DeckRenderingElement,
   parseNeTEx,
