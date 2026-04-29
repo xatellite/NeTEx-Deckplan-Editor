@@ -47,9 +47,9 @@
         </div>
       </div>
 
-      <div class="bg-ott-bg-dark w-0.5 cursor-col-resize" />
+      <div class="bg-ott-bg-dark w-0.5 cursor-col-resize hover:bg-ott-accent transition-colors" @mousedown="startResizing" />
       <!-- Renderer -->
-      <div class="min-w-96 max-w-20 flex flex-col min-h-0">
+      <div :style="{ width: rendererWidth + 'px' }" class="flex flex-col min-h-0 shrink-0">
         <div class="bg-ott-bg-primary p-4 w-full flex justify-center border-b h-21 shrink-0 border-ott-bg-dark items-center">
           <div class="flex gap-4 p-1 px-2 border-ott-bg-dark bg-ott-bg-secondary border rounded-md w-fit font-medium">
             <button @click="() => selectedRenderer = 'grid'" :class="`${selectedRenderer === 'grid' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Grid</button>
@@ -134,5 +134,29 @@ const handleEditDeck = () => {
     selectedTab.value = 'annotate';
   }
 };
+
+const rendererWidth = ref(300)
+const isResizing = ref(false)
+
+const startResizing = (event: MouseEvent) => {
+  isResizing.value = true
+  document.addEventListener('mousemove', handleMouseMove)
+  document.addEventListener('mouseup', stopResizing)
+  event.preventDefault()
+}
+
+const handleMouseMove = (event: MouseEvent) => {
+  if (!isResizing.value) return
+  const newWidth = window.innerWidth - event.clientX
+  if (newWidth > 250) {
+    rendererWidth.value = newWidth
+  }
+}
+
+const stopResizing = () => {
+  isResizing.value = false
+  document.removeEventListener('mousemove', handleMouseMove)
+  document.removeEventListener('mouseup', stopResizing)
+}
 </script>
 
