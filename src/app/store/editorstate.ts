@@ -6,10 +6,13 @@ import { PassengerSpot } from '@/models/netex/deckplan/deck/deckspace/spots/pass
 import { LuggageSpot } from '@/models/netex/deckplan/deck/deckspace/spots/luggageSpot'
 import { PassengerEntrance } from '@/models/netex/deckplan/deck/deckspace/entrance/passengerEntrance'
 import { Deck } from '@/models/netex/deckplan/deck/deck'
+import type { PassengerEquipment } from '@/models/netex/passengerEquipment'
+
 
 export const useEditorState = defineStore('editor', {
   state: (): {
     deckplan: DeckPlan | undefined
+    equipments: PassengerEquipment[]
     wrapper: object | undefined
     selectedDeckLevelId: string | undefined
     selectedElementId: string | undefined
@@ -19,6 +22,7 @@ export const useEditorState = defineStore('editor', {
     elementToBuild: any | undefined
   } => ({
     deckplan: undefined,
+    equipments: [],
     wrapper: undefined,
     selectedDeckLevelId: undefined,
     selectedElementId: undefined,
@@ -162,6 +166,21 @@ export const useEditorState = defineStore('editor', {
         // select Level
         this.selectedDeckLevelId = this.deckplan.decks[0]?.DeckLevelRef?.attr_ref
       }
+    },
+    setEquipments(equipments: PassengerEquipment[]) {
+      this.equipments = equipments
+    },
+    addEquipment(equipment: PassengerEquipment) {
+      this.equipments.push(equipment)
+    },
+    updateEquipment(equipmentId: string, updates: Partial<PassengerEquipment>) {
+      const equipment = this.equipments.find((e) => e.attr_id === equipmentId)
+      if (equipment) {
+        Object.assign(equipment, updates)
+      }
+    },
+    deleteEquipment(equipmentId: string) {
+      this.equipments = this.equipments.filter((e) => e.attr_id !== equipmentId)
     },
     addDeckLevel() {
       this.deckplan?.addDeckLevel()

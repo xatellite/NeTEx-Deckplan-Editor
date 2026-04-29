@@ -40,15 +40,37 @@
           class="ott-input w-full bg-ott-bg-secondary border-transparent hover:border-ott-bg-dark focus:bg-white transition-all"
         />
 
-        <!-- Text -->
         <input
-          v-else
+          v-else-if="field.type === 'text' || !field.type"
           type="text"
           :id="key"
           :value="field.value"
           @input="(e) => handleUpdate(key, (e.target as HTMLInputElement).value)"
           class="ott-input w-full bg-ott-bg-secondary border-transparent hover:border-ott-bg-dark focus:bg-white transition-all"
         />
+
+        <!-- Equipment Selection -->
+        <div v-else-if="field.type === 'equipment-list'" class="col-span-2 flex flex-col gap-2 mt-2">
+          <div v-for="(equip, index) in field.value" :key="index" class="flex items-center justify-between bg-ott-bg-secondary p-2 px-3 rounded text-sm border border-ott-bg-dark">
+            <div class="flex items-center gap-2">
+              <Icon icon="material-symbols:settings-input-component" class="text-ott-accent" />
+              <span>{{ equip.Name || equip.attr_id }}</span>
+            </div>
+            <button @click="removeEquipment(index)" class="text-ott-text-secondary hover:text-red-500 transition-colors">
+              <Icon icon="material-symbols:close" width="18" />
+            </button>
+          </div>
+          <select 
+            @change="(e) => { addEquipment((e.target as HTMLSelectElement).value); (e.target as HTMLSelectElement).value = '' }"
+            class="ott-input w-full bg-ott-bg-secondary border-ott-bg-dark hover:border-ott-accent focus:bg-white transition-all text-xs py-2"
+          >
+            <option value="">+ Assign Actual Vehicle Equipment</option>
+            <option v-for="equip in availableEquipments" :key="equip.attr_id" :value="equip.attr_id">
+              {{ equip.Name || equip.attr_id }}
+            </option>
+          </select>
+        </div>
+
       </div>
     </div>
   </div>
@@ -59,6 +81,9 @@ import { computed } from 'vue';
 import { PassengerSpace } from '@/models/netex/deckplan/deck/deckspace/passengerSpace';
 import { PassengerSpot } from '@/models/netex/deckplan/deck/deckspace/spots/passengerSpot';
 import { PassengerEntrance } from '@/models/netex/deckplan/deck/deckspace/entrance/passengerEntrance';
+import { useEditorState } from '../store/editorstate';
+import { ActualVehicleEquipment } from '@/models/netex/actualVehicleEquipment';
+import { Icon } from '@iconify/vue';
 
 const props = defineProps({
   element: {
@@ -86,6 +111,14 @@ const editableFields = computed(() => {
   if ('Width' in el) fields.Width = { type: 'number', value: el.Width };
   if ('Length' in el) fields.Length = { type: 'number', value: el.Length };
 
+  // Equipment assignment
+  if ('actualVehicleEquipments' in el) {
+    fields.actualVehicleEquipments = { 
+      type: 'equipment-list', 
+      value: el.actualVehicleEquipments 
+    };
+  }
+
 
   // Specific properties
   if (el instanceof PassengerSpot) {
@@ -93,7 +126,7 @@ const editableFields = computed(() => {
       fields.Orientation = {
         type: 'enum',
         value: el.Orientation,
-        options: [undefined, 'forward', 'backward', 'toleft', 'toright']
+        options: [undefined, 'forward', 'backward', 'toleft', 'toright', 'reversible']
       };
     }
     fields.HasPower = { type: 'boolean', value: !!el.HasPower };
@@ -134,7 +167,32 @@ const handleUpdate = (key: string, value: any) => {
   emit('update', updates);
 };
 
+const availableEquipments = computed(() => {
+  const store = useEditorState();
+  return store.equipments
+});
+
+const addEquipment = (equipmentId: string) => {
+  if (!equipmentId) return;
+  const store = useEditorState();
+  const equipment = store.equipments.find(e => e.attr_id === equipmentId);
+  if (equipment) {
+    const currentList = props.element.actualVehicleEquipments || [];
+    const newList = [...currentList, equipment];
+    handleUpdate('actualVehicleEquipments', newList);
+  }
+};
+
+const removeEquipment = (index: number) => {
+  if (props.element.actualVehicleEquipments) {
+    const newList = [...props.element.actualVehicleEquipments];
+    newList.splice(index, 1);
+    handleUpdate('actualVehicleEquipments', newList);
+  }
+};
+
 const formatLabel = (key: string) => {
+  if (key === 'actualVehicleEquipments') return 'Equipments';
   return key.replace(/([A-Z])/g, ' $1').trim();
 };
 </script>

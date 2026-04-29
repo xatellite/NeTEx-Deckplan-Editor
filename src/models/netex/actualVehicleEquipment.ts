@@ -1,39 +1,26 @@
 import type { EquipmentRef } from './equipment'
+import { PassengerEquipment } from './passengerEquipment'
 
-export class ActualVehicleEquipment {
-  attr_id: string
-  attr_version: string
+export class ActualVehicleEquipment extends PassengerEquipment {
+  static xmlTagName = 'ActualVehicleEquipment'
   Units: number
   TicketingEquipmentRef: EquipmentRef | undefined
   TicketValidatorEquipmentRef: EquipmentRef | undefined
 
-  constructor({
-    attr_id,
-    attr_version,
-    Units,
-    TicketingEquipmentRef = undefined,
-    TicketValidatorEquipmentRef = undefined,
-  }: {
-    attr_id: string
-    attr_version: string
-    Units: number
-    TicketingEquipmentRef: EquipmentRef | undefined
-    TicketValidatorEquipmentRef: EquipmentRef | undefined
-  }) {
-    this.attr_id = attr_id
-    this.attr_version = attr_version
-    this.Units = Units
-    this.TicketingEquipmentRef = TicketingEquipmentRef
-    this.TicketValidatorEquipmentRef = TicketValidatorEquipmentRef
+  constructor(data: any) {
+    super(data)
+    this.Units = data.Units || 1
+    this.TicketingEquipmentRef = data.TicketingEquipmentRef
+    this.TicketValidatorEquipmentRef = data.TicketValidatorEquipmentRef
   }
 
   toXML() {
     return {
-      attr_id: this.attr_id,
-      attr_version: this.attr_version,
+      ...super.toXML(),
       Units: this.Units,
       TicketingEquipmentRef: this.TicketingEquipmentRef?.toXML(),
       TicketValidatorEquipmentRef: this.TicketValidatorEquipmentRef?.toXML(),
     }
   }
 }
+

@@ -1,6 +1,8 @@
 import { DeckPlan } from '@/models/netex/deckplan/deckPlan'
 import { extractElementList } from '@/models/netex/general'
 import { XMLParser } from 'fast-xml-parser'
+import { AccessVehicleEquipment, SanitaryEquipment, SeatingEquipment } from '@/models/netex/passengerEquipment'
+import { ActualVehicleEquipment } from '@/models/netex/actualVehicleEquipment'
 
 export const parseNeTEx = (xml: string) => {
   const parser = new XMLParser({
@@ -15,6 +17,30 @@ export const parseNeTEx = (xml: string) => {
     delivery.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans.DeckPlan,
     DeckPlan,
   )
+}
+
+const equipmentTypeMap: any = {
+  AccessVehicleEquipment,
+  SanitaryEquipment,
+  SeatingEquipment,
+  ActualVehicleEquipment,
+}
+
+export const extractEquipments = (equipmentsObj: any) => {
+  const equipments: any[] = []
+  if (!equipmentsObj) return equipments
+
+  Object.keys(equipmentTypeMap).forEach((type) => {
+    const items = equipmentsObj[type]
+    if (items) {
+      if (Array.isArray(items)) {
+        items.forEach((item) => equipments.push(new equipmentTypeMap[type](item)))
+      } else {
+        equipments.push(new equipmentTypeMap[type](items))
+      }
+    }
+  })
+  return equipments
 }
 
 export const parseDeckplanOrNetex = (xml: string): [DeckPlan, object | undefined] => {

@@ -10,8 +10,9 @@ import { Icon } from '@iconify/vue';
 import { XMLBuilder } from 'fast-xml-parser';
 import { useEditorState } from '../store/editorstate';
 import { storeToRefs } from 'pinia';
+import { serializeElementsAndRefs } from '@/models/netex/general';
 
-const { deckplan} = storeToRefs(useEditorState());
+const { deckplan, equipments } = storeToRefs(useEditorState());
 
 function downloadNeTEx() {{
     if (!deckplan.value) return
@@ -27,11 +28,16 @@ function downloadNeTEx() {{
     let text = ''
     if (useEditorState().wrapper) {
       const netex = (useEditorState().wrapper as any) // Netex
-      netex.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.deckPlans = deckplan.value.toXML()
+      const resourceFrame = netex.PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame
+      resourceFrame.deckPlans = deckplan.value.toXML()
+      if (equipments.value.length > 0) {
+        resourceFrame.equipments = serializeElementsAndRefs(equipments.value)
+      }
       text = builder.build(netex)
     }  else {
       text = builder.build(deckplan.value.toXML())
     }
+
     const blob = new Blob([text], { type: 'text/xml' })
     const link = document.createElement('a')
     link.href = URL.createObjectURL(blob)

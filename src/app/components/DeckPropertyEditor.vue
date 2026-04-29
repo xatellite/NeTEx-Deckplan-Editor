@@ -64,7 +64,7 @@
           />
           <button
             @click="deleteRow(index)"
-            class="p-1 text-ott-text-secondary hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
+            class="p-1 text-ott-text-secondary hover:text-red-500 transition-colors"
             title="Delete Row"
           >
             <Icon icon="material-symbols:delete-outline-rounded" width="14" />
@@ -100,7 +100,7 @@
           />
           <button
             @click="deleteColumn(index)"
-            class="p-1 text-ott-text-secondary hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
+            class="p-1 text-ott-text-secondary hover:text-red-500 transition-colors"
             title="Delete Column"
           >
             <Icon icon="material-symbols:delete-outline-rounded" width="14" />

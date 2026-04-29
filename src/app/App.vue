@@ -37,12 +37,14 @@
           <div class="flex gap-4 p-1 px-2 border-ott-bg-dark bg-ott-bg-secondary border rounded-md w-fit font-medium">
             <button @click="() => selectedTab = 'build'" :class="`${selectedTab === 'build' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Build</button>
             <button @click="() => deckplan ? selectedTab = 'annotate' : {}" :class="`${!deckplan ? 'text-ott-text-secondary':''} ${selectedTab === 'annotate' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Annotate</button>
+            <button @click="() => deckplan ? selectedTab = 'equipments' : {}" :class="`${!deckplan ? 'text-ott-text-secondary':''} ${selectedTab === 'equipments' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">Equipments</button>
             <button @click="() => deckplan ? selectedTab = 'view' : {}" :class="`${!deckplan ? 'text-ott-text-secondary':''} ${selectedTab === 'view' ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6`">View</button>
           </div>
         </div>
         <div class="flex-1 overflow-hidden h-full relative">
           <BuildPage v-if="selectedTab == 'build'" />
           <AnnotatePage v-if="selectedTab == 'annotate'" />
+          <EquipmentsPage v-if="selectedTab == 'equipments'" />
           <ViewPage v-if="selectedTab == 'view'" />
         </div>
       </div>
@@ -109,6 +111,7 @@ import { ref, type Ref } from 'vue';
 import DownloadButton from './components/DownloadButton.vue';
 import BuildPage from './pages/BuildPage.vue';
 import AnnotatePage from './pages/AnnotatePage.vue';
+import EquipmentsPage from './pages/EquipmentsPage.vue';
 import ViewPage from './pages/ViewPage.vue';
 import DeckGridRenderer from '@/components/editor/DeckGridRenderer.vue';
 import DeckSelector from './components/DeckSelector.vue';
@@ -120,7 +123,7 @@ import { Icon } from '@iconify/vue';
 import DeckTreeview from '@/components/editor/DeckTreeview.vue';
 import DeckGridElementStorage from './components/DeckGridElementStorage.vue';
 
-const selectedTab: Ref<'build' | 'annotate' | 'view'> = ref('build')
+const selectedTab: Ref<'build' | 'annotate' | 'equipments' | 'view'> = ref('build')
 const selectedRenderer: Ref<'grid' | 'exact'> = ref('grid')
 const hierarchyShown = ref(false)
 

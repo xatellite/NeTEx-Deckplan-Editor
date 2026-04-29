@@ -9,14 +9,17 @@
 
 <script lang="ts" setup>
 import { DeckPlan } from '@/models/netex/deckplan/deckPlan';
-import { parseDeckplanOrNetex } from '@/helpers/parser';
+import { parseDeckplanOrNetex, extractEquipments } from '@/helpers/parser';
 import { useEditorState } from '../store/editorstate';
 
 function initEmpty() {
-  useEditorState().setDeckplan([DeckPlan.empty(), undefined]);
+  const store = useEditorState();
+  store.setDeckplan([DeckPlan.empty(), undefined]);
+  store.setEquipments([]);
 }
 
 function loadFromDisk() {
+  const store = useEditorState();
   const input = document.createElement('input')
   input.type = 'file'
   input.accept = '.xml'
@@ -27,7 +30,12 @@ function loadFromDisk() {
     reader.onload = (e) => {
       const text = e.target?.result as string
       try {
-        useEditorState().setDeckplan(parseDeckplanOrNetex(text))
+        const [deckplan, wrapper] = parseDeckplanOrNetex(text)
+        store.setDeckplan([deckplan, wrapper])
+        if (wrapper) {
+          const equipmentsObj = (wrapper as any).PublicationDelivery.dataObjects.CompositeFrame.frames.ResourceFrame.equipments
+          store.setEquipments(extractEquipments(equipmentsObj))
+        }
       } catch (err) {
         alert('Failed to parse NeTEx file: ' + err)
       }

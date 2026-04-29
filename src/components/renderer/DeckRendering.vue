@@ -92,11 +92,11 @@
 
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
-import type { Deck } from '@/types/netex/deck'
-import { PassengerSpot } from '@/types/netex/passengerSpot'
-import { PassengerSpace } from '@/types/netex/passengerSpace'
+import type { Deck } from '@/models/netex/deckplan/deck/deck'
+import { PassengerSpot } from '@/models/netex/deckplan/deck/deckspace/spots/passengerSpot'
+import { PassengerSpace } from '@/models/netex/deckplan/deck/deckspace/passengerSpace'
 import type { PropType } from 'vue'
-import { PassengerSpotAvailability, type Availability  } from '@/types/view/seats'
+import { PassengerSpotAvailability, type Availability  } from '@/models/view/seats'
 
 const props = defineProps({
   deck: { type: Object as PropType<Deck>, required: true },
