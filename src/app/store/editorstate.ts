@@ -465,5 +465,53 @@ export const useEditorState = defineStore('editor', {
         this.elementToBuild = nextEl
       }
     },
+    deleteElement(elementId: string) {
+      if (!this.deckplan) return
+
+      const findAndRemove = (obj: any, parent?: any, arr?: any[]): boolean => {
+        if (obj.attr_id === elementId) {
+          if (arr) {
+            const idx = arr.indexOf(obj)
+            if (idx > -1) {
+              arr.splice(idx, 1)
+              return true
+            }
+          }
+        }
+
+        if (obj.deckspaces) {
+          for (const space of obj.deckspaces) {
+            if (findAndRemove(space, obj, obj.deckspaces)) return true
+          }
+        }
+
+        if (obj instanceof PassengerSpace) {
+          if (obj.passengerSpots) {
+            for (const spot of obj.passengerSpots) {
+              if (typeof spot !== 'string' && findAndRemove(spot, obj, obj.passengerSpots)) return true
+            }
+          }
+          if (obj.luggageSpots) {
+            for (const spot of obj.luggageSpots) {
+              if (typeof spot !== 'string' && findAndRemove(spot, obj, obj.luggageSpots)) return true
+            }
+          }
+          if (obj.deckEntrances) {
+            for (const entrance of obj.deckEntrances) {
+              if (findAndRemove(entrance, obj, obj.deckEntrances)) return true
+            }
+          }
+        }
+        return false
+      }
+
+      for (const deck of this.deckplan.decks) {
+        if (findAndRemove(deck, this.deckplan, this.deckplan.decks)) break
+      }
+
+      if (this.selectedElementId === elementId) {
+        this.selectedElementId = undefined
+      }
+    },
   },
 })

@@ -23,7 +23,7 @@
         </div>
 
         <div
-          v-if="!collapsedSections.has(section.title)"
+          v-if="!collapsedSections.has(section.title) && section.items.length > 0"
           class="bg-white border border-ott-bg-dark  overflow-hidden divide-y divide-ott-bg-dark shadow-sm transition-all"
         >
           <div v-for="item in section.items" :key="item.attr_id" class="flex flex-col">
@@ -32,6 +32,13 @@
               :class="{ 'bg-ott-bg-secondary border-b border-ott-bg-dark': expandedId === item.attr_id }"
               @click="toggleExpand(item.attr_id)"
             >
+              <!-- Chevron -->
+              <Icon
+                :icon="expandedId === item.attr_id ? 'material-symbols:keyboard-arrow-up-rounded' : 'material-symbols:keyboard-arrow-down-rounded'"
+                width="22"
+                class="text-ott-bg-dark group-hover:text-ott-text-secondary transition-colors"
+              />
+
               <!-- Icon Base -->
               <Icon :icon="getIcon(item)" width="20" class="shrink-0" />
 
@@ -66,12 +73,14 @@
                 </template>
               </div>
 
-              <!-- Chevron -->
-              <Icon
-                :icon="expandedId === item.attr_id ? 'material-symbols:keyboard-arrow-up-rounded' : 'material-symbols:keyboard-arrow-down-rounded'"
-                width="22"
-                class="text-ott-bg-dark group-hover:text-ott-text-secondary transition-colors"
-              />
+              <!-- Delete Button -->
+              <button
+                @click.stop="store.deleteElement(item.attr_id)"
+                class="p-1.5 rounded-lg text-ott-text-secondary hover:text-red-500 hover:bg-red-50 transition-all opacity-0 group-hover:opacity-100"
+                title="Delete Element"
+              >
+                <Icon icon="material-symbols:delete-outline-rounded" width="20" />
+              </button>
             </div>
 
             <!-- Expanded Content -->
