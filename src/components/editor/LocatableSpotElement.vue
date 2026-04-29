@@ -5,9 +5,9 @@
     @click.stop="selectElement"
     @dragstart="handleDragStart"
   >
-    <Icon v-if="element instanceof PassengerSpot" icon="material-symbols:event-seat-outline-rounded" />
-    <Icon v-if="element instanceof LuggageSpot" icon="material-symbols:luggage-outline-rounded" />
-    <span class="text-xs font-semibold tabular-nums">{{ element.Label }}</span>
+    <Icon v-if="element instanceof PassengerSpot" icon="material-symbols:event-seat-outline-rounded" width="20"/>
+    <Icon v-if="element instanceof LuggageSpot" icon="material-symbols:luggage-outline-rounded" width="20"/>
+    <!-- <span class="text-xs font-semibold tabular-nums">{{ element.Label }}</span> -->
   </div>
 </template>
 

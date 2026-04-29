@@ -15,11 +15,12 @@
         </div>
         <div class="flex-1 overflow-y-auto p-4">
           <div v-if="elementToBuild" class="flex flex-col gap-6">
-            <div class="flex justify-center p-8 bg-ott-bg-secondary/20 rounded-lg border border-ott-bg-dark border-dashed">
+            <div class="flex flex-col items-center gap-2 p-4 bg-ott-bg-secondary/20 rounded-lg border border-ott-bg-dark border-dashed"> 
               <LocatableSpotElement
                 v-if="elementToBuild instanceof PassengerSpot || elementToBuild.constructor.name === 'LuggageSpot'"
                 :element="elementToBuild"
                 :isNew="true"
+                class="w-fit"
               />
               <div
                 v-else
@@ -32,6 +33,7 @@
                     {{ elementToBuild.constructor.name }}
                   </span>
               </div>
+              <span class="text-center text-sm text-ott-text-secondary">Drag and drop element into gridview or vehicle tree to position it.</span>
             </div>
 
             <PropertyEditor
