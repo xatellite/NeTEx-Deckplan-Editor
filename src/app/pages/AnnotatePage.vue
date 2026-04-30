@@ -40,7 +40,7 @@
               />
 
               <!-- Icon Base -->
-              <Icon :icon="getIcon(item)" width="20" class="shrink-0" />
+              <Icon :icon="getIcon(item) as string" width="20" class="shrink-0" />
 
               <!-- Label & Info -->
               <div class="flex flex-col flex-1 min-w-0">
