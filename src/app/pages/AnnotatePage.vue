@@ -115,7 +115,7 @@ import { PassengerEntrance } from '@/models/netex/deckplan/deck/deckspace/entran
 import { Deck } from '@/models/netex/deckplan/deck/deck';
 
 const store = useEditorState();
-const { deckplan, selectedElementId } = storeToRefs(store);
+const { deckplan, selectedElementIds } = storeToRefs(store);
 
 const expandedId = ref<string | null>(null);
 const collapsedSections = reactive(new Set<string>());
@@ -201,15 +201,15 @@ const sections = computed(() => [
 ]);
 
 function openSelectedItem() {
-  if (selectedElementId.value) {
+  if (selectedElementIds.value) {
     // Find which section this element belongs to and expand it
-    const section = sections.value.find(s => s.items.some(item => item.attr_id === selectedElementId.value));
+    const section = sections.value.find(s => s.items.some(item => selectedElementIds.value.includes(item.attr_id)));
     if (section) {
       sections.value.forEach((section) => {
         collapsedSections.add(section.title)
       })
       collapsedSections.delete(section.title);
-      expandedId.value = selectedElementId.value;
+      expandedId.value = selectedElementIds.value?.[0] ?? null;
     }
   } else {
     expandedId.value = null;
@@ -217,7 +217,6 @@ function openSelectedItem() {
 }
 
 onMounted(() => {
-  console.log("mount", selectedElementId.value)
   openSelectedItem()
 })
 

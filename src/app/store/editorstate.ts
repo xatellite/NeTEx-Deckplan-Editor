@@ -8,14 +8,13 @@ import { PassengerEntrance } from '@/models/netex/deckplan/deck/deckspace/entran
 import { Deck } from '@/models/netex/deckplan/deck/deck'
 import type { PassengerEquipment } from '@/models/netex/passengerEquipment'
 
-
 export const useEditorState = defineStore('editor', {
   state: (): {
     deckplan: DeckPlan | undefined
     equipments: PassengerEquipment[]
     wrapper: object | undefined
     selectedDeckLevelId: string | undefined
-    selectedElementId: string | undefined
+    selectedElementIds: string[]
     scale: number
     activeTool: 'deckspace' | 'spot' | 'entrance' | undefined
     activeEquipment: string | undefined
@@ -25,7 +24,7 @@ export const useEditorState = defineStore('editor', {
     equipments: [],
     wrapper: undefined,
     selectedDeckLevelId: undefined,
-    selectedElementId: undefined,
+    selectedElementIds: [],
     scale: 10,
     activeTool: undefined,
     activeEquipment: undefined,
@@ -41,48 +40,60 @@ export const useEditorState = defineStore('editor', {
         (deck) => deck.DeckLevelRef?.attr_ref === state.selectedDeckLevelId,
       )?.attr_id,
     selectedElement: (state) => {
-      if (!state.deckplan || !state.selectedElementId) return undefined
+      if (!state.deckplan || state.selectedElementIds.length === 0) return undefined
+      const id = state.selectedElementIds[0]
 
-      // Search in decks
-      for (const deck of state.deckplan.decks) {
-        if (deck.attr_id === state.selectedElementId) return deck
-
-        // Search in deckspaces
-        for (const space of deck.deckspaces) {
-          if (space.attr_id === state.selectedElementId) return space
-
-          if (space instanceof PassengerSpace) {
-            // Search in spots
-            if (space.passengerSpots) {
-              for (const spot of space.passengerSpots) {
-                if (
-                  typeof spot !== 'string' &&
-                  'attr_id' in spot &&
-                  spot.attr_id === state.selectedElementId
-                )
-                  return spot
-              }
-            }
-            if (space.luggageSpots) {
-              for (const spot of space.luggageSpots) {
-                if (
-                  typeof spot !== 'string' &&
-                  'attr_id' in spot &&
-                  spot.attr_id === state.selectedElementId
-                )
-                  return spot
-              }
-            }
-            // Search in entrances
-            if (space.deckEntrances) {
-              for (const entrance of space.deckEntrances) {
-                if (entrance.attr_id === state.selectedElementId) return entrance
-              }
+      // Search helper
+      const findById = (elements: any[], targetId: string): any => {
+        for (const el of elements) {
+          if (el.attr_id === targetId) return el
+          if (el.deckspaces) {
+            const found = findById(el.deckspaces, targetId)
+            if (found) return found
+          }
+          if (el instanceof PassengerSpace) {
+            const spots = [
+              ...(el.passengerSpots || []),
+              ...(el.luggageSpots || []),
+              ...(el.deckEntrances || []),
+            ]
+            for (const s of spots) {
+              if (typeof s !== 'string' && 'attr_id' in s && s.attr_id === targetId) return s
             }
           }
         }
+        return undefined
       }
-      return undefined
+
+      return findById(state.deckplan.decks, id)
+    },
+    selectedElements: (state) => {
+      if (!state.deckplan || state.selectedElementIds.length === 0) return []
+
+      const findById = (elements: any[], targetId: string): any => {
+        for (const el of elements) {
+          if (el.attr_id === targetId) return el
+          if (el.deckspaces) {
+            const found = findById(el.deckspaces, targetId)
+            if (found) return found
+          }
+          if (el instanceof PassengerSpace) {
+            const spots = [
+              ...(el.passengerSpots || []),
+              ...(el.luggageSpots || []),
+              ...(el.deckEntrances || []),
+            ]
+            for (const s of spots) {
+              if (typeof s !== 'string' && 'attr_id' in s && s.attr_id === targetId) return s
+            }
+          }
+        }
+        return undefined
+      }
+
+      return state.selectedElementIds
+        .map((id) => findById(state.deckplan!.decks, id))
+        .filter((el) => el !== undefined)
     },
   },
   actions: {
@@ -194,8 +205,25 @@ export const useEditorState = defineStore('editor', {
     selectDeckLevel(deckLevelId: string) {
       this.selectedDeckLevelId = deckLevelId
     },
-    selectElement(elementId: string | undefined) {
-      this.selectedElementId = elementId
+    selectElement(elementId: string | undefined, ctrlKey = false) {
+      if (!elementId) {
+        this.selectedElementIds = []
+        return
+      }
+
+      if (ctrlKey) {
+        const index = this.selectedElementIds.indexOf(elementId)
+        if (index > -1) {
+          this.selectedElementIds.splice(index, 1)
+        } else {
+          this.selectedElementIds.push(elementId)
+        }
+      } else {
+        this.selectedElementIds = [elementId]
+      }
+    },
+    selectElements(elementIds: string[]) {
+      this.selectedElementIds = elementIds
     },
     selectElementToBuild(element: any) {
       this.elementToBuild = element
@@ -507,12 +535,14 @@ export const useEditorState = defineStore('editor', {
         if (obj instanceof PassengerSpace) {
           if (obj.passengerSpots) {
             for (const spot of obj.passengerSpots) {
-              if (typeof spot !== 'string' && findAndRemove(spot, obj, obj.passengerSpots)) return true
+              if (typeof spot !== 'string' && findAndRemove(spot, obj, obj.passengerSpots))
+                return true
             }
           }
           if (obj.luggageSpots) {
             for (const spot of obj.luggageSpots) {
-              if (typeof spot !== 'string' && findAndRemove(spot, obj, obj.luggageSpots)) return true
+              if (typeof spot !== 'string' && findAndRemove(spot, obj, obj.luggageSpots))
+                return true
             }
           }
           if (obj.deckEntrances) {
@@ -528,9 +558,7 @@ export const useEditorState = defineStore('editor', {
         if (findAndRemove(deck, this.deckplan, this.deckplan.decks)) break
       }
 
-      if (this.selectedElementId === elementId) {
-        this.selectedElementId = undefined
-      }
+      this.selectedElementIds = this.selectedElementIds.filter((id) => id !== elementId)
     },
   },
 })

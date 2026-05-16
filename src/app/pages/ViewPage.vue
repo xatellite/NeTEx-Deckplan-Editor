@@ -3,7 +3,7 @@
     <SetupModal v-if="!deckplan" />
     <div v-else class="flex-1 flex flex-col overflow-hidden">
       <div class="flex-1 overflow-hidden">
-        <XmlViewer :xml="xmlContent" :selectedId="selectedElementId" />
+        <XmlViewer :xml="xmlContent" :selectedId="selectedElementIds?.[0]" />
       </div>
     </div>
   </div>
@@ -18,7 +18,7 @@ import XmlViewer from '../../components/editor/XmlViewer.vue';
 import { useEditorState } from '../store/editorstate';
 
 const store = useEditorState();
-const { deckplan, selectedElementId } = storeToRefs(store);
+const { deckplan, selectedElementIds } = storeToRefs(store);
 
 const builder = new XMLBuilder({
   ignoreAttributes: false,

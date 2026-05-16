@@ -12,7 +12,7 @@
           :id="root.id"
           :icon="root.icon"
           :children="root.children"
-          :selectedId="selectedId"
+          :selectedId="selectedIds?.[0]"
           @select="(id) => $emit('select', id)"
           @move="(moveData) => $emit('move', moveData)"
           @dropNew="(dropData) => $emit('dropNew', dropData)"
@@ -30,7 +30,7 @@ import { PassengerSpace } from '@/models/netex/deckplan/deck/deckspace/passenger
 
 const props = defineProps<{
   deckPlan?: DeckPlan;
-  selectedId?: string;
+  selectedIds?: string;
 }>();
 
 defineEmits<{

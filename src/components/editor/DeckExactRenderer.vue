@@ -171,7 +171,7 @@ const selectionRect = ref<any>(null)
 const isSelecting = ref(false)
 const startPos = ref({ x: 0, y: 0 })
 const guideLines = ref<any[]>([])
-const dragStartPositions = ref<Map<PassengerSpot, { x: number; y: number }>>(new Map())
+const dragStartPositions = ref<Map<PassengerSpot, { kX: number; kY: number }>>(new Map())
 
 const seats = computed((): PassengerSpot[] => {
   return (
@@ -293,14 +293,25 @@ const handleMouseUp = () => {
   const width = Math.abs(box.width)
   const height = Math.abs(box.height)
 
-  const selected = seats.value.filter((seat) => {
-    const shape = seat.getShape(props.scale)
-    return (
-      shape.x < x + width &&
-      shape.x + shape.width > x &&
-      shape.y < y + height &&
-      shape.y + shape.height > y
-    )
+  const selected = [...seats.value, ...entrances.value].filter((el) => {
+    let kX, kY, kW, kH
+    if (el instanceof PassengerSpot) {
+      const shape = el.getShape(props.scale)
+      kX = shape.y
+      kY = shape.x
+      kW = shape.width
+      kH = shape.height
+    } else if (el instanceof PassengerEntrance) {
+      const shape = el.getShape(props.scale, props.deck.Length, props.deck.Width)
+      kX = shape.y
+      kY = shape.x
+      kW = shape.height
+      kH = shape.width
+    } else {
+      return false
+    }
+
+    return kX < x + width && kX + kW > x && kY < y + height && kY + kH > y
   })
 
   if (selected.length > 0) {
@@ -316,7 +327,8 @@ const handleDragStart = (e: any, seat: PassengerSpot) => {
     props.selectedElements.forEach((el) => {
       if (el instanceof PassengerSpot) {
         const shape = el.getShape(props.scale)
-        dragStartPositions.value.set(el, { x: shape.x, y: shape.y })
+        // Store Konva coordinates: kX = NeTEx Y, kY = NeTEx X
+        dragStartPositions.value.set(el, { kX: shape.y, kY: shape.x })
       }
     })
   }
@@ -373,14 +385,14 @@ const handleDragMove = (e: any, seat: PassengerSpot) => {
   // Move other selected seats
   const startPos = dragStartPositions.value.get(seat)
   if (startPos && props.selectedElements.includes(seat)) {
-    const dx = newX - startPos.x
-    const dy = newY - startPos.y
+    const dx = newX - startPos.kX
+    const dy = newY - startPos.kY
 
     props.selectedElements.forEach((other) => {
       if (other !== seat && other instanceof PassengerSpot) {
         const otherStart = dragStartPositions.value.get(other)
         if (otherStart) {
-          updateSeatPosition(other, otherStart.x + dx, otherStart.y + dy)
+          updateSeatPosition(other, otherStart.kX + dx, otherStart.kY + dy)
         }
       }
     })
@@ -399,10 +411,10 @@ const handleDragEnd = (e: any, seat: PassengerSpot) => {
   dragStartPositions.value.clear()
 }
 
-const updateSeatPosition = (seat: PassengerSpot, y: number, x: number) => {
+const updateSeatPosition = (seat: PassengerSpot, kX: number, kY: number) => {
   const newCentroid = {
-    x: (x - 5) / props.scale + seat.Width / 2,
-    y: (y - 5) / props.scale + seat.Length / 2,
+    x: (kY - 5) / props.scale + seat.Width / 2,
+    y: (kX - 5) / props.scale + seat.Length / 2,
   }
 
   emit('updateElement', {

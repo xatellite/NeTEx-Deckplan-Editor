@@ -15,7 +15,7 @@
         <DeckTreeview
           v-if="deckplan && hierarchyShown"
           :deckPlan="deckplan"
-          :selectedId="selectedElementId"
+          :selectedIds="selectedElementIds"
           @select="(id) => {
             const deck = deckplan?.decks.find(d => d.attr_id === id);
             if (deck && deck.DeckLevelRef?.attr_ref) {
@@ -73,7 +73,7 @@
                   :deck="selectedDeck"
                   :scale="scale"
                   :elementToBuild="store.elementToBuild"
-                  :selected-element-id="store.selectedElementId"
+                  :selected-element-ids="store.selectedElementIds"
                   @editGrid="handleEditDeck"
                   @select="(id: string) => store.selectElement(id)"
                   @drop="({ element, deckId }: { element: any, deckId: string }) => store.addElementToDeck(element, deckId)"
@@ -82,14 +82,12 @@
                 <DeckExactRenderer
                   v-if="selectedRenderer === 'exact'"
                   class="w-full"
-                  :selectedElements="selectedElement ? [selectedElement] : []"
+                  :selectedElements="store.selectedElements"
                   :deck="selectedDeck"
-                  :scale="scale*5"
+                  :scale="scale * 5"
                   :elementToBuild="store.elementToBuild"
-                  @select="({ element }: { element: any }) => store.selectElement(element.attr_id)"
-                  @area-select="(elements: any[]) => {
-                    if (elements.length > 0) store.selectElement(elements[0].attr_id)
-                  }"
+                  @select="({ element, ctrlKey }: { element: any, ctrlKey: boolean }) => store.selectElement(element.attr_id, ctrlKey)"
+                  @area-select="(elements: any[]) => store.selectElements(elements.map((e) => e.attr_id))"
                   @drop="({ element, deckId }: { element: any, deckId: string }) => store.addElementToDeck(element, deckId)"
                   @updateElement="({ id, updates }: { id: string, updates: any }) => store.updateElement(id, updates)"
                 />
