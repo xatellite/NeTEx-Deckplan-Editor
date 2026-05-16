@@ -1,11 +1,14 @@
 <template>
-  <div 
-    class="m-2 shadow rounded-md p-1 flex items-center gap-2 cursor-grab active:cursor-grabbing bg-white border border-ott-bg-dark/50 hover:border-ott-accent transition-colors" 
+  <div
+    class="m-2 rounded-md flex flex-col items-center cursor-grab active:cursor-grabbing  hover:border-ott-accent transition-colors"
     draggable="true"
     @click.stop="selectElement"
     @dragstart="handleDragStart"
   >
-    <Icon v-if="element instanceof PassengerSpot" icon="material-symbols:event-seat-outline-rounded" width="20"/>
+    <div :class="`${isSelected ? 'border-ott-accent ' : 'border-ott-text-primary '}  ${element.Orientation === 'forwards' ? 'border-t-6 ' : ''} ${element.Orientation === 'backwards' ? 'border-b-6 ' : ''}  rounded-lg flex justify-center items-center w-10 h-10 bg-white border  shadow p-1`">
+      <Icon v-if="element instanceof PassengerSpot" icon="material-symbols:event-seat-outline-rounded" width="16"/>
+      {{ element.Label }}
+    </div>
     <Icon v-if="element instanceof LuggageSpot" icon="material-symbols:luggage-outline-rounded" width="20"/>
     <!-- <span class="text-xs font-semibold tabular-nums">{{ element.Label }}</span> -->
   </div>
@@ -19,6 +22,7 @@ import { Icon } from '@iconify/vue';
 const props = defineProps<{
   element: PassengerSpot | LuggageSpot,
   isNew?: boolean,
+  isSelected?: boolean,
 }>()
 
 const emit = defineEmits<{

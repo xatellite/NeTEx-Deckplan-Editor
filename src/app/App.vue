@@ -73,6 +73,7 @@
                   :deck="selectedDeck"
                   :scale="scale"
                   :elementToBuild="store.elementToBuild"
+                  :selected-element-id="store.selectedElementId"
                   @editGrid="handleEditDeck"
                   @select="(id: string) => store.selectElement(id)"
                   @drop="({ element, deckId }: { element: any, deckId: string }) => store.addElementToDeck(element, deckId)"

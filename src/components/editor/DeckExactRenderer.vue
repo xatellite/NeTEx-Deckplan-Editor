@@ -27,6 +27,7 @@
               @dragover.prevent
               @drop="handleDropInExact"
           />
+          <!-- Seats -->
           <v-group
             v-for="(seat, index) in seats"
             :key="`seats-${index}`"
@@ -40,6 +41,7 @@
             @dragmove="(e: MouseEvent) => handleDragMove(e, seat)"
             @click="(e: MouseEvent) => handleClick(e, seat)"
           >
+            <!-- Main seat -->
             <v-rect
               :config="{
                 width: seat.getShape(scale).width,
@@ -51,6 +53,35 @@
                 ...getStyle(seat),
               }"
             />
+
+            <!-- Orientation indicator -->
+            <v-rect
+              v-if="seat.Orientation === 'forwards'"
+              :config="{
+                x: 0,
+                y: 0,
+                width: seat.getShape(scale).width,
+                height: 4,
+                fill: '#000000',
+                cornerRadius: 4,
+                listening: false
+              }"
+            />
+
+            <v-rect
+              v-if="seat.Orientation === 'backwards'"
+              :config="{
+                x: 0,
+                y: seat.getShape(scale).height - 4,
+                width: seat.getShape(scale).width,
+                height: 4,
+                fill: '#000000',
+                cornerRadius: 4,
+                listening: false
+              }"
+            />
+
+            <!-- Label -->
             <v-text
               :config="{
                 width: seat.getShape(scale).width,
@@ -58,7 +89,13 @@
                 text: seat.Label,
                 align: 'center',
                 verticalAlign: 'middle',
-                fontSize: Math.min(Math.min(seat.getShape(scale).width, seat.getShape(scale).height) / 2, 16),
+                fontSize: Math.min(
+                  Math.min(
+                    seat.getShape(scale).width,
+                    seat.getShape(scale).height
+                  ) / 2,
+                  16
+                ),
                 listening: false
               }"
             />
@@ -170,7 +207,7 @@ const entrances = computed(() => {
 const getStyle = (element: any) => {
   if (props.selectedElements.includes(element)) {
     return {
-      stroke: '#ffffff',
+      stroke: '#0000ff',
       strokeWidth: 3,
     }
   }
@@ -360,7 +397,7 @@ const updateSeatPosition = (seat: PassengerSpot, y: number, x: number) => {
     x: ((x - 5) / props.scale) + (seat.Width / 2),
     y: ((y - 5) / props.scale) + (seat.Length / 2)
   }
-  
+
   emit('updateElement', {
     id: seat.attr_id,
     updates: {
