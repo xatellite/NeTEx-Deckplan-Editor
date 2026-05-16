@@ -128,7 +128,7 @@ const hierarchyShown = ref(false)
 
 // State of the deckplan lives in the store!
 const store = useEditorState()
-const {deckplan, selectedDeck, selectedElementId, selectedElement, scale} = storeToRefs(store)
+const {deckplan, selectedDeck, selectedElementIds, scale} = storeToRefs(store)
 
 const handleEditDeck = () => {
   if (selectedDeck.value) {

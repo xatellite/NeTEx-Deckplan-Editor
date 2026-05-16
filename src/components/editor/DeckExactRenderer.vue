@@ -214,7 +214,7 @@ const entrances = computed(() => {
 const getStyle = (element: any) => {
   if (props.selectedElements.includes(element)) {
     return {
-      stroke: '#0000ff',
+      stroke: '#68a691',
       strokeWidth: 3,
     }
   }
