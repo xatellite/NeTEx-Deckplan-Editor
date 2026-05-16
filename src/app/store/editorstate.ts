@@ -233,6 +233,18 @@ export const useEditorState = defineStore('editor', {
         Object.assign(this.elementToBuild, updates)
       }
     },
+    moveElements(
+      sourceIds: string[],
+      targetId: string,
+      position: 'before' | 'inside' | 'after' = 'inside',
+    ) {
+      if (position === 'after') {
+        // Move in reverse order to maintain relative order when inserting after
+        ;[...sourceIds].reverse().forEach((id) => this.moveElement(id, targetId, position))
+      } else {
+        sourceIds.forEach((id) => this.moveElement(id, targetId, position))
+      }
+    },
     moveElement(
       sourceId: string,
       targetId: string,

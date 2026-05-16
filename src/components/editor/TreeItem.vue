@@ -3,10 +3,10 @@
     <div
       class="flex items-center gap-2 p-1 px-2 rounded-md cursor-pointer hover:bg-ott-bg-secondary transition-colors relative"
       :class="{ 
-        'bg-ott-accent text-ott-text-white hover:text-ott-text-primary font-semibold': selectedId === id,
+        'bg-ott-accent text-ott-text-white hover:text-ott-text-primary font-semibold': selectedIds?.includes(id),
         'bg-ott-accent/20 border-ott-accent ring-2 ring-ott-accent ring-inset': isDragOver && dropPosition === 'inside'
       }"
-      @click.stop="$emit('select', id)"
+      @click.stop="$emit('select', id, $event.ctrlKey || $event.metaKey)"
       :draggable="true"
       @dragstart="onDragStart"
       @dragover.prevent="onDragOver"
@@ -34,8 +34,8 @@
         :id="child.id"
         :icon="child.icon"
         :children="child.children"
-        :selectedId="selectedId"
-        @select="(id) => $emit('select', id)"
+        :selectedIds="selectedIds"
+        @select="(id, ctrlKey) => $emit('select', id, ctrlKey)"
         @dropNew="(data) => $emit('dropNew', data)"
         @move="(data) => $emit('move', data)"
       />
@@ -59,12 +59,12 @@ const props = defineProps<{
   id: string;
   icon: string;
   children?: TreeChild[];
-  selectedId?: string;
+  selectedIds?: string[];
 }>();
 
 const emit = defineEmits<{
-  (e: 'select', id: string): void;
-  (e: 'move', data: { sourceId: string; targetId: string; position?: 'before' | 'inside' | 'after' }): void;
+  (e: 'select', id: string, ctrlKey: boolean): void;
+  (e: 'move', data: { sourceIds: string[]; targetId: string; position?: 'before' | 'inside' | 'after' }): void;
   (e: 'dropNew', data: { targetId: string; position?: 'before' | 'inside' | 'after' }): void;
 }>();
 
@@ -75,7 +75,8 @@ const hasChildren = computed(() => props.children && props.children.length > 0);
 
 const onDragStart = (event: DragEvent) => {
   if (event.dataTransfer) {
-    event.dataTransfer.setData('text/plain', props.id);
+    const ids = props.selectedIds?.includes(props.id) ? props.selectedIds : [props.id];
+    event.dataTransfer.setData('text/plain', ids.join(','));
     event.dataTransfer.effectAllowed = 'move';
   }
 };
@@ -111,9 +112,12 @@ const onDrop = (event: DragEvent) => {
     return;
   }
 
-  const sourceId = event.dataTransfer?.getData('text/plain');
-  if (sourceId && sourceId !== props.id) {
-    emit('move', { sourceId, targetId: props.id, position: dropPosition.value });
+  const sourceIdsStr = event.dataTransfer?.getData('text/plain');
+  if (sourceIdsStr) {
+    const sourceIds = sourceIdsStr.split(',');
+    if (!sourceIds.includes(props.id)) {
+      emit('move', { sourceIds, targetId: props.id, position: dropPosition.value });
+    }
   }
 };
 </script>

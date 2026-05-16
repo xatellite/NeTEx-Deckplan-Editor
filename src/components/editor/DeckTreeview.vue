@@ -12,8 +12,8 @@
           :id="root.id"
           :icon="root.icon"
           :children="root.children"
-          :selectedId="selectedIds?.[0]"
-          @select="(id) => $emit('select', id)"
+          :selectedIds="selectedIds"
+          @select="(id, ctrlKey) => $emit('select', id, ctrlKey)"
           @move="(moveData) => $emit('move', moveData)"
           @dropNew="(dropData) => $emit('dropNew', dropData)"
         />
@@ -30,12 +30,12 @@ import { PassengerSpace } from '@/models/netex/deckplan/deck/deckspace/passenger
 
 const props = defineProps<{
   deckPlan?: DeckPlan;
-  selectedIds?: string;
+  selectedIds?: string[];
 }>();
 
 defineEmits<{
-  (e: 'select', id: string): void;
-  (e: 'move', data: { sourceId: string; targetId: string; position?: 'before' | 'inside' | 'after' }): void;
+  (e: 'select', id: string, ctrlKey: boolean): void;
+  (e: 'move', data: { sourceIds: string[]; targetId: string; position?: 'before' | 'inside' | 'after' }): void;
   (e: 'dropNew', data: { targetId: string; position?: 'before' | 'inside' | 'after' }): void;
 }>();
 

@@ -6,7 +6,7 @@
     </header>
     <div class="flex-1 flex border-t-ott-bg-dark border-t min-h-0">
       <!-- Treeview -->
-      <div>
+      <div class="h-full flex flex-col shrink-0 border-r border-ott-bg-dark">
         <div class="bg-ott-bg-primary h-21 p-4 w-full flex justify-center border-b border-ott-bg-dark items-center">
           <div class="p-1 px-2 border-ott-bg-dark bg-ott-bg-secondary border rounded-md w-fit font-medium">
             <button @click="hierarchyShown = !hierarchyShown" :disabled="!deckplan" :class="`${hierarchyShown ? 'bg-ott-bg-primary ':''} rounded-md p-2 px-6 disabled:text-ott-bg-dark`"> <Icon icon="material-symbols:account-tree-outline-rounded" width="20" /></button>
@@ -16,19 +16,20 @@
           v-if="deckplan && hierarchyShown"
           :deckPlan="deckplan"
           :selectedIds="selectedElementIds"
-          @select="(id) => {
+          class="flex-1 min-h-0"
+          @select="(id, ctrlKey) => {
             const deck = deckplan?.decks.find(d => d.attr_id === id);
             if (deck && deck.DeckLevelRef?.attr_ref) {
               store.selectDeckLevel(deck.DeckLevelRef.attr_ref);
             }
-            store.selectElement(id);
+            store.selectElement(id, ctrlKey);
           }"
           @dropNew="(data) => {
             if (store.elementToBuild) {
               store.moveElement(store.elementToBuild.attr_id, data.targetId, data.position);
             }
           }"
-          @move="(data) => store.moveElement(data.sourceId, data.targetId, data.position)"
+          @move="(data) => store.moveElements(data.sourceIds, data.targetId, data.position)"
         />
       </div>
       <!-- Workbench -->

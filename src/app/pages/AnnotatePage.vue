@@ -220,7 +220,7 @@ onMounted(() => {
   openSelectedItem()
 })
 
-watch(selectedElementId, () => {
+watch(selectedElementIds, () => {
   openSelectedItem()
 }, {immediate: true});
 
