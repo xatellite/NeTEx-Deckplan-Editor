@@ -1,8 +1,10 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-ott-accent: #68a691;
-  --color-ott-accent-light: #ecfff9;
+  --color-ott-accent: #242670;
+  --color-ott-highlight: #ffbe0b;
+  --color-ott-accent-darker: #191b61;
+  --color-ott-accent-light: #4548a1;
   --color-ott-text-primary: #2f2f2f;
   --color-ott-text-secondary: #a1a1a1;
   --color-ott-text-white: #ffffff;
@@ -51,11 +53,12 @@ main {
 }
 
 .ott-button--accent {
-  @apply bg-ott-accent border-ott-accent text-ott-text-white font-medium px-4 py-1 h-fit flex items-center gap-5 rounded-lg cursor-pointer disabled:bg-ott-text-secondary disabled:cursor-default;
+  @apply bg-ott-accent hover:bg-ott-accent-darker text-ott-text-white font-medium px-4 py-1 h-fit flex items-center gap-5 rounded-lg cursor-pointer disabled:bg-ott-text-secondary disabled:cursor-default;
 }
 
-input, .ott-input {
-  @apply border border-ott-bg-dark rounded py-1 px-3 bg-white text-sm focus:outline-none focus:border-ott-accent;
+input,
+.ott-input {
+  @apply border  border-ott-bg-dark rounded py-1 px-3 bg-white text-sm focus:outline-none focus:border-ott-accent;
 }
 
 /* Scrollbar */
@@ -107,4 +110,9 @@ input, .ott-input {
 
 .ott-item-content {
   @apply bg-white;
+}
+
+/* range input */
+input[type='range'] {
+  @apply cursor-pointer appearance-none h-1 w-64 bg-neutral-200 dark:bg-neutral-600;
 }

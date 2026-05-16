@@ -259,8 +259,8 @@ const handleMouseDown = (e: any) => {
       y: pos.y,
       width: 0,
       height: 0,
-      fill: 'rgba(0, 255, 0, 0.3)',
-      stroke: '#68a691',
+      fill: 'rgba(255, 0, 110, 0.3)',
+      stroke: '#242670',
       strokeWidth: 1,
     }
   } else {
