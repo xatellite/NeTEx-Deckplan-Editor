@@ -43,7 +43,7 @@ export class PassengerSpace {
   Polygon: GeneralPolygon | undefined
   PublicUse: boolean | undefined
   TotalCapacity: number | undefined
-  FareClass: string | undefined
+  FareClass: 'Standard' | 'Best' | 'Basic' | 'High' | 'AnyClass' | undefined
   AirConditioned: boolean | undefined
 
   constructor({
@@ -109,7 +109,7 @@ export class PassengerSpace {
     Polygon: any | undefined
     PublicUse: {"text_value": boolean} | undefined
     TotalCapacity: {"text_value": number} | undefined
-    FareClass: {"text_value": string} | undefined
+    FareClass: { text_value: 'Standard' | 'Best' | 'Basic' | 'High' | 'AnyClass' } | undefined
     AirConditioned: {"text_value": boolean} | undefined
   }) {
     this.attr_id = attr_id
@@ -171,7 +171,7 @@ export class PassengerSpace {
       Polygon: undefined,
       PublicUse: { text_value: true },
       TotalCapacity: { text_value: 0 },
-      FareClass: { text_value: 'secondClass' },
+      FareClass: { text_value: 'Standard' },
       AirConditioned: { text_value: true }
     })
   }

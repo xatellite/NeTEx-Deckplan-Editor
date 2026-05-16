@@ -81,7 +81,7 @@ const props = defineProps<{
   deck: Deck,
   scale: number,
   elementToBuild?: BuildableElement,
-  selectedElementIds?: string,
+  selectedElementIds?: string[],
 }>();
 
 const emit = defineEmits(['editGrid', 'select', 'drop', 'updateElement'])

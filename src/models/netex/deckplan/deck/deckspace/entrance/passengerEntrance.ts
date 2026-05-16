@@ -129,14 +129,10 @@ export class PassengerEntrance {
       let x = (this.Centroid?.x ?? 0) * scale
       let y = (this.Centroid?.y ?? 0) * scale
 
-      if (this.VehicleSide === 'leftSide') {
+      if (this.VehicleSide === 'leftSide' || this.VehicleSide === 'rightSide') {
         y = (this.Centroid?.y ?? 0) * scale - height / 2
-      } else if (this.VehicleSide === 'rightSide') {
-        y = (this.Centroid?.y ?? 0) * scale + height / 2
-      } else if (this.VehicleSide === 'front') {
+      } else if (this.VehicleSide === 'front' || this.VehicleSide === 'back') {
         x = (this.Centroid?.x ?? 0) * scale - width / 2
-      } else if (this.VehicleSide === 'back') {
-        x = (this.Centroid?.x ?? 0) * scale + width / 2
       }
 
       return {
@@ -144,8 +140,8 @@ export class PassengerEntrance {
         y,
         width,
         height,
-        fill: 'orange',
-        stroke: 'darkorange',
+        fill: 'white',
+        stroke: 'black',
         strokeWidth: 2,
         draggable: true,
       }

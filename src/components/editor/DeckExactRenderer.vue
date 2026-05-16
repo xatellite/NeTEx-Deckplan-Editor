@@ -87,6 +87,33 @@
               }"
             />
 
+
+            <v-rect
+              v-if="seat.Orientation === 'leftwards'"
+              :config="{
+                x: 0,
+                y: 0,
+                width: 4,
+                height: seat.getShape(scale).width,
+                fill: '#000000',
+                cornerRadius: 4,
+                listening: false
+              }"
+            />
+
+            <v-rect
+              v-if="seat.Orientation === 'rightwards'"
+              :config="{
+                x: seat.getShape(scale).height - 4,
+                y: 0,
+                width: 4,
+                height: seat.getShape(scale).width,
+                fill: '#000000',
+                cornerRadius: 4,
+                listening: false
+              }"
+            />
+
             <!-- Label -->
             <v-text
               :config="{
@@ -106,6 +133,7 @@
               }"
             />
           </v-group>
+          <!-- Entrances -->
           <v-group
             v-for="(entrance, index) in entrances"
             :key="`entrance-${index}`"
@@ -463,61 +491,15 @@ const handleEntranceDragMove = (e: any, entrance: PassengerEntrance) => {
   const x = e.target.x()
   const y = e.target.y()
 
-  const deckWidthPx = props.deck.Width * props.scale
-  const deckLengthPx = props.deck.Length * props.scale
-
-  // Use getShape to get current dimensions (based on current VehicleSide)
-  const shape = entrance.getShape(props.scale, props.deck.Length, props.deck.Width)
-  const entranceWidth = shape.width
-  const entranceHeight = shape.height
-
-  const deckLeft = 5
-  const deckTop = 5
-  const deckRight = deckLeft + deckLengthPx
-  const deckBottom = deckTop + deckWidthPx
-
-  const centerX = x + entranceWidth / 2
-  const centerY = y + entranceHeight / 2
-
-  const distLeft = Math.abs(centerX - deckLeft)
-  const distRight = Math.abs(centerX - deckRight)
-  const distTop = Math.abs(centerY - deckTop)
-  const distBottom = Math.abs(centerY - deckBottom)
-
-  const minDist = Math.min(distLeft, distRight, distTop, distBottom)
-
-  let newX = x
-  let newY = y
-
-  if (minDist === distTop) {
-    // Snap to Top (Left Side)
-    newY = deckTop
-    newX = Math.max(deckLeft, Math.min(x, deckRight - entranceWidth))
-  } else if (minDist === distBottom) {
-    // Snap to Bottom (Right Side)
-    newY = deckBottom - entranceHeight
-    newX = Math.max(deckLeft, Math.min(x, deckRight - entranceWidth))
-  } else if (minDist === distLeft) {
-    // Snap to Left (Front)
-    newX = deckLeft
-    // Snap Y to center
-    newY = deckWidthPx / 2 + 5 - entranceHeight / 2
-  } else if (minDist === distRight) {
-    // Snap to Right (Back)
-    newX = deckRight - entranceWidth
-    // Snap Y to center
-    newY = deckWidthPx / 2 + 5 - entranceHeight / 2
-  }
-
-  e.target.x(newX)
-  e.target.y(newY)
+  e.target.x(x)
+  e.target.y(y)
 
   if (!entrance.Centroid) {
     entrance.Centroid = new Centroid(0, 0)
   }
 
-  entrance.Centroid.x = newY / props.scale
-  entrance.Centroid.y = newX / props.scale
+  entrance.Centroid.x = y / props.scale
+  entrance.Centroid.y = x / props.scale
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

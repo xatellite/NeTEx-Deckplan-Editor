@@ -126,7 +126,7 @@ const editableFields = computed(() => {
       fields.Orientation = {
         type: 'enum',
         value: el.Orientation,
-        options: [undefined, 'forwards', 'backwards', 'toleft', 'toright', 'reversible']
+        options: [undefined, 'forwards', 'backwards', 'leftwards', 'rightwards', 'reversible']
       };
     }
     fields.HasPower = { type: 'boolean', value: !!el.HasPower };
@@ -144,6 +144,13 @@ const editableFields = computed(() => {
         type: 'enum',
         value: el.PassengerSpaceType,
         options: ['seatingArea', 'passengerCabin', 'vehicleArea', 'luggageStore', 'corridor', 'restaurant', 'toilet', 'bathroom', 'other']
+      };
+    }
+    if ('FareClass' in el) {
+      fields.FareClass = {
+        type: 'enum',
+        value: el.FareClass,
+        options: ['Standard', 'Best', 'Basic', 'High', 'AnyClass']
       };
     }
   }

@@ -5,7 +5,7 @@
     @click.stop="selectElement"
     @dragstart="handleDragStart"
   >
-    <div :class="`${isSelected ? 'border-ott-highlight ' : 'border-ott-text-primary '}  ${element.Orientation === 'forwards' ? 'border-t-6 ' : ''} ${element.Orientation === 'backwards' ? 'border-b-6 ' : ''}  rounded-lg flex justify-center items-center w-10 h-10 bg-white border  shadow p-1`">
+    <div :class="`${isSelected ? 'border-ott-highlight ' : 'border-ott-text-primary '}  ${element.Orientation === 'leftwards' ? 'border-r-6 ' : ''}  ${element.Orientation === 'rightwards' ? 'border-l-6 ' : ''}  ${element.Orientation === 'forwards' ? 'border-t-6 ' : ''} ${element.Orientation === 'backwards' ? 'border-b-6 ' : ''}  rounded-lg flex justify-center items-center w-10 h-10 bg-white border  shadow p-1`">
       <Icon v-if="element instanceof PassengerSpot" icon="material-symbols:event-seat-outline-rounded" width="16"/>
       {{ element.Label }}
     </div>
