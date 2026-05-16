@@ -120,10 +120,10 @@ export class PassengerSpot extends LocatableSpot {
         y: (this.Centroid?.y ?? 1) * scale - height / 2 + 5,
         width,
         height,
-        fill: 'lightgray',
-        stroke: 'gray',
+        fill: '#ffffff',
+        stroke: '#000000',
         strokeWidth: 1,
-        cornerRadius: 2,
+        cornerRadius: 4,
         draggable: true,
       }
     }
@@ -133,6 +133,8 @@ export class PassengerSpot extends LocatableSpot {
       width: this.Width * scale,
       height: this.Length * scale,
       fill: 'red',
+      strokeWidth: 1,
+      cornerRadius: 4,
       draggable: true,
     }
   }

@@ -43,6 +43,7 @@
           v-if="spot"
           draggable="true"
           :element="spot"
+          :is-selected="selectedElementIds?.includes(spot.attr_id)"
           class="scale-90"
           @select="(id) => $emit('select', id)"
         />
@@ -80,6 +81,7 @@ const props = defineProps<{
   deck: Deck,
   scale: number,
   elementToBuild?: BuildableElement,
+  selectedElementIds?: string,
 }>();
 
 const emit = defineEmits(['editGrid', 'select', 'drop', 'updateElement'])

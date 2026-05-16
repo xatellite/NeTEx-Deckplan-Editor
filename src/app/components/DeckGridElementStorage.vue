@@ -7,7 +7,7 @@
     <div class="flex-1 overflow-y-auto p-4 flex flex-wrap gap-2 content-start scrollbar-thin">
       <span>Unlocated elements:</span>
       <template v-for="spot in unallocatedSpots" :key="spot.attr_id">
-        <LocatableSpotElement :element="spot" @select="(id) => $emit('select', id)" />
+        <LocatableSpotElement :element="spot" @select="(id) => $emit('select', id)" :is-selected="store.selectedElementIds.includes(spot.attr_id)" />
       </template>
 
       <div v-if="unallocatedSpots.length === 0" class="w-full h-full flex flex-col items-center justify-center text-ott-text-secondary/30 italic text-sm gap-2 py-8">

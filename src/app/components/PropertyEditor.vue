@@ -60,7 +60,7 @@
               <Icon icon="material-symbols:close" width="18" />
             </button>
           </div>
-          <select 
+          <select
             @change="(e) => { addEquipment((e.target as HTMLSelectElement).value); (e.target as HTMLSelectElement).value = '' }"
             class="ott-input w-full bg-ott-bg-secondary border-ott-bg-dark hover:border-ott-accent focus:bg-white transition-all text-xs py-2"
           >
@@ -113,9 +113,9 @@ const editableFields = computed(() => {
 
   // Equipment assignment
   if ('actualVehicleEquipments' in el) {
-    fields.actualVehicleEquipments = { 
-      type: 'equipment-list', 
-      value: el.actualVehicleEquipments 
+    fields.actualVehicleEquipments = {
+      type: 'equipment-list',
+      value: el.actualVehicleEquipments
     };
   }
 
@@ -126,7 +126,7 @@ const editableFields = computed(() => {
       fields.Orientation = {
         type: 'enum',
         value: el.Orientation,
-        options: [undefined, 'forward', 'backward', 'toleft', 'toright', 'reversible']
+        options: [undefined, 'forwards', 'backwards', 'toleft', 'toright', 'reversible']
       };
     }
     fields.HasPower = { type: 'boolean', value: !!el.HasPower };
