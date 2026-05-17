@@ -86,20 +86,20 @@ export class PassengerSpace {
       | 'other'
       | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    passengerSpots: {PassengerSpot: any[], PassengerSpotRef: any[]} | undefined
+    passengerSpots: { PassengerSpot: any[]; PassengerSpotRef: any[] } | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    luggageSpots: {LuggageSpot: any[], LuggageSpotRef: any[]} | undefined
+    luggageSpots: { LuggageSpot: any[]; LuggageSpotRef: any[] } | undefined
     // passengerVehicleSpots: (PassengerVehicleSpot | PassengerVehicleSpotRef)[]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    deckEntrances: {PassengerEntrance: any[]} | undefined
+    deckEntrances: { PassengerEntrance: any[] } | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    deckEntranceUsage: {DeckEntranceUsage: any[]} | undefined
+    deckEntranceUsage: { DeckEntranceUsage: any[] } | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    deckEntranceCouples: {DeckEntranceCouple: any[]} | undefined
+    deckEntranceCouples: { DeckEntranceCouple: any[] } | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    deckSpaceCapacities: {DeckSpaceCapacity: any[]} | undefined
+    deckSpaceCapacities: { DeckSpaceCapacity: any[] } | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    actualVehicleEquipments: {ActualVehicleEquipment: any[]} | undefined
+    actualVehicleEquipments: { ActualVehicleEquipment: any[] } | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ServiceFacilitySetRef: any | undefined
     // spotAffinities: SpotAffinity[]
@@ -107,10 +107,10 @@ export class PassengerSpace {
     Centroid: any | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Polygon: any | undefined
-    PublicUse: {"text_value": boolean} | undefined
-    TotalCapacity: {"text_value": number} | undefined
-    FareClass: { text_value: 'Standard' | 'Best' | 'Basic' | 'High' | 'AnyClass' } | undefined
-    AirConditioned: {"text_value": boolean} | undefined
+    PublicUse: boolean | undefined
+    TotalCapacity: number | undefined
+    FareClass: 'Standard' | 'Best' | 'Basic' | 'High' | 'AnyClass' | undefined
+    AirConditioned: boolean | undefined
   }) {
     this.attr_id = attr_id
     this.attr_version = attr_version
@@ -118,37 +118,55 @@ export class PassengerSpace {
     this.SmokingAllowed = SmokingAllowed
     this.StandingAllowed = StandingAllowed
     this.PassengerSpaceType = PassengerSpaceType
-    this.passengerSpots = passengerSpots ? Object.entries(passengerSpots).flatMap<PassengerSpot | PassengerSpotRef>(([k, d]) => {
-        if (k === 'PassengerSpot') {
-          return extractElementList(d, PassengerSpot) as PassengerSpot[]
-        }
-        if (k === 'PassengerSpotRef') {
-          return extractElementList(d, PassengerSpotRef) as PassengerSpotRef[]
-        }
-        return []
-      }) : []
-    this.luggageSpots = luggageSpots ? Object.entries(luggageSpots).flatMap<LuggageSpot | LuggageSpotRef>(([k, d]) => {
-        if (k === 'LuggageSpot') {
-          return extractElementList(d, LuggageSpot) as LuggageSpot[]
-        }
-        if (k === 'LuggageSpotRef') {
-          return extractElementList(d, LuggageSpotRef) as LuggageSpotRef[]
-        }
-        return []
-      }) : []
+    this.passengerSpots = passengerSpots
+      ? Object.entries(passengerSpots).flatMap<PassengerSpot | PassengerSpotRef>(([k, d]) => {
+          if (k === 'PassengerSpot') {
+            return extractElementList(d, PassengerSpot) as PassengerSpot[]
+          }
+          if (k === 'PassengerSpotRef') {
+            return extractElementList(d, PassengerSpotRef) as PassengerSpotRef[]
+          }
+          return []
+        })
+      : []
+    this.luggageSpots = luggageSpots
+      ? Object.entries(luggageSpots).flatMap<LuggageSpot | LuggageSpotRef>(([k, d]) => {
+          if (k === 'LuggageSpot') {
+            return extractElementList(d, LuggageSpot) as LuggageSpot[]
+          }
+          if (k === 'LuggageSpotRef') {
+            return extractElementList(d, LuggageSpotRef) as LuggageSpotRef[]
+          }
+          return []
+        })
+      : []
     this.deckEntrances = extractElementList(deckEntrances?.PassengerEntrance, PassengerEntrance)
-    this.deckEntranceUsage = extractElementList(deckEntranceUsage?.DeckEntranceUsage, DeckEntranceUsage)
-    this.deckEntranceCouples = extractElementList(deckEntranceCouples?.DeckEntranceCouple, DeckEntranceCouple)
-    this.deckSpaceCapacities = extractElementList(deckSpaceCapacities?.DeckSpaceCapacity, DeckSpaceCapacity)
-    this.actualVehicleEquipments = extractElementList(actualVehicleEquipments?.ActualVehicleEquipment, ActualVehicleEquipment)
-    this.ServiceFacilitySetRef = ServiceFacilitySetRef ? new GeneralServiceFacilitySetRef(ServiceFacilitySetRef) : undefined
+    this.deckEntranceUsage = extractElementList(
+      deckEntranceUsage?.DeckEntranceUsage,
+      DeckEntranceUsage,
+    )
+    this.deckEntranceCouples = extractElementList(
+      deckEntranceCouples?.DeckEntranceCouple,
+      DeckEntranceCouple,
+    )
+    this.deckSpaceCapacities = extractElementList(
+      deckSpaceCapacities?.DeckSpaceCapacity,
+      DeckSpaceCapacity,
+    )
+    this.actualVehicleEquipments = extractElementList(
+      actualVehicleEquipments?.ActualVehicleEquipment,
+      ActualVehicleEquipment,
+    )
+    this.ServiceFacilitySetRef = ServiceFacilitySetRef
+      ? new GeneralServiceFacilitySetRef(ServiceFacilitySetRef)
+      : undefined
     // this.spotAffinities,
     this.Centroid = Centroid ? GeneralCentroid.fromXML(Centroid) : undefined
     this.Polygon = Polygon ? new GeneralPolygon(Polygon) : undefined
-    this.PublicUse = PublicUse?.text_value
-    this.TotalCapacity = TotalCapacity?.text_value
-    this.FareClass = FareClass?.text_value
-    this.AirConditioned = AirConditioned?.text_value
+    this.PublicUse = PublicUse
+    this.TotalCapacity = TotalCapacity
+    this.FareClass = FareClass
+    this.AirConditioned = AirConditioned
   }
 
   static createDefault(id: string): PassengerSpace {
@@ -169,10 +187,10 @@ export class PassengerSpace {
       ServiceFacilitySetRef: undefined,
       Centroid: undefined,
       Polygon: undefined,
-      PublicUse: { text_value: true },
-      TotalCapacity: { text_value: 0 },
-      FareClass: { text_value: 'Standard' },
-      AirConditioned: { text_value: true }
+      PublicUse: true,
+      TotalCapacity: 0,
+      FareClass: 'Standard',
+      AirConditioned: true,
     })
   }
 
@@ -187,10 +205,18 @@ export class PassengerSpace {
       passengerSpots: this.passengerSpots ? serializeElementsAndRefs(this.passengerSpots) : '',
       luggageSpots: this.luggageSpots ? serializeElementsAndRefs(this.luggageSpots) : undefined,
       deckEntrances: this.deckEntrances ? serializeElementsAndRefs(this.deckEntrances) : undefined,
-      deckEntranceUsage: this.deckEntranceUsage ? serializeElementsAndRefs(this.deckEntranceUsage) : undefined,
-      deckEntranceCouples:this.deckEntranceCouples ? serializeElementsAndRefs(this.deckEntranceCouples) : undefined,
-      deckSpaceCapacities: this.deckSpaceCapacities ? serializeElementsAndRefs(this.deckSpaceCapacities) : undefined,
-      actualVehicleEquipments: this.actualVehicleEquipments ? serializeElementsAndRefs(this.actualVehicleEquipments) : undefined,
+      deckEntranceUsage: this.deckEntranceUsage
+        ? serializeElementsAndRefs(this.deckEntranceUsage)
+        : undefined,
+      deckEntranceCouples: this.deckEntranceCouples
+        ? serializeElementsAndRefs(this.deckEntranceCouples)
+        : undefined,
+      deckSpaceCapacities: this.deckSpaceCapacities
+        ? serializeElementsAndRefs(this.deckSpaceCapacities)
+        : undefined,
+      actualVehicleEquipments: this.actualVehicleEquipments
+        ? serializeElementsAndRefs(this.actualVehicleEquipments)
+        : undefined,
       ServiceFacilitySetRef: this.ServiceFacilitySetRef?.toXML(),
       Centroid: this.Centroid?.toXML(),
       Polygon: this.Polygon?.toXML(),

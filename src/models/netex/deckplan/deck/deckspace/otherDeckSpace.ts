@@ -1,10 +1,10 @@
 import { ActualVehicleEquipment } from '../../../actualVehicleEquipment'
-import { extractElementList, Name as GeneralName } from '../../../general'
+import { extractElementList } from '../../../general'
 
 export class OtherDeckSpace {
   attr_id: string
   attr_version: string
-  Name: GeneralName | undefined
+  Name: string | undefined
   PublicUse: boolean | undefined
   TotalCapacity: number | undefined
   actualVehicleEquipments: ActualVehicleEquipment[]
@@ -19,26 +19,26 @@ export class OtherDeckSpace {
   }: {
     attr_id: string
     attr_version: string
-    Name: { text_value: string }
+    Name: string
     actualVehicleEquipments: { ActualVehicleEquipment: ActualVehicleEquipment[] }
-    PublicUse: { text_value: boolean }
-    TotalCapacity: { text_value: number }
+    PublicUse: boolean
+    TotalCapacity: number
   }) {
     this.attr_id = attr_id
     this.attr_version = attr_version
-    this.Name = Name ? new GeneralName(Name) : undefined
+    this.Name = Name
     this.actualVehicleEquipments = actualVehicleEquipments
       ? extractElementList(actualVehicleEquipments.ActualVehicleEquipment, ActualVehicleEquipment)
       : []
-    this.PublicUse = PublicUse?.text_value
-    this.TotalCapacity = TotalCapacity?.text_value
+    this.PublicUse = PublicUse
+    this.TotalCapacity = TotalCapacity
   }
 
   toXML() {
     return {
       attr_id: this.attr_id,
       attr_version: this.attr_version,
-      Name: this.Name?.toXML,
+      Name: this.Name,
     }
   }
 }
