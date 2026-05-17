@@ -89,7 +89,7 @@
 
 
             <v-rect
-              v-if="seat.Orientation === 'leftwards'"
+              v-if="seat.Orientation === 'rightwards'"
               :config="{
                 x: 0,
                 y: 0,
@@ -102,7 +102,7 @@
             />
 
             <v-rect
-              v-if="seat.Orientation === 'rightwards'"
+              v-if="seat.Orientation === 'leftwards'"
               :config="{
                 x: seat.getShape(scale).height - 4,
                 y: 0,
