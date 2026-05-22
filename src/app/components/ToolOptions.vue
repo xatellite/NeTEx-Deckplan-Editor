@@ -15,7 +15,7 @@
         </div>
         <div class="flex-1 overflow-y-auto p-4">
           <div v-if="elementToBuild" class="flex flex-col gap-6">
-            <div class="flex flex-col items-center gap-2 p-4 bg-ott-bg-secondary/20 rounded-lg border border-ott-bg-dark border-dashed"> 
+            <div class="flex flex-col items-center gap-2 p-4 bg-ott-bg-secondary/20 rounded-lg border border-ott-bg-dark border-dashed">
               <LocatableSpotElement
                 v-if="elementToBuild instanceof PassengerSpot || elementToBuild.constructor.name === 'LuggageSpot'"
                 :element="elementToBuild"
@@ -193,14 +193,14 @@ function createNewElement(item: any) {
       newEl = new item.model({
           attr_id: id,
           attr_version: '1.0',
-          Name: { text_value: 'Entrance' } as any,
-          Label: { text_value: 'E' } as any,
-          Width: { text_value: 0.8 } as any,
-          Height: { text_value: 2.0 } as any,
+          Name: 'Entrance',
+          Label: 'E',
+          Width: 0.8,
+          Height: 2.0,
           actualVehicleEquipments: { ActualVehicleEquipment: [] },
-          PublicUse: { text_value: true },
-          VehicleSide: { text_value: 'leftSide' } as any,
-          DeckEntranceType: { text_value: 'external' }
+          PublicUse: true,
+          VehicleSide: 'leftSide',
+          DeckEntranceType: 'external'
       })
   }
 

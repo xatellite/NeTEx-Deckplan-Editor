@@ -38,7 +38,7 @@
             v-for="(seat, index) in seats"
             :key="`seats-${index}`"
             :config="{
-              x: seat.getShape(scale).y,
+              x: deck.Width * scale - seat.getShape(scale).y - seat.getShape(scale).height + 10,
               y: seat.getShape(scale).x,
               draggable: true,
             }"
@@ -138,7 +138,7 @@
             v-for="(entrance, index) in entrances"
             :key="`entrance-${index}`"
             :config="{
-              x: entrance.getShape(scale, deck.Length, deck.Width).y,
+              x: deck.Width * scale - entrance.getShape(scale, deck.Length, deck.Width).y - entrance.getShape(scale, deck.Length, deck.Width).height + 10,
               y: entrance.getShape(scale, deck.Length, deck.Width).x,
               draggable: true,
             }"
@@ -325,13 +325,13 @@ const handleMouseUp = () => {
     let kX, kY, kW, kH
     if (el instanceof PassengerSpot) {
       const shape = el.getShape(props.scale)
-      kX = shape.y
+      kX = props.deck.Width * props.scale - shape.y - shape.height + 10
       kY = shape.x
-      kW = shape.width
-      kH = shape.height
+      kW = shape.height
+      kH = shape.width
     } else if (el instanceof PassengerEntrance) {
       const shape = el.getShape(props.scale, props.deck.Length, props.deck.Width)
-      kX = shape.y
+      kX = props.deck.Width * props.scale - shape.y - shape.height + 10
       kY = shape.x
       kW = shape.height
       kH = shape.width
@@ -355,8 +355,8 @@ const handleDragStart = (e: any, seat: PassengerSpot) => {
     props.selectedElements.forEach((el) => {
       if (el instanceof PassengerSpot) {
         const shape = el.getShape(props.scale)
-        // Store Konva coordinates: kX = NeTEx Y, kY = NeTEx X
-        dragStartPositions.value.set(el, { kX: shape.y, kY: shape.x })
+        const stageX = props.deck.Width * props.scale - shape.y - shape.height + 10
+        dragStartPositions.value.set(el, { kX: stageX, kY: shape.x })
       }
     })
   }
@@ -383,12 +383,13 @@ const handleDragMove = (e: any, seat: PassengerSpot) => {
   // Simple snapping to other seats' X and Y
   otherSeats.forEach((other) => {
     const otherShape = other.getShape(props.scale)
+    const otherStageX = props.deck.Width * props.scale - otherShape.y - otherShape.height + 10
 
     // Snap X
-    if (Math.abs(x - otherShape.y) < SNAP_THRESHOLD) {
-      newX = otherShape.y
+    if (Math.abs(x - otherStageX) < SNAP_THRESHOLD) {
+      newX = otherStageX
       guideLines.value.push({
-        points: [otherShape.y, 0, otherShape.y, stage.height()],
+        points: [otherStageX, 0, otherStageX, stage.height()],
         stroke: 'red',
         strokeWidth: 1,
         dash: [4, 6],
@@ -442,7 +443,7 @@ const handleDragEnd = (e: any, seat: PassengerSpot) => {
 const updateSeatPosition = (seat: PassengerSpot, kX: number, kY: number) => {
   const newCentroid = {
     x: (kY - 5) / props.scale + seat.Width / 2,
-    y: (kX - 5) / props.scale + seat.Length / 2,
+    y: props.deck.Width - ((kX - 5) / props.scale + seat.Length / 2),
   }
 
   emit('updateElement', {
@@ -468,15 +469,18 @@ const handleDropInExact = (e: any) => {
       el.constructor.name === 'LuggageSpot' ||
       el instanceof PassengerEntrance
     ) {
-      if (el instanceof PassengerSpot) {
-        const x = pos.y
-        const y = pos.x
+      if (el instanceof PassengerSpot || el.constructor.name === 'LuggageSpot') {
+        const stageX = pos.x
+        const stageY = pos.y
         el.Centroid = new Centroid(
-          (x - 5) / props.scale + el.Width / 2,
-          (y - 5) / props.scale + el.Length / 2,
+          (stageY - 5) / props.scale + el.Width / 2,
+          props.deck.Width - ((stageX - 5) / props.scale + el.Length / 2),
         )
       } else if (el instanceof PassengerEntrance) {
-        el.Centroid = new Centroid(pos.y / props.scale, pos.x / props.scale)
+        el.Centroid = new Centroid(
+          pos.y / props.scale,
+          props.deck.Width - (pos.x / props.scale),
+        )
       }
       emit('drop', { element: el, deckId: props.deck.attr_id })
     }
@@ -499,7 +503,7 @@ const handleEntranceDragMove = (e: any, entrance: PassengerEntrance) => {
   }
 
   entrance.Centroid.x = y / props.scale
-  entrance.Centroid.y = x / props.scale
+  entrance.Centroid.y = props.deck.Width - x / props.scale
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -511,13 +515,13 @@ const handleEntranceDragEnd = (e: any, entrance: PassengerEntrance) => {
   const deckLengthPx = props.deck.Length * props.scale
 
   const shape = entrance.getShape(props.scale, props.deck.Length, props.deck.Width)
-  const entranceWidth = shape.width
-  const entranceHeight = shape.height
+  const entranceWidth = shape.height
+  const entranceHeight = shape.width
 
   const deckLeft = 5
   const deckTop = 5
-  const deckRight = deckLeft + deckLengthPx
-  const deckBottom = deckTop + deckWidthPx
+  const deckRight = deckLeft + deckWidthPx
+  const deckBottom = deckTop + deckLengthPx
 
   // Determine side based on final position
   // We can use the same logic as dragMove or just check coordinates
@@ -525,18 +529,17 @@ const handleEntranceDragEnd = (e: any, entrance: PassengerEntrance) => {
   const epsilon = 1
 
   if (Math.abs(y - deckTop) < epsilon) {
-    entrance.VehicleSide = 'leftSide'
-    // Update SequenceFromFront
-    entrance.SequenceFromFront = (x - deckLeft + entranceWidth / 2) / props.scale
-  } else if (Math.abs(y - (deckBottom - entranceHeight)) < epsilon) {
-    entrance.VehicleSide = 'rightSide'
-    entrance.SequenceFromFront = (x - deckLeft + entranceWidth / 2) / props.scale
-  } else if (Math.abs(x - deckLeft) < epsilon) {
     entrance.VehicleSide = 'front'
     entrance.SequenceFromFront = 0
-  } else if (Math.abs(x - (deckRight - entranceWidth)) < epsilon) {
+  } else if (Math.abs(y - (deckBottom - entranceHeight)) < epsilon) {
     entrance.VehicleSide = 'back'
     entrance.SequenceFromFront = props.deck.Length
+  } else if (Math.abs(x - deckLeft) < epsilon) {
+    entrance.VehicleSide = 'leftSide'
+    entrance.SequenceFromFront = (y - deckTop + entranceHeight / 2) / props.scale
+  } else if (Math.abs(x - (deckRight - entranceWidth)) < epsilon) {
+    entrance.VehicleSide = 'rightSide'
+    entrance.SequenceFromFront = (y - deckTop + entranceHeight / 2) / props.scale
   }
 }
 </script>

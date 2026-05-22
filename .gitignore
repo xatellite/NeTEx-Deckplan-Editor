@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+netex_reusableComponents
 node_modules
 .DS_Store
 dist
@@ -14,6 +15,7 @@ dist-ssr
 dist-app
 coverage
 *.local
+*.data
 
 # Editor directories and files
 .vscode/*

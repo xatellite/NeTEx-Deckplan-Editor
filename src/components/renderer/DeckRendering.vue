@@ -97,11 +97,10 @@ import { PassengerSpot } from '@/models/netex/deckplan/deck/deckspace/spots/pass
 import { PassengerSpace } from '@/models/netex/deckplan/deck/deckspace/passengerSpace'
 import { PassengerSpotAvailability, type Availability  } from '@/models/view/seats'
 
-type AnnotatedPassengerSpot = PassengerSpot & {fareClass?: string, availability?: PassengerSpotAvailability}
+type AnnotatedPassengerSpot = PassengerSpot & {availability?: PassengerSpotAvailability}
 
 const props = defineProps<{
   deck: Deck,
-  fareClass?: string,
   scale?: number,
   availability?: Availability,
   vertical?: boolean
@@ -116,23 +115,17 @@ const seats = computed((): AnnotatedPassengerSpot[] => {
   return props.deck.deckspaces?.flatMap(ds => {
     if (ds instanceof PassengerSpace) {
       return ds.passengerSpots?.filter((s): s is PassengerSpot => s instanceof PassengerSpot).map((s) => {
-        (s as AnnotatedPassengerSpot).fareClass = ds.FareClass;
         return s
       }) || []
     }
     return []
   }).map((seat: AnnotatedPassengerSpot) => {
-
-      if (!props.fareClass || seat.fareClass === props.fareClass) {
-        seat.availability =
-          props.availability && seat.attr_id
-            ? PassengerSpotAvailability[
-                props.availability[seat.attr_id] ?? "Undefined"
-              ]
-            : PassengerSpotAvailability.Undefined
-      } else {
-        seat.availability = PassengerSpotAvailability.Filtered
-      }
+      seat.availability =
+        props.availability && seat.attr_id
+          ? PassengerSpotAvailability[
+              props.availability[seat.attr_id] ?? "Undefined"
+            ]
+          : PassengerSpotAvailability.Undefined
 
       return seat
   }) || []

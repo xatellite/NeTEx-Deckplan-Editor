@@ -42,6 +42,7 @@ export const useEditorState = defineStore('editor', {
     selectedElement: (state) => {
       if (!state.deckplan || state.selectedElementIds.length === 0) return undefined
       const id = state.selectedElementIds[0]
+      if (!id) return undefined
 
       // Search helper
       const findById = (elements: any[], targetId: string): any => {
