@@ -34,7 +34,7 @@ the license terms below. This license is for your protection as a Contributor as
 protection of OTT and its users; it does not change your rights to use your own Contributions for any other purpose.
 If you have not already done so, please complete and sign, then scan and email a pdf file of this
 Agreement to cla@opentrainticketing.com.
-If necessary, send an original signed Agreement to The Linux
+If necessary, send an original signed Agreement to
 xatellite23 UG (haftungsbeschränkt) Henschelstraße 21, 81249 München.
 Please read this document carefully before signing and keep a copy for your records.<br>
 Full name:<br> \***\*\*\*\*\***\*\*\***\*\*\*\*\***\_\_\_\_\***\*\*\*\*\***\*\*\***\*\*\*\*\***<br>
@@ -110,13 +110,13 @@ The use of Generative AI tools (such as LLMs, code assistants, and AI writing to
 If AI is used to generate or substantially modify code:
 
 - Clearly indicate this in the commit message or merge request description.
+- Review, test, and understand all generated code before submission. We might ask specific questions during the review process.
 - Record:
   - The model used (including version if known).
   - A summary of how it was used.
   - The prompts or interactions used, or a concise summary of them.
-- Review, test, and understand all generated code before submission. We might ask specific questions during the review process.
 
-Example:
+Here is an example:
 
 ```
 Generate parser tests using ExampleLLM 2.1
