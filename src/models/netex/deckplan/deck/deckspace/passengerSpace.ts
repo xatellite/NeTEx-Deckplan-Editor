@@ -33,7 +33,7 @@ export class PassengerSpace {
   luggageSpots: (LuggageSpot | LuggageSpotRef)[] | undefined
   // passengerVehicleSpots: (PassengerVehicleSpot | PassengerVehicleSpotRef)[]
   deckEntrances: PassengerEntrance[] | undefined
-  deckEntranceUsage: DeckEntranceUsage[] | undefined
+  deckEntranceUsages: DeckEntranceUsage[] | undefined
   deckEntranceCouples: DeckEntranceCouple[] | undefined
   deckSpaceCapacities: DeckSpaceCapacity[] | undefined
   actualVehicleEquipments: ActualVehicleEquipment[] | undefined
@@ -56,7 +56,7 @@ export class PassengerSpace {
     passengerSpots,
     luggageSpots,
     deckEntrances,
-    deckEntranceUsage,
+    deckEntranceUsages,
     deckEntranceCouples,
     deckSpaceCapacities,
     actualVehicleEquipments,
@@ -93,7 +93,7 @@ export class PassengerSpace {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     deckEntrances: { PassengerEntrance: any[] } | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    deckEntranceUsage: { DeckEntranceUsage: any[] } | undefined
+    deckEntranceUsages: { DeckEntranceUsages: any[] } | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     deckEntranceCouples: { DeckEntranceCouple: any[] } | undefined
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -141,8 +141,8 @@ export class PassengerSpace {
         })
       : []
     this.deckEntrances = extractElementList(deckEntrances?.PassengerEntrance, PassengerEntrance)
-    this.deckEntranceUsage = extractElementList(
-      deckEntranceUsage?.DeckEntranceUsage,
+    this.deckEntranceUsages = extractElementList(
+      deckEntranceUsages?.DeckEntranceUsages,
       DeckEntranceUsage,
     )
     this.deckEntranceCouples = extractElementList(
@@ -180,7 +180,7 @@ export class PassengerSpace {
       passengerSpots: { PassengerSpot: [], PassengerSpotRef: [] },
       luggageSpots: { LuggageSpot: [], LuggageSpotRef: [] },
       deckEntrances: { PassengerEntrance: [] },
-      deckEntranceUsage: { DeckEntranceUsage: [] },
+      deckEntranceUsages: { DeckEntranceUsages: [] },
       deckEntranceCouples: { DeckEntranceCouple: [] },
       deckSpaceCapacities: { DeckSpaceCapacity: [] },
       actualVehicleEquipments: { ActualVehicleEquipment: [] },
@@ -205,8 +205,8 @@ export class PassengerSpace {
       passengerSpots: this.passengerSpots ? serializeElementsAndRefs(this.passengerSpots) : '',
       luggageSpots: this.luggageSpots ? serializeElementsAndRefs(this.luggageSpots) : undefined,
       deckEntrances: this.deckEntrances ? serializeElementsAndRefs(this.deckEntrances) : undefined,
-      deckEntranceUsage: this.deckEntranceUsage
-        ? serializeElementsAndRefs(this.deckEntranceUsage)
+      deckEntranceUsage: this.deckEntranceUsages
+        ? serializeElementsAndRefs(this.deckEntranceUsages)
         : undefined,
       deckEntranceCouples: this.deckEntranceCouples
         ? serializeElementsAndRefs(this.deckEntranceCouples)

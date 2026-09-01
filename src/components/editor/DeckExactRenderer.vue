@@ -528,18 +528,15 @@ const handleEntranceDragEnd = (e: any, entrance: PassengerEntrance) => {
   // Allow for small epsilon due to floating point
   const epsilon = 1
 
+  entrance.SequenceFromFront = 0
   if (Math.abs(y - deckTop) < epsilon) {
     entrance.VehicleSide = 'front'
-    entrance.SequenceFromFront = 0
   } else if (Math.abs(y - (deckBottom - entranceHeight)) < epsilon) {
     entrance.VehicleSide = 'back'
-    entrance.SequenceFromFront = props.deck.Length
   } else if (Math.abs(x - deckLeft) < epsilon) {
     entrance.VehicleSide = 'leftSide'
-    entrance.SequenceFromFront = (y - deckTop + entranceHeight / 2) / props.scale
   } else if (Math.abs(x - (deckRight - entranceWidth)) < epsilon) {
     entrance.VehicleSide = 'rightSide'
-    entrance.SequenceFromFront = (y - deckTop + entranceHeight / 2) / props.scale
   }
 }
 </script>

@@ -72,7 +72,6 @@ export class DeckPlan {
   toXML() {
     return {
       DeckPlan: {
-        xmlTagName: '',
         attr_id: this.attr_id,
         attr_version: this.attr_version,
         decks: { Deck: serializeElements(this.decks) },

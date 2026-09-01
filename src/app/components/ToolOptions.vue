@@ -158,7 +158,7 @@ function createNewElement(item: any) {
       passengerSpots: { PassengerSpot: [], PassengerSpotRef: [] },
       luggageSpots: { LuggageSpot: [], LuggageSpotRef: [] },
       deckEntrances: { PassengerEntrance: [] },
-      deckEntranceUsage: { DeckEntranceUsage: [] },
+      deckEntranceUsages: { DeckEntranceUsages: [] },
       deckEntranceCouples: { DeckEntranceCouple: [] },
       deckSpaceCapacities: { DeckSpaceCapacity: [] },
       actualVehicleEquipments: { ActualVehicleEquipment: [] },
