@@ -6,7 +6,7 @@ import {
 import { extractElementList, serializeElements, serializeElementsAndRefs } from '../../general'
 import { OtherDeckSpace } from './deckspace/otherDeckSpace'
 import { PassengerSpace } from './deckspace/passengerSpace'
-import { Polygon } from '../../polygon'
+import { Polygon as GeneralPolygon } from '../../polygon'
 import { SpotColumn } from './spotColumn'
 import { SpotRow } from './spotRow'
 
@@ -14,13 +14,11 @@ export class Deck {
   attr_id: string
   attr_version: string
   Name: string
-  polygon: Polygon | undefined
+  polygon: GeneralPolygon | undefined
   deckspaces: (OtherDeckSpace | PassengerSpace)[]
   DeckLevelRef: GeneralDeckLevelRef | undefined
   spotRows: SpotRow[]
   spotColumns: SpotColumn[]
-  Width: number
-  Length: number
 
   constructor({
     attr_id,
@@ -30,7 +28,7 @@ export class Deck {
     spotColumns = undefined,
     DeckLevelRef = undefined,
     Name = undefined,
-    polygon = undefined,
+    Polygon = undefined,
     Width = undefined,
     Length = undefined,
   }: {
@@ -44,17 +42,21 @@ export class Deck {
     spotColumns: { SpotColumn: any[] } | undefined
     DeckLevelRef: GeneralDeckLevelRef | undefined
     Name: string | undefined
-    polygon: object | undefined
-    Width: number | undefined
-    Length: number | undefined
+    Polygon: object | undefined
+    // Legacy, non-NeTEx dimensions. Only read when there is no Polygon.
+    Width?: number
+    Length?: number
   }) {
     this.attr_id = attr_id
     this.attr_version = attr_version
     this.Name = Name ?? ''
-    this.polygon = polygon ? new Polygon(polygon) : undefined
+    this.polygon =
+      Polygon instanceof GeneralPolygon
+        ? Polygon   // this is for the Deck.empty() case
+        : Polygon
+          ? new GeneralPolygon(Polygon)
+          : GeneralPolygon.fromSize(Deck.gmlId(attr_id), Length ?? 26.4, Width ?? 2.825)
     this.DeckLevelRef = DeckLevelRef ? new GeneralDeckLevelRef(DeckLevelRef) : undefined
-    this.Width = Width ?? 2.825
-    this.Length = Length ?? 26.4
     this.deckspaces = deckSpaces
       ? Object.entries(deckSpaces).flatMap<OtherDeckSpace | PassengerSpace>(([k, d]) => {
           if (k === 'OtherDeckSpace') {
@@ -71,8 +73,9 @@ export class Deck {
   }
 
   static empty(deckLevel: DeckLevel) {
+    const attr_id = crypto.randomUUID()
     return new Deck({
-      attr_id: crypto.randomUUID(),
+      attr_id,
       attr_version: '1.0',
       deckSpaces: { OtherDeckSpace: [], PassengerSpace: [] },
       spotRows: {
@@ -104,24 +107,42 @@ export class Deck {
         attr_version: '1.0',
       }),
       Name: undefined,
-      polygon: undefined,
-      Length: 2,
-      Width: 2,
+      Polygon: GeneralPolygon.fromSize(Deck.gmlId(attr_id), 2, 2),
     })
+  }
+
+  private static gmlId(deckId: string) {
+    return `gml_${deckId.replace(/[^A-Za-z0-9_.-]/g, '_')}`
+  }
+
+  get polygonId(): string {
+    return this.polygon?.attr_id || Deck.gmlId(this.attr_id)
+  }
+
+  get Length(): number {
+    return this.polygon?.length ?? 0
+  }
+  set Length(value: number) {
+    this.polygon = GeneralPolygon.fromSize(this.polygonId, value, this.Width)
+  }
+
+  get Width(): number {
+    return this.polygon?.width ?? 0
+  }
+  set Width(value: number) {
+    this.polygon = GeneralPolygon.fromSize(this.polygonId, this.Length, value)
   }
 
   toXML() {
     return {
       attr_id: this.attr_id,
       attr_version: this.attr_version,
+      Name: this.Name,
+      'gml:Polygon': this.polygon?.toXML(),
+      DeckLevelRef: this.DeckLevelRef?.toXML(),
+      deckSpaces: serializeElementsAndRefs(this.deckspaces),
       spotRows: { SpotRow: serializeElements(this.spotRows) },
       spotColumns: { SpotColumn: serializeElements(this.spotColumns) },
-      deckSpaces: serializeElementsAndRefs(this.deckspaces),
-      DeckLevelRef: this.DeckLevelRef?.toXML(),
-      polygon: this.polygon?.toXML(),
-      Name: this.Name,
-      Width: this.Width,
-      Length: this.Length,
     }
   }
 

@@ -219,7 +219,7 @@ export class PassengerSpace {
         : undefined,
       ServiceFacilitySetRef: this.ServiceFacilitySetRef?.toXML(),
       Centroid: this.Centroid?.toXML(),
-      Polygon: this.Polygon?.toXML(),
+      'gml:Polygon': this.Polygon?.toXML(),
       PublicUse: this.PublicUse,
       TotalCapacity: this.TotalCapacity,
       FareClass: this.FareClass,
