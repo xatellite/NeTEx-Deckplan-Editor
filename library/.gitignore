@@ -1,4 +1,2 @@
-node_modules
-xsd
-generated
-dist
+node_modules/
+dist/

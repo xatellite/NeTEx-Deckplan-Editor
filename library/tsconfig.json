@@ -1,13 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "declaration": true,
-    "rootDir": ".",
+    "rootDir": "./src",
     "outDir": "./dist",
     "types": ["node"],
-    "strict": true
+    "strict": true,
+    "noEmitOnError": true,
+    "skipLibCheck": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "files": ["src/library.ts"],
+  "exclude": ["node_modules", "dist"]
 }

@@ -1,16 +1,26 @@
 {
-  "name": "library",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+  "name": "netex deckplan library",
+  "version": "3.0.0",
+  "description": "Library to generate types, parse, and export deck plans",
+  "packageManager": "bun@1.4.2",
+  "main": "./dist/library.js",
+  "types": "./dist/library.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/library.d.ts",
+      "import": "./dist/library.js",
+      "default": "./dist/library.js"
+    }
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "tsc -p tsconfig.json --watch",
+    "test": "bun test --pass-with-no-tests"
+  },
+  "license": "MIT",
+  "type": "module",
   "devDependencies": {
     "@types/node": "^26.6.3",
     "typescript": "^7.0.2"
