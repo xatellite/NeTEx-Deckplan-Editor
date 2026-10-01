@@ -21,10 +21,10 @@
     <img src="doc/logo.svg" alt="Logo" width="80" height="80">
   </a>
 
-  <h2 align="center">NeTEx Deckplan Editor</h3>
+  <h2 align="center">OpenSeatmap</h3>
 
   <p align="center">
-    Create and edit public transport vehicle layouts. Recieve interoperable NeTEx deckplans.
+    Create and edit public transport vehicle layouts. Receive interoperable NeTEx deckplans.
     <br />
     <a href="https://xatellite.github.io/NeTEx-Deckplan-Editor"><strong>Check out the Demo »</strong></a>
     <br />
