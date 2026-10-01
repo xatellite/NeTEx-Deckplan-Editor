@@ -72,18 +72,3 @@ const reloaded = context.createUnmarshaller().unmarshalString(exported)
 
 console.log('Reloaded root:', reloaded.name.localPart)
 
-//deckplanLib 
-
-import deckplanLib as lib;
-
-const fileContent = lib.loadNeTExFile(''): NeTExFileDoc
-const deckplans = fileContent.getDeckPlans()
-const deckplans[0].getDecks()[0].getDeckSpaces()
-deckplans[0].getDecks()[0].addDeckSpace()
-
-// loadNeTExFile
-// loadDeckPlan
-// getDecks
-// getDeckSpaces
-// getLocateableSpots
-

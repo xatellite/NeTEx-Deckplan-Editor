@@ -1,8 +1,6 @@
-import { DeckPlan } from '@/models/netex/deckplan/deckPlan'
-import { extractElementList } from '@/models/netex/general'
+import { DeckPlan, extractElementList, ActualVehicleEquipment } from './model'
 import { XMLParser } from 'fast-xml-parser'
-import { AccessVehicleEquipment, SanitaryEquipment, SeatingEquipment } from '@/models/netex/passengerEquipment'
-import { ActualVehicleEquipment } from '@/models/netex/actualVehicleEquipment'
+import { AccessVehicleEquipment, SanitaryEquipment, SeatingEquipment } from './model/netex/passengerEquipment'
 
 export const parseNeTEx = (xml: string) => {
   const parser = new XMLParser({

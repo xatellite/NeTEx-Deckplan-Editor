@@ -22,10 +22,11 @@
   "license": "MIT",
   "type": "module",
   "devDependencies": {
+    "@types/bun": "^1.4.2",
     "@types/node": "^26.6.3",
     "typescript": "^7.0.2"
   },
   "dependencies": {
-    "jsonix": "^3.0.0"
+    "fast-xml-parser": "^5.11.2"
   }
 }

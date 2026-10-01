@@ -1,0 +1,1131 @@
+<?xml version="1.0" encoding="UTF-8"?><PublicationDelivery xmlns="http://www.netex.org.uk/netex" xmlns:gml="http://www.opengis.net/gml/3.2" version="1.0">
+  <PublicationTimestamp>2026-08-18T09:00:00Z</PublicationTimestamp>
+  <ParticipantRef>EXAMPLE</ParticipantRef>
+  <Description>Example NeTEx deckplan - single-deck coach with 2+2 standard saloon, 2+1 first class, toilet, vestibule and cab</Description>
+  <dataObjects>
+    <CompositeFrame id="example:CompositeFrame:coach_a" version="1.0">
+      <Name>Example vehicle deckplan frame</Name>
+      <frames>
+        <ResourceFrame id="example:ResourceFrame:coach_a" version="1.0">
+          <equipments>
+            <SeatingEquipment id="example:SeatingEquipment:standard" version="1.0">
+              <Name>Standard seat</Name>
+              <Description>Fixed forward/backward facing seat with power socket</Description>
+            </SeatingEquipment>
+            <SanitaryEquipment id="example:SanitaryEquipment:wc_accessible" version="1.0">
+              <Name>Accessible toilet</Name>
+              <Description>Wheelchair accessible universal toilet</Description>
+              <Fixed>true</Fixed>
+            </SanitaryEquipment>
+            <AccessVehicleEquipment id="example:AccessVehicleEquipment:boarding" version="1.0">
+              <Name>Level boarding access</Name>
+              <Description>Low floor entrance with retractable ramp</Description>
+              <Fixed>true</Fixed>
+              <LowFloor>true</LowFloor>
+              <HighFloor>false</HighFloor>
+              <Ramp>true</Ramp>
+            </AccessVehicleEquipment>
+          </equipments>
+          <deckPlans>
+            <DeckPlan id="example:DeckPlan:coach_a" version="1.0">
+              <deckLevels>
+                <DeckLevel id="deck_level_0" version="1.0">
+                  <Label>Level 1</Label>
+                </DeckLevel>
+              </deckLevels>
+              <decks>
+                <Deck id="example:Deck:coach_a_main" version="1.0">
+                  <Name>Coach A - Main deck</Name>
+                    <gml:Polygon gml:id="gml_example_Deck_coach_a_main">
+                        <gml:exterior>
+                            <gml:LinearRing>
+                                <gml:posList srsDimension="2">0 0 24 0 24 2.9 0 2.9 0 0</gml:posList>
+                            </gml:LinearRing>
+                        </gml:exterior>
+                    </gml:Polygon>
+                  <DeckLevelRef ref="deck_level_0" version="1.0"/>
+                  <deckSpaces>
+                    <PassengerSpace id="example:PassengerSpace:standard_saloon" version="1.0">
+                      <Name>Standard saloon</Name>
+                      <Centroid>
+                                              <Location>
+                                                <gml:pos>7.50 1.45</gml:pos>
+                                              </Location>
+                                            </Centroid>
+                      <PublicUse>true</PublicUse>
+                      <FareClass>standardClass</FareClass>
+                      <AirConditioned>true</AirConditioned>
+                      <SmokingAllowed>false</SmokingAllowed>
+                                            <TotalCapacity>40</TotalCapacity>
+                      <deckSpaceCapacities>
+                        <DeckSpaceCapacity id="example:DeckSpaceCapacity:standard" version="1.0">
+                          <LocatableSpotType>seat</LocatableSpotType>
+                          <Capacity>40</Capacity>
+                        </DeckSpaceCapacity>
+                      </deckSpaceCapacities>
+                      <PassengerSpaceType>seatingArea</PassengerSpaceType>
+                      <StandingAllowed>true</StandingAllowed>
+                      <passengerSpots>
+              <PassengerSpot id="passenger_spot_1a" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>3.00 0.55</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>1A</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_1" version="1.0"/>
+                <SpotColumnRef ref="spot_column_a" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_1b" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>3.00 1.10</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>1B</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_1" version="1.0"/>
+                <SpotColumnRef ref="spot_column_b" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_1c" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>3.00 1.80</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>1C</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_1" version="1.0"/>
+                <SpotColumnRef ref="spot_column_c" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_1d" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>3.00 2.35</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>1D</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_1" version="1.0"/>
+                <SpotColumnRef ref="spot_column_d" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_2a" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>4.00 0.55</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>2A</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_2" version="1.0"/>
+                <SpotColumnRef ref="spot_column_a" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_2b" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>4.00 1.10</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>2B</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_2" version="1.0"/>
+                <SpotColumnRef ref="spot_column_b" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_2c" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>4.00 1.80</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>2C</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_2" version="1.0"/>
+                <SpotColumnRef ref="spot_column_c" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_2d" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>4.00 2.35</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>2D</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_2" version="1.0"/>
+                <SpotColumnRef ref="spot_column_d" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_3a" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>5.00 0.55</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>3A</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_3" version="1.0"/>
+                <SpotColumnRef ref="spot_column_a" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_3b" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>5.00 1.10</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>3B</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_3" version="1.0"/>
+                <SpotColumnRef ref="spot_column_b" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_3c" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>5.00 1.80</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>3C</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_3" version="1.0"/>
+                <SpotColumnRef ref="spot_column_c" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_3d" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>5.00 2.35</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>3D</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_3" version="1.0"/>
+                <SpotColumnRef ref="spot_column_d" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_4a" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>6.00 0.55</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>4A</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_4" version="1.0"/>
+                <SpotColumnRef ref="spot_column_a" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_4b" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>6.00 1.10</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>4B</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_4" version="1.0"/>
+                <SpotColumnRef ref="spot_column_b" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_4c" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>6.00 1.80</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>4C</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_4" version="1.0"/>
+                <SpotColumnRef ref="spot_column_c" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_4d" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>6.00 2.35</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>4D</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_4" version="1.0"/>
+                <SpotColumnRef ref="spot_column_d" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_5a" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>7.00 0.55</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>5A</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_5" version="1.0"/>
+                <SpotColumnRef ref="spot_column_a" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_5b" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>7.00 1.10</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>5B</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_5" version="1.0"/>
+                <SpotColumnRef ref="spot_column_b" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_5c" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>7.00 1.80</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>5C</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_5" version="1.0"/>
+                <SpotColumnRef ref="spot_column_c" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_5d" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>7.00 2.35</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>5D</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_5" version="1.0"/>
+                <SpotColumnRef ref="spot_column_d" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_6a" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>8.00 0.55</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>6A</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_6" version="1.0"/>
+                <SpotColumnRef ref="spot_column_a" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_6b" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>8.00 1.10</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>6B</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_6" version="1.0"/>
+                <SpotColumnRef ref="spot_column_b" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_6c" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>8.00 1.80</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>6C</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_6" version="1.0"/>
+                <SpotColumnRef ref="spot_column_c" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_6d" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>8.00 2.35</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>6D</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_6" version="1.0"/>
+                <SpotColumnRef ref="spot_column_d" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_7a" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>9.00 0.55</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>7A</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_7" version="1.0"/>
+                <SpotColumnRef ref="spot_column_a" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_7b" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>9.00 1.10</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>7B</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_7" version="1.0"/>
+                <SpotColumnRef ref="spot_column_b" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_7c" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>9.00 1.80</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>7C</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_7" version="1.0"/>
+                <SpotColumnRef ref="spot_column_c" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_7d" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>9.00 2.35</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>7D</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_7" version="1.0"/>
+                <SpotColumnRef ref="spot_column_d" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_8a" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>10.00 0.55</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>8A</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_8" version="1.0"/>
+                <SpotColumnRef ref="spot_column_a" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_8b" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>10.00 1.10</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>8B</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_8" version="1.0"/>
+                <SpotColumnRef ref="spot_column_b" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_8c" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>10.00 1.80</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>8C</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_8" version="1.0"/>
+                <SpotColumnRef ref="spot_column_c" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_8d" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>10.00 2.35</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>8D</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_8" version="1.0"/>
+                <SpotColumnRef ref="spot_column_d" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_9a" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>11.00 0.55</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>9A</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_9" version="1.0"/>
+                <SpotColumnRef ref="spot_column_a" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_9b" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>11.00 1.10</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>9B</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_9" version="1.0"/>
+                <SpotColumnRef ref="spot_column_b" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_9c" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>11.00 1.80</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>9C</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_9" version="1.0"/>
+                <SpotColumnRef ref="spot_column_c" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_9d" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>11.00 2.35</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>9D</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_9" version="1.0"/>
+                <SpotColumnRef ref="spot_column_d" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_10a" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>12.00 0.55</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>10A</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_10" version="1.0"/>
+                <SpotColumnRef ref="spot_column_a" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_10b" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>12.00 1.10</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>10B</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_10" version="1.0"/>
+                <SpotColumnRef ref="spot_column_b" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_10c" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>12.00 1.80</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>10C</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_10" version="1.0"/>
+                <SpotColumnRef ref="spot_column_c" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_10d" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>12.00 2.35</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>10D</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_10" version="1.0"/>
+                <SpotColumnRef ref="spot_column_d" version="1.0"/>
+                <TableType>fixedFlat</TableType>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+                      </passengerSpots>
+                    </PassengerSpace>
+                    <PassengerSpace id="example:PassengerSpace:first_class" version="1.0">
+                      <Name>First class compartment</Name>
+                      <Centroid>
+                                              <Location>
+                                                <gml:pos>15.60 1.45</gml:pos>
+                                              </Location>
+                                            </Centroid>
+                      <PublicUse>true</PublicUse>
+                      <FareClass>firstClass</FareClass>
+                      <AirConditioned>true</AirConditioned>
+                      <SmokingAllowed>false</SmokingAllowed>
+                                            <TotalCapacity>12</TotalCapacity>
+                      <deckSpaceCapacities>
+                        <DeckSpaceCapacity id="example:DeckSpaceCapacity:first" version="1.0">
+                          <LocatableSpotType>seat</LocatableSpotType>
+                          <Capacity>12</Capacity>
+                        </DeckSpaceCapacity>
+                      </deckSpaceCapacities>
+                      <PassengerSpaceType>passengerCabin</PassengerSpaceType>
+                      <StandingAllowed>false</StandingAllowed>
+                      <passengerSpots>
+              <PassengerSpot id="passenger_spot_11a" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>14.00 0.55</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>11A</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_11" version="1.0"/>
+                <SpotColumnRef ref="spot_column_a" version="1.0"/>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_11b" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>14.00 1.10</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>11B</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_11" version="1.0"/>
+                <SpotColumnRef ref="spot_column_b" version="1.0"/>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_11d" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>14.00 2.35</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>11D</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_11" version="1.0"/>
+                <SpotColumnRef ref="spot_column_d" version="1.0"/>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_12a" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>15.10 0.55</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>12A</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_12" version="1.0"/>
+                <SpotColumnRef ref="spot_column_a" version="1.0"/>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_12b" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>15.10 1.10</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>12B</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_12" version="1.0"/>
+                <SpotColumnRef ref="spot_column_b" version="1.0"/>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_12d" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>15.10 2.35</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>12D</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_12" version="1.0"/>
+                <SpotColumnRef ref="spot_column_d" version="1.0"/>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_13a" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>16.20 0.55</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>13A</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_13" version="1.0"/>
+                <SpotColumnRef ref="spot_column_a" version="1.0"/>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_13b" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>16.20 1.10</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>13B</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_13" version="1.0"/>
+                <SpotColumnRef ref="spot_column_b" version="1.0"/>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_13d" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>16.20 2.35</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>13D</Label>
+                <Orientation>forwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_13" version="1.0"/>
+                <SpotColumnRef ref="spot_column_d" version="1.0"/>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_14a" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>17.30 0.55</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>14A</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_14" version="1.0"/>
+                <SpotColumnRef ref="spot_column_a" version="1.0"/>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_14b" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>17.30 1.10</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>14B</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_14" version="1.0"/>
+                <SpotColumnRef ref="spot_column_b" version="1.0"/>
+                <HasPower>true</HasPower>
+                <IsByWindow>false</IsByWindow>
+                <IsByAisle>true</IsByAisle>
+              </PassengerSpot>
+              <PassengerSpot id="passenger_spot_14d" version="1.0">
+                <Centroid>
+                  <Location>
+                    <gml:pos>17.30 2.35</gml:pos>
+                  </Location>
+                </Centroid>
+                <Label>14D</Label>
+                <Orientation>backwards</Orientation>
+                <Width>0.48</Width>
+                <Length>0.5</Length>
+                <SpotRowRef ref="spot_row_14" version="1.0"/>
+                <SpotColumnRef ref="spot_column_d" version="1.0"/>
+                <HasPower>true</HasPower>
+                <IsByWindow>true</IsByWindow>
+                <IsByAisle>false</IsByAisle>
+              </PassengerSpot>
+                      </passengerSpots>
+                    </PassengerSpace>
+                    <PassengerSpace id="example:PassengerSpace:vestibule" version="1.0">
+                      <Name>Vestibule with luggage racks</Name>
+                      <Centroid>
+                                              <Location>
+                                                <gml:pos>20.80 1.45</gml:pos>
+                                              </Location>
+                                            </Centroid>
+                      <PublicUse>true</PublicUse>
+                      <FareClass>any</FareClass>
+                      <AirConditioned>true</AirConditioned>
+                      <SmokingAllowed>false</SmokingAllowed>
+                                            <deckEntrances>
+                        <PassengerEntrance id="example:PassengerEntrance:door_left" version="1.0">
+                          <Name>Door 1 (left)</Name>
+                          <Centroid>
+                                                      <Location>
+                                                        <gml:pos>20.40 0.00</gml:pos>
+                                                      </Location>
+                                                    </Centroid>
+                          <Label>D1</Label>
+                          <Width>1.3</Width>
+                          <Height>2.0</Height>
+                          <actualVehicleEquipments>
+                            <ActualVehicleEquipment id="example:ActualVehicleEquipment:door_left_access" version="1.0">
+                              <Name>Boarding ramp at door 1</Name>
+                              <Fixed>true</Fixed>
+                              <Units>1</Units>
+                            </ActualVehicleEquipment>
+                          </actualVehicleEquipments>
+                          <PublicUse>true</PublicUse>
+                          <VehicleSide>leftSide</VehicleSide>
+                          <SequenceFromFront>1</SequenceFromFront>
+                          <HeightFromGround>0.55</HeightFromGround>
+                          <DeckEntranceType>external</DeckEntranceType>
+                          <IsEmergencyExit>true</IsEmergencyExit>
+                          <HasDoor>true</HasDoor>
+                                                    <IsAutomatic>true</IsAutomatic>
+                        </PassengerEntrance>
+                        <PassengerEntrance id="example:PassengerEntrance:door_right" version="1.0">
+                          <Name>Door 2 (right)</Name>
+                          <Centroid>
+                                                      <Location>
+                                                        <gml:pos>20.40 2.90</gml:pos>
+                                                      </Location>
+                                                    </Centroid>
+                          <Label>D2</Label>
+                          <Width>1.3</Width>
+                          <Height>2.0</Height>
+                          <PublicUse>true</PublicUse>
+                          <VehicleSide>rightSide</VehicleSide>
+                          <SequenceFromFront>2</SequenceFromFront>
+                          <HeightFromGround>0.55</HeightFromGround>
+                          <DeckEntranceType>external</DeckEntranceType>
+                          <IsEmergencyExit>true</IsEmergencyExit>
+                          <HasDoor>true</HasDoor>
+                                                    <IsAutomatic>true</IsAutomatic>
+                        </PassengerEntrance>
+                      </deckEntrances>
+                      <TotalCapacity>8</TotalCapacity>
+                      <PassengerSpaceType>vehicleArea</PassengerSpaceType>
+                      <StandingAllowed>true</StandingAllowed>
+                      <luggageSpots>
+                        <LuggageSpot id="example:LuggageSpot:rack_left" version="1.0">
+                          <Label>L1</Label>
+                          <Orientation>leftwards</Orientation>
+                        </LuggageSpot>
+                        <LuggageSpot id="example:LuggageSpot:rack_right" version="1.0">
+                          <Label>L2</Label>
+                          <Orientation>rightwards</Orientation>
+                        </LuggageSpot>
+                      </luggageSpots>
+                    </PassengerSpace>
+                    <PassengerSpace id="example:PassengerSpace:toilet" version="1.0">
+                      <Name>Accessible toilet</Name>
+                      <Centroid>
+                                              <Location>
+                                                <gml:pos>18.90 1.45</gml:pos>
+                                              </Location>
+                                            </Centroid>
+                      <actualVehicleEquipments>
+                        <ActualVehicleEquipment id="example:ActualVehicleEquipment:wc" version="1.0">
+                          <Name>Universal accessible toilet</Name>
+                          <Fixed>true</Fixed>
+                          <Units>1</Units>
+                        </ActualVehicleEquipment>
+                      </actualVehicleEquipments>
+                      <PublicUse>true</PublicUse>
+                      <AirConditioned>true</AirConditioned>
+                                            <SmokingAllowed>false</SmokingAllowed>
+                      <TotalCapacity>1</TotalCapacity>
+                      <PassengerSpaceType>toilet</PassengerSpaceType>
+                      <StandingAllowed>true</StandingAllowed>
+                    </PassengerSpace>
+                    <OtherDeckSpace id="example:OtherDeckSpace:cab" version="1.0">
+                      <Name>Driver cab</Name>
+                      <PublicUse>false</PublicUse>
+                      <TotalCapacity>0</TotalCapacity>
+                    </OtherDeckSpace>
+                  </deckSpaces>
+                  <spotRows>
+                    <SpotRow id="spot_row_1" version="1.0">
+                      <Label>1</Label>
+                    </SpotRow>
+                    <SpotRow id="spot_row_2" version="1.0">
+                      <Label>2</Label>
+                    </SpotRow>
+                    <SpotRow id="spot_row_3" version="1.0">
+                      <Label>3</Label>
+                    </SpotRow>
+                    <SpotRow id="spot_row_4" version="1.0">
+                      <Label>4</Label>
+                    </SpotRow>
+                    <SpotRow id="spot_row_5" version="1.0">
+                      <Label>5</Label>
+                    </SpotRow>
+                    <SpotRow id="spot_row_6" version="1.0">
+                      <Label>6</Label>
+                    </SpotRow>
+                    <SpotRow id="spot_row_7" version="1.0">
+                      <Label>7</Label>
+                    </SpotRow>
+                    <SpotRow id="spot_row_8" version="1.0">
+                      <Label>8</Label>
+                    </SpotRow>
+                    <SpotRow id="spot_row_9" version="1.0">
+                      <Label>9</Label>
+                    </SpotRow>
+                    <SpotRow id="spot_row_10" version="1.0">
+                      <Label>10</Label>
+                    </SpotRow>
+                    <SpotRow id="spot_row_11" version="1.0">
+                      <Label>11</Label>
+                    </SpotRow>
+                    <SpotRow id="spot_row_12" version="1.0">
+                      <Label>12</Label>
+                    </SpotRow>
+                    <SpotRow id="spot_row_13" version="1.0">
+                      <Label>13</Label>
+                    </SpotRow>
+                    <SpotRow id="spot_row_14" version="1.0">
+                      <Label>14</Label>
+                    </SpotRow>
+                  </spotRows>
+                  <spotColumns>
+                    <SpotColumn id="spot_column_a" version="1.0">
+                      <Label>A</Label>
+                    </SpotColumn>
+                    <SpotColumn id="spot_column_b" version="1.0">
+                      <Label>B</Label>
+                    </SpotColumn>
+                    <SpotColumn id="spot_column_c" version="1.0">
+                      <Label>C</Label>
+                    </SpotColumn>
+                    <SpotColumn id="spot_column_d" version="1.0">
+                      <Label>D</Label>
+                    </SpotColumn>
+                  </spotColumns>
+                </Deck>
+              </decks>
+            </DeckPlan>
+          </deckPlans>
+        </ResourceFrame>
+      </frames>
+    </CompositeFrame>
+  </dataObjects>
+</PublicationDelivery>
