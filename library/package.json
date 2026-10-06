@@ -1,5 +1,5 @@
 {
-  "name": "netex deckplan library",
+  "name": "netex-deckplan-library",
   "version": "3.0.0",
   "description": "Library to generate types, parse, and export deck plans",
   "packageManager": "bun@1.4.2",
