@@ -30,7 +30,7 @@
     "vue-tsc": "^3.3.11"
   },
   "dependencies": {
-    "netex-deckplan-library": "../library"
+    "netex-deckplan-library": "*"
   },
   "exports": {
     ".": {
