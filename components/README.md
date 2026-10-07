@@ -1,15 +1,19 @@
-# netex-deckplans
+# NeTEx deckplan Vue components
 
-To install dependencies:
+## Setup
 
-```bash
+```sh
+cd components
 bun install
+bun run dev
 ```
 
-To run:
+## Development
 
-```bash
-bun run index.ts
+```sh
+bun run typecheck
+bun run build
+bun run test
 ```
 
-This project was created using `bun init` in bun v1.4.0. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+Add the components in `src/components/` and export them from `index.ts`.

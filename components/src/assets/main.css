@@ -1,0 +1,21 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ott-accent: #68a691;
+  --color-ott-text-primary: #2f2f2f;
+  --color-ott-bg-secondary: #f3f3f3;
+}
+
+html,
+body,
+#app,
+#__nuxt {
+  @apply h-full w-full bg-ott-bg-secondary text-ott-text-primary;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+p {
+  @apply mx-auto mt-2 text-lg tracking-tight;
+}
