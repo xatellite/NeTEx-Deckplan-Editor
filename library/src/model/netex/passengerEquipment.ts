@@ -1,4 +1,4 @@
-import { Name } from './general'
+import { Name } from './general.js'
 
 export abstract class Equipment {
   attr_id: string

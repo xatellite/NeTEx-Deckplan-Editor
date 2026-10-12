@@ -1,3 +1,3 @@
-export * from './deckEntranceCouple.ts'
-export * from './deckEntranceUsage.ts'
-export * from './passengerEntrance.ts'
+export * from './deckEntranceCouple.js'
+export * from './deckEntranceUsage.js'
+export * from './passengerEntrance.js'

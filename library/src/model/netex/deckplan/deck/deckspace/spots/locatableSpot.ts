@@ -1,7 +1,7 @@
-import { ActualVehicleEquipment } from '../../../../actualVehicleEquipment'
-import { extractElementList } from '../../../../general'
-import { SpotColumnRef as GeneralSpotColumnRef } from '../../spotColumn'
-import { SpotRowRef as GeneralSpotRowRef } from '../../spotRow'
+import { ActualVehicleEquipment } from '../../../../actualVehicleEquipment.js'
+import { extractElementList } from '../../../../general.js'
+import { SpotColumnRef as GeneralSpotColumnRef } from '../../spotColumn.js'
+import { SpotRowRef as GeneralSpotRowRef } from '../../spotRow.js'
 
 export class LocatableSpot {
   attr_id: string

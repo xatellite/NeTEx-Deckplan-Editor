@@ -1,3 +1,3 @@
-export * from './locatableSpot.ts'
-export * from './luggageSpot.ts'
-export * from './passengerSpot.ts'
+export * from './locatableSpot.js'
+export * from './luggageSpot.js'
+export * from './passengerSpot.js'

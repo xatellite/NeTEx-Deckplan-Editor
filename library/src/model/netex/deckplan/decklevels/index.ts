@@ -1,1 +1,1 @@
-export * from './deckLevel.ts'
+export * from './deckLevel.js'

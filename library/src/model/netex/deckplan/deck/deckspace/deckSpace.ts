@@ -1,5 +1,5 @@
-import { extractElementList } from '../../../../general'
-import { GridMarker } from './gridMarker'
+import { extractElementList } from '../../../../general.js'
+import { GridMarker } from './gridMarker.js'
 
 type CoveredType = 'indoors' | 'outdoors' | 'covered' | 'mixed' | 'unknown'
 const allCoveredTypes =  ['indoors', 'outdoors', 'covered', 'mixed', 'unknown'] as CoveredType[]

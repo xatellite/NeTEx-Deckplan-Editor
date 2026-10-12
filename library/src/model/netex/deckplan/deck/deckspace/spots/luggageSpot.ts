@@ -1,5 +1,5 @@
-import { serializeElements } from '../../../../general'
-import { LocatableSpot } from './locatableSpot'
+import { serializeElements } from '../../../../general.js'
+import { LocatableSpot } from './locatableSpot.js'
 
 export class LuggageSpot extends LocatableSpot {
   constructor({

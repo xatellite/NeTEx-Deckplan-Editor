@@ -1,6 +1,6 @@
-import { ActualVehicleEquipment } from '../../../../actualVehicleEquipment'
-import { Centroid as GeneralCentroid } from '../../../../centroid'
-import { extractElementList, serializeElements } from '../../../../general'
+import { ActualVehicleEquipment } from '../../../../actualVehicleEquipment.js'
+import { Centroid as GeneralCentroid } from '../../../../centroid.js'
+import { extractElementList, serializeElements } from '../../../../general.js'
 
 export class PassengerEntrance {
   static xmlTagName = 'PassengerEntrance'

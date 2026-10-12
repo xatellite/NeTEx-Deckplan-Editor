@@ -1,1 +1,1 @@
-export * from './seats.ts'
+export * from './seats.js'

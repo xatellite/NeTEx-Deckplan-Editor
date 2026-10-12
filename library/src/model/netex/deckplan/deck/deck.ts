@@ -2,13 +2,13 @@ import {
   DeckLevel,
   DeckLevelRef,
   DeckLevelRef as GeneralDeckLevelRef,
-} from '../decklevels/deckLevel'
-import { extractElementList, serializeElements, serializeElementsAndRefs } from '../../general'
-import { OtherDeckSpace } from './deckspace/otherDeckSpace'
-import { PassengerSpace } from './deckspace/passengerSpace'
-import { Polygon } from '../../polygon'
-import { SpotColumn } from './spotColumn'
-import { SpotRow } from './spotRow'
+} from '../decklevels/deckLevel.js'
+import { extractElementList, serializeElements, serializeElementsAndRefs } from '../../general.js'
+import { OtherDeckSpace } from './deckspace/otherDeckSpace.js'
+import { PassengerSpace } from './deckspace/passengerSpace.js'
+import { Polygon } from '../../polygon.js'
+import { SpotColumn } from './spotColumn.js'
+import { SpotRow } from './spotRow.js'
 
 export class Deck {
   attr_id: string

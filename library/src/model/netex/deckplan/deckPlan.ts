@@ -1,10 +1,10 @@
-import { Deck } from './deck/deck'
-import { DeckLevel } from './decklevels/deckLevel'
-import { extractElementList, serializeElements } from '../general'
-import type { PassengerSpot } from './deck/deckspace/spots/passengerSpot'
-import type { LuggageSpot } from './deck/deckspace/spots/luggageSpot'
-import type { PassengerSpace } from './deck/deckspace/passengerSpace'
-import type { PassengerEntrance } from './deck/deckspace/entrance/passengerEntrance'
+import { Deck } from './deck/deck.js'
+import { DeckLevel } from './decklevels/deckLevel.js'
+import { extractElementList, serializeElements } from '../general.js'
+import type { PassengerSpot } from './deck/deckspace/spots/passengerSpot.js'
+import type { LuggageSpot } from './deck/deckspace/spots/luggageSpot.js'
+import type { PassengerSpace } from './deck/deckspace/passengerSpace.js'
+import type { PassengerEntrance } from './deck/deckspace/entrance/passengerEntrance.js'
 
 export class DeckPlan {
   attr_id: string

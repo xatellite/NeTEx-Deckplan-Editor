@@ -1,7 +1,7 @@
-import { SpotColumnRef } from "../spotColumn";
-import { SpotRowRef } from "../spotRow";
-import { SpotColumnRef as GeneralSpotColumnRef } from '../spotColumn'
-import { SpotRowRef as GeneralSpotRowRef } from '../spotRow'
+import { SpotColumnRef } from "../spotColumn.js";
+import { SpotRowRef } from "../spotRow.js";
+import { SpotColumnRef as GeneralSpotColumnRef } from '../spotColumn.js'
+import { SpotRowRef as GeneralSpotRowRef } from '../spotRow.js'
 
 export class GridMarker {
   attr_id: string;

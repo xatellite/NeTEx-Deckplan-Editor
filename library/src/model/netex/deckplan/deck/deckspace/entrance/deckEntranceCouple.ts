@@ -1,4 +1,4 @@
-import { PassengerEntranceRef } from "./passengerEntrance";
+import { PassengerEntranceRef } from "./passengerEntrance.js";
 
 export class DeckEntranceCouple {
   attr_ref: string

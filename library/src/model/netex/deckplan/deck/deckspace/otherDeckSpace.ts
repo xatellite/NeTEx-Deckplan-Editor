@@ -1,5 +1,5 @@
-import { ActualVehicleEquipment } from '../../../actualVehicleEquipment'
-import { extractElementList } from '../../../general'
+import { ActualVehicleEquipment } from '../../../actualVehicleEquipment.js'
+import { extractElementList } from '../../../general.js'
 
 export class OtherDeckSpace {
   attr_id: string

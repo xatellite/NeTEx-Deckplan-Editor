@@ -1,3 +1,3 @@
-export * from './deck'
-export * from './decklevels'
-export * from './deckPlan.ts'
+export * from './deck/index.js'
+export * from './decklevels/index.js'
+export * from './deckPlan.js'

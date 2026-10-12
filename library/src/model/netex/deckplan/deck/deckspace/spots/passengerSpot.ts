@@ -1,7 +1,7 @@
-import { serializeElementsAndRefs } from '../../../../general'
-import { Centroid as GeneralCentroid } from '../../../../centroid'
-import { PassengerSpotAvailability } from '../../../../../view/seats'
-import { LocatableSpot } from './locatableSpot'
+import { serializeElementsAndRefs } from '../../../../general.js'
+import { Centroid as GeneralCentroid } from '../../../../centroid.js'
+import { PassengerSpotAvailability } from '../../../../../view/seats.js'
+import { LocatableSpot } from './locatableSpot.js'
 
 export class PassengerSpot extends LocatableSpot {
   static xmlTagName = 'PassengerSpot'

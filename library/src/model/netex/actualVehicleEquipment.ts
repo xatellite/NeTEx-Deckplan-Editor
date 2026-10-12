@@ -1,5 +1,5 @@
-import type { EquipmentRef } from './equipment'
-import { PassengerEquipment } from './passengerEquipment'
+import type { EquipmentRef } from './equipment.js'
+import { PassengerEquipment } from './passengerEquipment.js'
 
 export class ActualVehicleEquipment extends PassengerEquipment {
   static xmlTagName = 'ActualVehicleEquipment'
