@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { DeckPlan } from '../index'
+import DeckPlanEditor from '../src/components/DeckPlanEditor/DeckPlanEditor.vue'
 </script>
 
 <template>
-    <DeckPlan title="NeTEx deckplan components" />
+    <DeckPlanEditor />
 </template>

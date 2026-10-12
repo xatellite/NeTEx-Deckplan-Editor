@@ -1,2 +1,2 @@
-import './assets/main.css'
+import './src/assets/main.css'
 export { default as DeckPlan } from './src/components/DeckPlan.vue'
