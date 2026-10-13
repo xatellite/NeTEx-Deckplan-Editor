@@ -54,7 +54,6 @@ export class Deck {
     this.attr_version = attr_version
     this.Name = Name ?? ''
     const polygonData = xmlPolygon ?? polygon
-    console.log(polygon)
     this.polygon = polygonData ? new Polygon(polygonData) : undefined
     this.DeckLevelRef = DeckLevelRef ? new GeneralDeckLevelRef(DeckLevelRef) : undefined
     this.Width = Width ?? 2.825
