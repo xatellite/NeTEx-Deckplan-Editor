@@ -30,6 +30,7 @@ export class Deck {
     spotColumns = undefined,
     DeckLevelRef = undefined,
     Name = undefined,
+    Polygon: xmlPolygon = undefined,
     polygon = undefined,
     Width = undefined,
     Length = undefined,
@@ -44,6 +45,7 @@ export class Deck {
     spotColumns: { SpotColumn: any[] } | undefined
     DeckLevelRef: GeneralDeckLevelRef | undefined
     Name: string | undefined
+    Polygon?: object
     polygon: object | undefined
     Width: number | undefined
     Length: number | undefined
@@ -51,7 +53,9 @@ export class Deck {
     this.attr_id = attr_id
     this.attr_version = attr_version
     this.Name = Name ?? ''
-    this.polygon = polygon ? new Polygon(polygon) : undefined
+    const polygonData = xmlPolygon ?? polygon
+    console.log(polygon)
+    this.polygon = polygonData ? new Polygon(polygonData) : undefined
     this.DeckLevelRef = DeckLevelRef ? new GeneralDeckLevelRef(DeckLevelRef) : undefined
     this.Width = Width ?? 2.825
     this.Length = Length ?? 26.4
