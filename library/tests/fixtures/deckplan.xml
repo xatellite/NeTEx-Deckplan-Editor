@@ -47,6 +47,13 @@
                   <deckSpaces>
                     <PassengerSpace id="example:PassengerSpace:standard_saloon" version="1.0">
                       <Name>Standard saloon</Name>
+                      <gml:Polygon gml:id="gml_example_PassengerSpace_standard_saloon">
+                        <gml:exterior>
+                          <gml:LinearRing>
+                            <gml:posList srsDimension="2">2 0.2 12.5 0.2 12.5 2.7 2 2.7 2 0.2</gml:posList>
+                          </gml:LinearRing>
+                        </gml:exterior>
+                      </gml:Polygon>
                       <Centroid>
                                               <Location>
                                                 <gml:pos>7.50 1.45</gml:pos>

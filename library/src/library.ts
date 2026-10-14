@@ -1,2 +1,6 @@
 export { parseDeckplanOrNetex as loadNeTEx } from './parser.js'
-export { DeckPlan as deckPlanType } from './model/netex/deckplan/deckPlan.js'
+export { DeckPlan as DeckPlanType } from './model/netex/deckplan/deckPlan.js'
+export { Deck as DeckType } from './model/netex/deckplan/deck/deck.js'
+export type { BoundingBox as BoundingBoxType } from './model/netex/polygon.js'
+export { PassengerSpace } from './model/netex/deckplan/deck/deckspace/passengerSpace.js'
+export { PassengerSpot } from './model/netex/deckplan/deck/deckspace/spots/passengerSpot.js'

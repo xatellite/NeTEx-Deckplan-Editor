@@ -3,6 +3,19 @@ export type Point = {
   y: number
 }
 
+export type BoundingBox = {
+  minX: number
+  maxX: number
+  minY: number
+  maxY: number
+  length: number
+  width: number
+  center: {
+    x: number
+    y: number
+  }
+}
+
 type PolygonData = {
   exterior?: {
     LinearRing?: {
@@ -58,7 +71,7 @@ export class Polygon {
     return points
   }
 
-  get boundingBox() {
+  get boundingBox(): BoundingBox | undefined {
     if (this.points.length === 0) {
       return undefined
     }

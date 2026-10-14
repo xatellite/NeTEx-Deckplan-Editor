@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { deckPlanType } from 'netex-deckplan-library'
+import type { DeckPlanType } from 'netex-deckplan-library'
 
 defineProps<{
-  deckplan?: deckPlanType
+  deckplan?: DeckPlanType
 }>()
 </script>
 
