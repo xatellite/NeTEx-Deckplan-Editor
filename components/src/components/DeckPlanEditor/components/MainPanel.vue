@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import xml from '../../../../../library/tests/fixtures/deckplan.xml?raw'
-import { loadNeTEx } from 'netex-deckplan-library'
+import { loadNeTEx, getDecksBoundingBox } from 'netex-deckplan-library'
 import DeckExactRenderer from './DeckExactRenderer.vue'
 
+// I'll remove this later when I implement a small load button in the standalone project
 const [deckPlan] = loadNeTEx(xml)
 
 const deck = deckPlan.decks[0]
-const boundingBox = deck.polygon?.boundingBox
+const boundingBox = getDecksBoundingBox(deckPlan)
 </script>
 
 <template>
