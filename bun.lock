@@ -41,6 +41,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@tailwindcss/vite": "^4.3.3",
+        "netex-deckplan-library": "*",
         "netex-deckplans-components": "*",
         "pinia": "^4.0.3",
         "tailwindcss": "^4.3.3",

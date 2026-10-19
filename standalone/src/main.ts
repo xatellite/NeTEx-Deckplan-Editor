@@ -1,3 +1,4 @@
+import 'netex-deckplans-components/style.css'
 import './assets/main.css'
 
 import { createApp } from 'vue'
