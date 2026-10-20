@@ -20,6 +20,7 @@ const handleOpen = (deck: DeckType, box: BoundingBoxType) => {
         v-if="selectedDeck && boundingBox"
         :deck="selectedDeck"
         :boundingBox="boundingBox"
+        scale-to="both"
       />
     </MainPanel>
 
